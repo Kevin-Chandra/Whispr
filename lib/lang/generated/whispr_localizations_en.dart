@@ -12,5 +12,8 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get voice_record => 'Voice Record';
 
   @override
+  String get record => 'Record';
+
+  @override
   String get home => 'Home';
 }

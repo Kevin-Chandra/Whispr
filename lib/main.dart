@@ -4,19 +4,21 @@ import 'package:whispr/lang/generated/whispr_localizations.dart';
 import 'package:whispr/presentation/router/router_config.dart';
 import 'package:whispr/presentation/themes/themes.dart';
 
-void main() {
+import 'di/di_config.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
 
   final appRouter = WhisprRouter();
-  runApp(
-      MyApp(
-        appRouter: appRouter,
-      )
-  );
+  runApp(MyApp(
+    appRouter: appRouter,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.appRouter});
+
   final WhisprRouter appRouter;
 
   // This widget is the root of your application.
