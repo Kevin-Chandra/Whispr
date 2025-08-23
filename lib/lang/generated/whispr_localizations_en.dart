@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'whispr_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -7,5 +9,8 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   WhisprLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get test => 'Test English';
+  String get voice_record => 'Voice Record';
+
+  @override
+  String get home => 'Home';
 }
