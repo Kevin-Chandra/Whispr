@@ -100,6 +100,12 @@ abstract class WhisprLocalizations {
   /// **'Voice Record'**
   String get voice_record;
 
+  /// No description provided for @record.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get record;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
