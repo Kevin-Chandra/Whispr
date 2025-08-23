@@ -1,4 +1,5 @@
 {
   "@@locale": "en",
-  "test": "Test English"
+  "voice_record": "Voice Record",
+  "home": "Home"
 }
