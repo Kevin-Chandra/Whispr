@@ -42,6 +42,8 @@ dependencies:
   dartz: 0.10.1
   equatable: 2.0.7
   skeletonizer: 2.1.0+1
+  record: 6.1.1
+  permission_handler: 12.0.1
 
 dev_dependencies:
   flutter_test:

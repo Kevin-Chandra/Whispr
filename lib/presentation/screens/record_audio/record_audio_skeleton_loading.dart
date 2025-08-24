@@ -7,6 +7,10 @@ class RecordAudioSkeletonLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Skeletonizer(child: RecordAudioBody(onRecordClick: () {}));
+    return Skeletonizer(
+        child: RecordAudioBody(
+      onRecordClick: () {},
+      onOpenMicrophoneAppSettingsClick: () {},
+    ));
   }
 }

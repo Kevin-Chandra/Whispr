@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/di/di_config.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
+import 'package:whispr/domain/use_case/record_audio/open_microphone_app_settings_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/request_microphone_access_use_case.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_state.dart';
 import 'package:whispr/util/extensions.dart';
@@ -18,6 +19,10 @@ class RecordAudioCubit extends Cubit<RecordAudioState> {
     }
 
     safeEmit(RecordingAudioState());
+  }
+
+  void openMicrophoneAppSettings() {
+    di.get<OpenMicrophoneAppSettingsUseCase>().call();
   }
 
   void resetState() {

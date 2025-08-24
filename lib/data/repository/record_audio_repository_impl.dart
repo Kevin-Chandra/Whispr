@@ -20,4 +20,7 @@ class RecordAudioRepositoryImpl extends RecordAudioRepository {
       return Right(failure.mapToDomain());
     });
   }
+
+  @override
+  void openAppSettings() => _recordAudioService.openAppPermissionSettings();
 }

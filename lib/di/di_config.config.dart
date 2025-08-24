@@ -15,6 +15,8 @@ import 'package:whispr/data/local/record_audio_service.dart' as _i883;
 import 'package:whispr/data/repository/record_audio_repository_impl.dart'
     as _i962;
 import 'package:whispr/domain/repository/record_audio_repository.dart' as _i241;
+import 'package:whispr/domain/use_case/record_audio/open_microphone_app_settings_use_case.dart'
+    as _i703;
 import 'package:whispr/domain/use_case/record_audio/request_microphone_access_use_case.dart'
     as _i28;
 
@@ -32,6 +34,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i883.RecordAudioService>(() => _i883.RecordAudioService());
     gh.factory<_i241.RecordAudioRepository>(
         () => _i962.RecordAudioRepositoryImpl(gh<_i883.RecordAudioService>()));
+    gh.singleton<_i703.OpenMicrophoneAppSettingsUseCase>(() =>
+        _i703.OpenMicrophoneAppSettingsUseCase(
+            gh<_i241.RecordAudioRepository>()));
     gh.singleton<_i28.RequestMicrophoneAccessUseCase>(() =>
         _i28.RequestMicrophoneAccessUseCase(gh<_i241.RecordAudioRepository>()));
     return this;
