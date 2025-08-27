@@ -1,19 +1,29 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:whispr/data/local/record_audio_exception.dart';
+import 'package:whispr/data/models/audio_recorder_state.dart';
 import 'package:whispr/data/models/service_failure_model.dart';
 
-@injectable
+@singleton
 class RecordAudioService {
-  late AudioRecorder? _audioRecorder;
+  final StreamController<AudioRecorderState>
+      _audioRecorderStateStreamController =
+      StreamController<AudioRecorderState>.broadcast();
+
+  AudioRecorder? _audioRecorder;
+  AudioRecorderState _audioRecorderState = AudioRecorderState.initial;
+
+  Stream<AudioRecorderState> get audioRecorderStateStream =>
+      _audioRecorderStateStreamController.stream;
 
   Future<Either<void, ServiceFailureModel>> init() async {
+    _setState(AudioRecorderState.initial);
+
     var status = await Permission.microphone.request();
-    if (status.isGranted) {
-      return left(null);
-    }
 
     if (status.isDenied) {
       return right(ServiceFailureModel.empty(
@@ -25,18 +35,74 @@ class RecordAudioService {
           serviceException: MicrophonePermissionDeniedForever()));
     }
 
+    _setState(AudioRecorderState.initialized);
     return left(null);
+  }
+
+  Future<Either<bool, ServiceFailureModel>> startRecord(String path) async {
+    if (_audioRecorder != null && await _audioRecorder?.isRecording() == true) {
+      return right(ServiceFailureModel(
+          message: 'Recording is currently running!', serviceException: null));
+    }
+
+    final response = await init();
+    if (response.isRight()) {
+      return right(response.getOrElse(ServiceFailureModel.empty));
+    }
+
+    if (_audioRecorderState != AudioRecorderState.initialized) {
+      _setState(AudioRecorderState.initial);
+      return right(ServiceFailureModel(
+          message: 'Recording is currently running!', serviceException: null));
+    }
+    _setState(AudioRecorderState.loading);
+
+    _audioRecorder = AudioRecorder();
+
+    final config = RecordConfig();
+
+    await _audioRecorder?.start(config, path: path);
+
+    _setState(AudioRecorderState.started);
+    return left(true);
+  }
+
+  Future<Either<String, ServiceFailureModel>> stopRecord() async {
+    if (_audioRecorderState != AudioRecorderState.started &&
+        _audioRecorderState != AudioRecorderState.paused) {
+      return right(ServiceFailureModel(
+          message: "No audio recording is running", serviceException: null));
+    }
+
+    final path = await _audioRecorder?.stop();
+    _audioRecorder?.dispose();
+    _audioRecorder = null;
+    _setState(AudioRecorderState.initial);
+    return left(path ?? '');
+  }
+
+  void pauseRecord() async {
+    if (_audioRecorderState != AudioRecorderState.started) {
+      return;
+    }
+
+    await _audioRecorder?.pause();
+    _setState(AudioRecorderState.paused);
+  }
+
+  void resumeRecord() async {
+    if (_audioRecorderState != AudioRecorderState.paused) {
+      return;
+    }
+
+    await _audioRecorder?.resume();
+    _setState(AudioRecorderState.started);
   }
 
   void openAppPermissionSettings() async => await openAppSettings();
 
-// Future<Either<bool, ServiceFailureModel>> startRecord() async {
-//   _audioRecorder = AudioRecorder();
-//
-//   final config = RecordConfig()
-//
-//   await _audioRecorder?.start(config, path: )
-//
-//   println('started')
-// }
+  void _setState(AudioRecorderState state) {
+    _audioRecorderState = state;
+    _audioRecorderStateStreamController.add(_audioRecorderState);
+  }
 }

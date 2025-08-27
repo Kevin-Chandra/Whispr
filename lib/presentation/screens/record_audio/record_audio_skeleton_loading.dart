@@ -11,6 +11,10 @@ class RecordAudioSkeletonLoading extends StatelessWidget {
         child: RecordAudioBody(
       onRecordClick: () {},
       onOpenMicrophoneAppSettingsClick: () {},
+      onPauseClick: () {},
+      onResumeClick: () {},
+      onStopClick: () {},
+      status: '',
     ));
   }
 }

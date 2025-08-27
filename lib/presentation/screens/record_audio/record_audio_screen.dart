@@ -68,8 +68,9 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
           }
         },
         buildWhen: (previousState, state) {
-          return state is RecordAudioInitialState ||
-              state is RecordAudioLoadingState;
+          return previousState != state &&
+              (state is RecordAudioInitialState ||
+                  state is RecordAudioLoadingState);
         },
         builder: (BuildContext context, RecordAudioState state) {
           return NestedScrollView(
@@ -91,13 +92,24 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                   (RecordAudioState state)
                       when state is RecordAudioInitialState =>
                     RecordAudioBody(
-                      onRecordClick: () {
-                        _recordAudioCubit.recordAudio();
-                      },
-                      onOpenMicrophoneAppSettingsClick: () {
-                        _recordAudioCubit.openMicrophoneAppSettings();
-                      },
-                    ),
+                        onRecordClick: () {
+                          _recordAudioCubit.recordAudio();
+                        },
+                        onPauseClick: () {
+                          _recordAudioCubit.pauseRecording();
+                        },
+                        onResumeClick: () {
+                          _recordAudioCubit.resumeRecording();
+                        },
+                        onStopClick: () {
+                          _recordAudioCubit.stopRecording();
+                        },
+                        onOpenMicrophoneAppSettingsClick: () {
+                          _recordAudioCubit.openMicrophoneAppSettings();
+                        },
+                        status: state.audioRecorderState
+                            .toString() // recorder status here,
+                        ),
                   (RecordAudioState state)
                       when state is RecordAudioLoadingState =>
                     RecordAudioSkeletonLoading(),
