@@ -111,6 +111,66 @@ abstract class WhisprLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// No description provided for @goToSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to settings'**
+  String get goToSettings;
+
+  /// No description provided for @allow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get allow;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @microphonePermissionDeniedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please allow us to record audio'**
+  String get microphonePermissionDeniedTitle;
+
+  /// No description provided for @microphonePermissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Whispr need the microphone access to record your story.'**
+  String get microphonePermissionDeniedMessage;
+
+  /// No description provided for @microphonePermissionDeniedForeverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Whispr require microphone access'**
+  String get microphonePermissionDeniedForeverTitle;
+
+  /// No description provided for @microphonePermissionDeniedForeverMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please go to settings to allow microphone access.'**
+  String get microphonePermissionDeniedForeverMessage;
 }
 
 class _WhisprLocalizationsDelegate

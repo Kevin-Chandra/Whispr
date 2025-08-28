@@ -16,4 +16,38 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
 
   @override
   String get home => 'Home';
+
+  @override
+  String get ok => 'Ok';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String get goToSettings => 'Go to settings';
+
+  @override
+  String get allow => 'Allow';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get microphonePermissionDeniedTitle =>
+      'Please allow us to record audio';
+
+  @override
+  String get microphonePermissionDeniedMessage =>
+      'Whispr need the microphone access to record your story.';
+
+  @override
+  String get microphonePermissionDeniedForeverTitle =>
+      'Whispr require microphone access';
+
+  @override
+  String get microphonePermissionDeniedForeverMessage =>
+      'Please go to settings to allow microphone access.';
 }

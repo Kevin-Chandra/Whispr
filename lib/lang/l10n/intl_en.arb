@@ -2,5 +2,15 @@
   "@@locale": "en",
   "voice_record": "Voice Record",
   "record": "Record",
-  "home": "Home"
+  "home": "Home",
+  "ok": "Ok",
+  "notNow": "Not now",
+  "goToSettings": "Go to settings",
+  "allow": "Allow",
+  "somethingWentWrong": "Something went wrong",
+  "close": "Close",
+  "microphonePermissionDeniedTitle": "Please allow us to record audio",
+  "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
+  "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",
+  "microphonePermissionDeniedForeverMessage": "Please go to settings to allow microphone access."
 }
