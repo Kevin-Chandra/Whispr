@@ -10,7 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i3;
-import 'package:whispr/presentation/screens/home_screen.dart' as _i1;
+import 'package:whispr/presentation/screens/home/home_screen.dart' as _i1;
 import 'package:whispr/presentation/screens/record_audio/record_audio_screen.dart'
     as _i2;
 
@@ -25,7 +25,7 @@ class HomeRoute extends _i3.PageRouteInfo<void> {
   static _i3.PageInfo page = _i3.PageInfo(
     name,
     builder: (data) {
-      return const _i1.HomeScreen();
+      return _i3.WrappedRoute(child: const _i1.HomeScreen());
     },
   );
 }
