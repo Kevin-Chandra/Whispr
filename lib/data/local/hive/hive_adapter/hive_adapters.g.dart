@@ -17,6 +17,7 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AudioRecordingModel(
+      id: fields[8] as String,
       name: fields[0] as String,
       description: fields[1] as String?,
       filePath: fields[2] as String,
@@ -31,7 +32,7 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
   @override
   void write(BinaryWriter writer, AudioRecordingModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
       ..writeByte(6)
       ..write(obj.createdAt)
       ..writeByte(7)
-      ..write(obj.updatedAt);
+      ..write(obj.updatedAt)
+      ..writeByte(8)
+      ..write(obj.id);
   }
 
   @override

@@ -24,6 +24,10 @@ class FileService {
     return "${audioDirectory.path}/${audioFileHeaderName}_$timestamp$audioFileExtension";
   }
 
+  Future<String> getDefaultDirectory() async {
+    return (await getApplicationDocumentsDirectory()).path;
+  }
+
   Future<bool> isFileExist(String filePath) async {
     final file = File(filePath);
     return await file.exists();

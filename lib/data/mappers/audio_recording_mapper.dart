@@ -3,8 +3,8 @@ import 'package:whispr/data/models/audio_recording_model.dart';
 import 'package:whispr/domain/entities/audio_recording.dart';
 
 extension AudioRecordingModelMapper on AudioRecordingModel {
-  AudioRecording mapToDomain() =>
-      AudioRecording(
+  AudioRecording mapToDomain() => AudioRecording(
+        id: id,
         name: name,
         description: description,
         filePath: filePath,
@@ -16,8 +16,8 @@ extension AudioRecordingModelMapper on AudioRecordingModel {
 }
 
 extension AudioRecordingMapper on AudioRecording {
-  AudioRecordingModel mapToModel() =>
-      AudioRecordingModel(
+  AudioRecordingModel mapToModel() => AudioRecordingModel(
+        id: id,
         name: name,
         description: description,
         filePath: filePath,

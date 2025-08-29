@@ -1,23 +1,28 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:whispr/data/local/file_service.dart';
 import 'package:whispr/data/local/hive/hive_adapter/hive_registrar.g.dart';
 import 'package:whispr/data/local/hive/whispr_hive_db_keys.dart';
+import 'package:whispr/data/models/audio_recording_model.dart';
+import 'package:whispr/di/di_config.dart';
 
 @singleton
 class HiveLocalStorage {
-  HiveLocalStorage(this._secureStorage);
+  HiveLocalStorage(this._secureStorage, this._fileService);
 
-  late Box<String> hiveBox;
   final FlutterSecureStorage _secureStorage;
+  final FileService _fileService;
+  late Box<String> hiveBox;
 
   Future<HiveLocalStorage> init() async {
+    final defaultDirectory = await _fileService.getDefaultDirectory();
+
     Hive
-      ..init(Directory.current.path)
+      ..init(defaultDirectory)
       ..registerAdapters();
 
     // We try to fetch an existing encryption key from the [keychain] or [Keystore].
@@ -30,7 +35,7 @@ class HiveLocalStorage {
       // We nuke any existing app data from the secure storage [keychain/Keystore].
       _secureStorage.deleteAll();
       // We nuke all data from the database.
-      await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.hiveDbKey);
+      await _nukeDatabase();
       // We store the new encryption key into the secure storage [keychain/Keystore].
       _secureStorage.write(
         key: WhisprHiveDbKeys.hiveBoxKey,
@@ -38,7 +43,6 @@ class HiveLocalStorage {
       );
       // We open the HIVE box using new encryption key.
       await _openHiveDbBox(
-        WhisprHiveDbKeys.hiveDbKey,
         base64Url.decode(
           (await _secureStorage.read(key: WhisprHiveDbKeys.hiveBoxKey))!,
         ),
@@ -46,17 +50,32 @@ class HiveLocalStorage {
     } else {
       // If we find an existing encryption key, we simply open the HIVE box with the existing key.
       final key = base64Url.decode(secureKey);
-      await _openHiveDbBox(WhisprHiveDbKeys.hiveDbKey, key);
+      await _openHiveDbBox(key);
     }
     return this;
   }
 
-  /// Method to open an encrypted HIVE box using its [name] and the encryption key [key].
-  Future<void> _openHiveDbBox(String dbname, Uint8List key) async {
-    hiveBox = await Hive.openBox(dbname, encryptionCipher: HiveAesCipher(key));
+  /// Method to open all encrypted HIVE boxes using encryption key [key].
+  Future<void> _openHiveDbBox(Uint8List key) async {
+    await _openAndRegisterBox<AudioRecordingModel>(
+      WhisprHiveDbKeys.audioRecordingBoxKey,
+      key,
+    );
   }
 
-  Future<Box<T>> getBox<T>(String boxKey) async {
-    return await Hive.openBox(boxKey);
+  /// Method to remove all boxes registered in hive database.
+  Future<void> _nukeDatabase() async {
+    await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.audioRecordingBoxKey);
+  }
+
+  Future<void> _openAndRegisterBox<T>(
+    String boxKey,
+    List<int> encryptionKey,
+  ) async {
+    final box = await Hive.openBox<T>(
+      boxKey,
+      encryptionCipher: HiveAesCipher(encryptionKey),
+    );
+    di.registerLazySingleton<Box<T>>(() => box);
   }
 }
