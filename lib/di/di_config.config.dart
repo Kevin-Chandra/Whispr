@@ -76,14 +76,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i146.AudioPlayerRepositoryImpl(gh<_i392.AudioPlayerService>()));
     gh.factory<_i653.SendAudioPlayerCommandUseCase>(() =>
         _i653.SendAudioPlayerCommandUseCase(gh<_i480.AudioPlayerRepository>()));
-    gh.factory<_i379.PlayAudioUseCase>(
-        () => _i379.PlayAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i120.GetAudioPlayerPositionStreamUseCase>(() =>
         _i120.GetAudioPlayerPositionStreamUseCase(
             gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i147.GetAudioPlayerStateStreamUseCase>(() =>
         _i147.GetAudioPlayerStateStreamUseCase(
             gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i379.PlayAudioUseCase>(
+        () => _i379.PlayAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     return this;
   }
 }
