@@ -8,6 +8,7 @@ import 'package:whispr/presentation/screens/home/home_body.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
@@ -105,6 +106,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   case AudioPlayerScreenError():
                     throw UnimplementedError();
+                }
+              },
+            ),
+            BlocBuilder<AudioRecordingsCubit, AudioRecordingsState>(
+              builder: (BuildContext context, AudioRecordingsState state) {
+                switch (state) {
+                  case AudioRecordingsInitialState():
+                    return SizedBox();
+                  case AudioRecordingsLoadingState():
+                    return CircularProgressIndicator();
+                  case AudioRecordingsLoadedState():
+                    return Column(
+                      children: state.audioRecordings
+                          .map(
+                            (x) => Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Card(
+                                child: Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(x.createdAt.formattedTime),
+                                      Text(x.name),
+                                      Row(
+                                        children: x.tags
+                                            .map((tag) => Text("#${tag.label}"))
+                                            .toList(),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    );
                 }
               },
             )

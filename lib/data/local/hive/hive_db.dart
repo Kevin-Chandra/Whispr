@@ -8,6 +8,7 @@ import 'package:whispr/data/local/file_service.dart';
 import 'package:whispr/data/local/hive/hive_adapter/hive_registrar.g.dart';
 import 'package:whispr/data/local/hive/whispr_hive_db_keys.dart';
 import 'package:whispr/data/models/audio_recording_model.dart';
+import 'package:whispr/data/models/recording_tag_model.dart';
 import 'package:whispr/di/di_config.dart';
 
 @singleton
@@ -61,11 +62,16 @@ class HiveLocalStorage {
       WhisprHiveDbKeys.audioRecordingBoxKey,
       key,
     );
+    await _openAndRegisterBox<RecordingTagModel>(
+      WhisprHiveDbKeys.recordingTagBoxKey,
+      key,
+    );
   }
 
   /// Method to remove all boxes registered in hive database.
   Future<void> _nukeDatabase() async {
     await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.audioRecordingBoxKey);
+    await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.recordingTagBoxKey);
   }
 
   Future<void> _openAndRegisterBox<T>(

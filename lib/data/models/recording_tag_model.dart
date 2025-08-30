@@ -1,4 +1,6 @@
-class RecordingTagModel {
+import 'package:hive_ce/hive.dart';
+
+class RecordingTagModel extends HiveObject {
   final String id;
   final String label;
 
