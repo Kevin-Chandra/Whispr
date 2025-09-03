@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
+import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
 import 'package:whispr/presentation/router/navigation_paths.dart';
 import 'package:whispr/presentation/screens/home/home_body.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
@@ -18,8 +20,12 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider<AudioPlayerCubit>(
-      create: (context) => AudioPlayerCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
+        BlocProvider<AudioRecordingsCubit>(
+            create: (context) => AudioRecordingsCubit()),
+      ],
       child: this,
     );
   }
@@ -27,11 +33,13 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 
 class _HomeScreenState extends State<HomeScreen> {
   late AudioPlayerCubit _audioPlayerCubit;
+  late AudioRecordingsCubit _audioRecordingsCubit;
 
   @override
   void initState() {
     super.initState();
     _audioPlayerCubit = context.read<AudioPlayerCubit>();
+    _audioRecordingsCubit = context.read<AudioRecordingsCubit>();
   }
 
   @override
@@ -74,6 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const Text("Stop"),
             ),
+            ElevatedButton(
+              onPressed: () {
+                _audioRecordingsCubit.addRecording();
+              },
+              child: const Text("Add recording"),
+            ),
             BlocConsumer<AudioPlayerCubit, AudioPlayerScreenState>(
               listener: (BuildContext context, AudioPlayerScreenState state) {
                 // print(state);
@@ -92,6 +106,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   case AudioPlayerScreenError():
                     throw UnimplementedError();
+                }
+              },
+            ),
+            BlocBuilder<AudioRecordingsCubit, AudioRecordingsState>(
+              builder: (BuildContext context, AudioRecordingsState state) {
+                switch (state) {
+                  case AudioRecordingsInitialState():
+                    return SizedBox();
+                  case AudioRecordingsLoadingState():
+                    return CircularProgressIndicator();
+                  case AudioRecordingsLoadedState():
+                    return Column(
+                      children: state.audioRecordings
+                          .map(
+                            (x) => Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Card(
+                                child: Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(x.createdAt.formattedTime),
+                                      Text(x.name),
+                                      Row(
+                                        children: x.tags
+                                            .map((tag) => Text("#${tag.label}"))
+                                            .toList(),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    );
                 }
               },
             )
