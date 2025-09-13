@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 import 'package:whispr/data/local/audio_recorder/record_audio_exception.dart';
+import 'package:whispr/data/local/timer/timer_service.dart';
 import 'package:whispr/data/models/audio_recorder_state.dart';
 import 'package:whispr/data/models/service_failure_model.dart';
 
@@ -16,6 +17,9 @@ class RecordAudioService {
 
   AudioRecorder? _audioRecorder;
   AudioRecorderState _audioRecorderState = AudioRecorderState.initial;
+  TimerService _timerService = TimerService();
+
+  Stream<Duration> get recordingTimerStream => _timerService.timerStream;
 
   Stream<AudioRecorderState> get audioRecorderStateStream =>
       _audioRecorderStateStreamController.stream;
@@ -61,11 +65,13 @@ class RecordAudioService {
     }
     _setState(AudioRecorderState.loading);
 
+    _timerService = TimerService();
     _audioRecorder = AudioRecorder();
 
     final config = RecordConfig();
 
     await _audioRecorder?.start(config, path: path);
+    _timerService.start();
 
     _setState(AudioRecorderState.started);
     return left(true);
@@ -79,6 +85,7 @@ class RecordAudioService {
     }
 
     final path = await _audioRecorder?.stop();
+    _timerService.dispose();
     _audioRecorder?.dispose();
     _audioRecorder = null;
     _setState(AudioRecorderState.initial);
@@ -93,6 +100,7 @@ class RecordAudioService {
     }
 
     await _audioRecorder?.cancel();
+    _timerService.dispose();
     _audioRecorder?.dispose();
     _audioRecorder = null;
     _setState(AudioRecorderState.initial);
@@ -105,6 +113,8 @@ class RecordAudioService {
     }
 
     await _audioRecorder?.pause();
+    _timerService.pause();
+
     _setState(AudioRecorderState.paused);
   }
 
@@ -114,6 +124,8 @@ class RecordAudioService {
     }
 
     await _audioRecorder?.resume();
+    _timerService.start();
+
     _setState(AudioRecorderState.started);
   }
 

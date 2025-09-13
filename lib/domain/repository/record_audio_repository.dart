@@ -8,6 +8,8 @@ abstract class RecordAudioRepository {
 
   Stream<double> getAudioRecorderAmplitudeStream();
 
+  Stream<Duration> getAudioRecorderTimerStream();
+
   void openAppSettings();
 
   Future<Either<bool, FailureEntity>> startRecording();

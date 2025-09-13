@@ -6,12 +6,14 @@ import 'package:whispr/presentation/bloc/record_audio/record_audio_cubit.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_state.dart';
 import 'package:whispr/presentation/screens/record_audio/record_audio_body.dart';
 import 'package:whispr/presentation/screens/record_audio/record_audio_skeleton_loading.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
 import 'package:whispr/presentation/widgets/whispr_record_button.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/constants.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 import 'package:whispr/util/record_audio_exception_util.dart';
 
@@ -151,7 +153,28 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                 },
               ),
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              children: [
+                Expanded(flex: 3, child: SizedBox()),
+                Expanded(
+                  child: StreamBuilder(
+                      stream: _recordAudioCubit.recordingTimer,
+                      builder: (ctx, snapshot) {
+                        return snapshot.data == null
+                            ? SizedBox()
+                            : Text(
+                                snapshot.data!.durationDisplay,
+                                style: WhisprTextStyles.heading1
+                                    .copyWith(color: Colors.white),
+                              );
+                      }),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

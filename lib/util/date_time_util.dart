@@ -10,6 +10,22 @@ extension DateTimeUtils on DateTime {
       DateFormat(DateFormatConstants.timeFormat).format(this);
 }
 
+extension DurationUtils on Duration {
+  String get durationDisplay {
+    final h = inHours;
+    final m = inMinutes.remainder(60);
+    final s = inSeconds.remainder(60).toString().padLeft(2, '0');
+
+    if (h > 0) {
+      return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:$s';
+    } else if (m > 0) {
+      return '${m.toString().padLeft(2, '0')}:$s';
+    } else {
+      return s;
+    }
+  }
+}
+
 abstract class DateTimeHelper {
   static String getTimestamp(String format) {
     return DateFormat(format).format(DateTime.now());

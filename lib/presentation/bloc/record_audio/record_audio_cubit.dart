@@ -7,6 +7,7 @@ import 'package:whispr/domain/entities/audio_recorder_command.dart';
 import 'package:whispr/domain/use_case/record_audio/cancel_audio_recorder_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_amplitude_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_state_use_case.dart';
+import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_timer_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/open_microphone_app_settings_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/send_audio_recorder_command_use_case.dart';
 import 'package:whispr/domain/use_case/record_audio/start_audio_recorder_use_case.dart';
@@ -23,13 +24,19 @@ class RecordAudioCubit extends Cubit<RecordAudioState> {
     }
   }
 
-  StreamSubscription<double>? _levelSub;
   StreamSubscription<AudioRecorderState>? _recorderStateSub;
 
-  final StreamController<double?> _levelController =
+  final StreamController<double?> _recorderAmplitudeStreamController =
       StreamController<double?>();
 
-  Stream<double?> get levels => _levelController.stream;
+  Stream<double?> get levels => _recorderAmplitudeStreamController.stream;
+  StreamSubscription<double>? _recordingAmplitudeSubscription;
+
+  final StreamController<Duration> _recordingTimerController =
+      StreamController<Duration>();
+
+  Stream<Duration> get recordingTimer => _recordingTimerController.stream;
+  StreamSubscription<Duration>? _recordingTimerSubscription;
 
   Future<void> recordAudio() async {
     safeEmit(RecordAudioLoadingState());
@@ -75,48 +82,63 @@ class RecordAudioCubit extends Cubit<RecordAudioState> {
   }
 
   void _subscribeAudioRecorderState() {
-    final stream = di.get<GetAudioRecorderStateUseCase>().call();
-    _recorderStateSub = stream.listen((state) {
+    _recorderStateSub =
+        di.get<GetAudioRecorderStateUseCase>().call().listen((state) {
       switch (state) {
         case AudioRecorderState.initial:
         case AudioRecorderState.initialized:
-          _stopVisualizer();
+          _stopAmplitudeSubscription();
           safeEmit(RecordAudioInitialState());
           break;
         case AudioRecorderState.loading:
-          _stopVisualizer();
+          _stopAmplitudeSubscription();
           safeEmit(RecordAudioLoadingState());
           break;
         case AudioRecorderState.started:
-          _subscribeRecorderAmplitude();
+          _subscribeRunningRecorder();
           safeEmit(RecordAudioRecordingState());
           break;
         case AudioRecorderState.paused:
-          _stopVisualizer();
+          _stopAmplitudeSubscription();
           safeEmit(RecordAudioPausedState());
           break;
       }
     });
   }
 
+  void _subscribeRunningRecorder() {
+    _subscribeRecorderAmplitude();
+    _subscribeRecorderTimer();
+  }
+
   void _subscribeRecorderAmplitude() {
-    _levelSub =
+    _recordingAmplitudeSubscription =
         di.get<GetAudioRecorderAmplitudeUseCase>().call().listen((amplitude) {
-      _levelController.add(amplitude);
+      _recorderAmplitudeStreamController.add(amplitude);
     });
   }
 
-  void _stopVisualizer() {
-    _levelSub?.cancel();
-    _levelController.add(null);
+  void _subscribeRecorderTimer() {
+    _recordingTimerSubscription =
+        di.get<GetAudioRecorderTimerUseCase>().call().listen((timer) {
+      _recordingTimerController.add(timer);
+    });
+  }
+
+  void _stopAmplitudeSubscription() {
+    _recordingAmplitudeSubscription?.cancel();
+    _recorderAmplitudeStreamController.add(null);
   }
 
   @override
   Future<void> close() {
-    stopRecording();
-    _stopVisualizer();
-    _levelController.close();
+    cancelRecording();
+    _stopAmplitudeSubscription();
+    _recorderAmplitudeStreamController.close();
+    _recordingTimerController.close();
+    _recordingTimerSubscription?.cancel();
     _recorderStateSub?.cancel();
+    _recorderStateSub = null;
     return super.close();
   }
 }

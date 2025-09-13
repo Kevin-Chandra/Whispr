@@ -54,6 +54,8 @@ import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_amplitude
     as _i874;
 import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_state_use_case.dart'
     as _i825;
+import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_timer_use_case.dart'
+    as _i403;
 import 'package:whispr/domain/use_case/record_audio/open_microphone_app_settings_use_case.dart'
     as _i703;
 import 'package:whispr/domain/use_case/record_audio/send_audio_recorder_command_use_case.dart'
@@ -106,6 +108,8 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i241.RecordAudioRepository>()));
     gh.singleton<_i825.GetAudioRecorderStateUseCase>(() =>
         _i825.GetAudioRecorderStateUseCase(gh<_i241.RecordAudioRepository>()));
+    gh.singleton<_i403.GetAudioRecorderTimerUseCase>(() =>
+        _i403.GetAudioRecorderTimerUseCase(gh<_i241.RecordAudioRepository>()));
     gh.singleton<_i79.SendAudioRecorderCommandUseCase>(() =>
         _i79.SendAudioRecorderCommandUseCase(
             gh<_i241.RecordAudioRepository>()));

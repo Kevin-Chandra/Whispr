@@ -75,6 +75,10 @@ class RecordAudioRepositoryImpl extends RecordAudioRepository {
           Duration(milliseconds: WhisprDuration.amplitudeStreamUpdateMillis))
       .map((amplitude) => _dbToLinearRange(amplitude.current));
 
+  @override
+  Stream<Duration> getAudioRecorderTimerStream() =>
+      _recordAudioService.recordingTimerStream;
+
   double _dbToLinearRange(double db, {double minDb = -60}) {
     final clamped = db.clamp(minDb, 0.0);
     return (clamped - minDb) / (0.0 - minDb);
