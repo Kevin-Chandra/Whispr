@@ -1,26 +1,31 @@
 import 'package:equatable/equatable.dart';
-import 'package:whispr/data/models/audio_recorder_state.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 
-abstract class RecordAudioState extends Equatable {
-  const RecordAudioState(this.audioRecorderState);
-
-  final AudioRecorderState audioRecorderState;
+sealed class RecordAudioState extends Equatable {
+  const RecordAudioState();
 
   @override
-  List<Object?> get props => [audioRecorderState];
+  List<Object?> get props => [];
 }
 
 final class RecordAudioInitialState extends RecordAudioState {
-  const RecordAudioInitialState(super.audioRecorderState);
+  const RecordAudioInitialState();
+}
+
+final class RecordAudioPausedState extends RecordAudioState {
+  const RecordAudioPausedState();
+}
+
+final class RecordAudioRecordingState extends RecordAudioState {
+  const RecordAudioRecordingState();
 }
 
 final class RecordAudioLoadingState extends RecordAudioState {
-  const RecordAudioLoadingState(super.audioRecorderState);
+  const RecordAudioLoadingState();
 }
 
 class RecordAudioErrorState extends RecordAudioState {
-  const RecordAudioErrorState(super.audioRecorderState, {required this.error});
+  const RecordAudioErrorState({required this.error});
 
   final FailureEntity error;
 

@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:whispr/data/local/audio_recorder/record_audio_service.dart';
 import 'package:whispr/data/local/file_service.dart';
-import 'package:whispr/data/local/record_audio_service.dart';
 import 'package:whispr/data/mappers/failure_mapper.dart';
 import 'package:whispr/data/models/audio_recorder_state.dart';
 import 'package:whispr/domain/entities/audio_recorder_command.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/repository/record_audio_repository.dart';
+import 'package:whispr/util/constants.dart';
 
 @Singleton(as: RecordAudioRepository)
 class RecordAudioRepositoryImpl extends RecordAudioRepository {
@@ -56,5 +57,26 @@ class RecordAudioRepositoryImpl extends RecordAudioRepository {
     }, (fail) {
       return right(fail.mapToDomain());
     });
+  }
+
+  @override
+  Future<Either<bool, FailureEntity>> cancelRecording() async {
+    final response = await _recordAudioService.cancelRecord();
+    return response.fold((success) {
+      return left(success);
+    }, (fail) {
+      return right(fail.mapToDomain());
+    });
+  }
+
+  @override
+  Stream<double> getAudioRecorderAmplitudeStream() => _recordAudioService
+      .getAudioRecorderAmplitude(
+          Duration(milliseconds: WhisprDuration.amplitudeStreamUpdateMillis))
+      .map((amplitude) => _dbToLinearRange(amplitude.current));
+
+  double _dbToLinearRange(double db, {double minDb = -60}) {
+    final clamped = db.clamp(minDb, 0.0);
+    return (clamped - minDb) / (0.0 - minDb);
   }
 }

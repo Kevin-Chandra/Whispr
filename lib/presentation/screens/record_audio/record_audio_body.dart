@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:whispr/presentation/themes/colors.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
+import 'package:whispr/presentation/widgets/whispr_elevated_icon_button.dart';
 import 'package:whispr/util/extensions.dart';
 
 class RecordAudioBody extends StatefulWidget {
   const RecordAudioBody({
     super.key,
-    required this.onRecordClick,
-    required this.onOpenMicrophoneAppSettingsClick,
+    required this.onSaveClick,
     required this.onPauseClick,
     required this.onResumeClick,
-    required this.onStopClick,
-    required this.status,
+    required this.onCancelClick,
+    required this.isRecording,
   });
 
-  final VoidCallback onRecordClick;
+  final VoidCallback onSaveClick;
   final VoidCallback onPauseClick;
   final VoidCallback onResumeClick;
-  final VoidCallback onStopClick;
-  final VoidCallback onOpenMicrophoneAppSettingsClick;
-  final String status;
+  final VoidCallback onCancelClick;
+  final bool isRecording;
 
   @override
   State<RecordAudioBody> createState() => _RecordAudioBodyState();
@@ -26,29 +27,68 @@ class RecordAudioBody extends StatefulWidget {
 class _RecordAudioBodyState extends State<RecordAudioBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Text(widget.status),
-        ElevatedButton(
-          onPressed: widget.onRecordClick,
-          child: Text(context.strings.record),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: Text(
+                    widget.isRecording
+                        ? context.strings.recording
+                        : context.strings.paused,
+                    style: WhisprTextStyles.heading3
+                        .copyWith(color: WhisprColors.spanishViolet),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: SizedBox(),
+              ),
+            ],
+          ),
         ),
-        ElevatedButton(
-          onPressed: widget.onPauseClick,
-          child: Text("Pause"),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  widget.isRecording
+                      ? WhisprElevatedIconButton(
+                          onClick: widget.onPauseClick,
+                          icon: Icons.pause_rounded,
+                          buttonSize: ButtonSize.xLarge,
+                        )
+                      : WhisprElevatedIconButton(
+                          onClick: widget.onResumeClick,
+                          icon: Icons.play_arrow_rounded,
+                          buttonSize: ButtonSize.xLarge,
+                        ),
+                  WhisprElevatedIconButton(
+                    onClick: widget.onSaveClick,
+                    icon: Icons.check_rounded,
+                    buttonSize: ButtonSize.xxLarge,
+                  ),
+                  WhisprElevatedIconButton(
+                    onClick: widget.onCancelClick,
+                    icon: Icons.close_rounded,
+                    buttonSize: ButtonSize.xLarge,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              )
+            ],
+          ),
         ),
-        ElevatedButton(
-          onPressed: widget.onResumeClick,
-          child: Text("Resume"),
-        ),
-        ElevatedButton(
-          onPressed: widget.onStopClick,
-          child: Text("Stop"),
-        ),
-        ElevatedButton(
-          onPressed: widget.onOpenMicrophoneAppSettingsClick,
-          child: Text("Open app settings"),
-        )
       ],
     );
   }

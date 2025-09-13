@@ -12,4 +12,22 @@ abstract class WhisprGradient {
       WhisprColors.lavenderWeb
     ],
   );
+
+  static final LinearGradient purpleShadeGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: <Color>[
+      WhisprColors.lavenderWeb,
+      WhisprColors.paleMagnolia,
+    ],
+  );
+
+  static final LinearGradient purplePinkGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: <Color>[
+      WhisprColors.cornflowerBlue,
+      WhisprColors.mauve,
+    ],
+  );
 }

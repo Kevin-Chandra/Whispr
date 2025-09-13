@@ -6,11 +6,15 @@ import 'package:whispr/domain/entities/failure_entity.dart';
 abstract class RecordAudioRepository {
   Stream<AudioRecorderState> get audioRecorderStateStream;
 
+  Stream<double> getAudioRecorderAmplitudeStream();
+
   void openAppSettings();
 
   Future<Either<bool, FailureEntity>> startRecording();
 
   Future<Either<String, FailureEntity>> stopRecording();
+
+  Future<Either<bool, FailureEntity>> cancelRecording();
 
   Future<void> sendCommand(AudioRecorderCommand command);
 }

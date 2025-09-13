@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
-import 'package:whispr/presentation/router/navigation_paths.dart';
-import 'package:whispr/presentation/screens/home/home_body.dart';
+import 'package:whispr/presentation/router/navigation_coordinator.dart';
+import 'package:whispr/presentation/themes/colors.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
-import 'package:whispr/util/date_time_util.dart';
+import 'package:whispr/presentation/widgets/whispr_record_button.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
@@ -32,119 +33,52 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late AudioPlayerCubit _audioPlayerCubit;
-  late AudioRecordingsCubit _audioRecordingsCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayerCubit = context.read<AudioPlayerCubit>();
-    _audioRecordingsCubit = context.read<AudioRecordingsCubit>();
-  }
-
   @override
   Widget build(BuildContext context) {
     return WhisprGradientScaffold(
       gradient: WhisprGradient.purpleGradient,
       body: NestedScrollView(
+        physics: NeverScrollableScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [WhisprAppBar(title: context.strings.home)];
         },
-        body: Column(
+        body: Stack(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.router.pushPath(WhisprNavigationPaths.recordAudioPath);
-              },
-              child: const Text("Here"),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Text(
+                        context.strings.shareYourThoughts,
+                        style: WhisprTextStyles.heading3
+                            .copyWith(color: WhisprColors.spanishViolet),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(),
+                  ),
+                ],
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _audioPlayerCubit.playAudio();
-              },
-              child: const Text("Play"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _audioPlayerCubit.resume();
-              },
-              child: const Text("Resume"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _audioPlayerCubit.pause();
-              },
-              child: const Text("Pause"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _audioPlayerCubit.stop();
-              },
-              child: const Text("Stop"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _audioRecordingsCubit.addRecording();
-              },
-              child: const Text("Add recording"),
-            ),
-            BlocConsumer<AudioPlayerCubit, AudioPlayerScreenState>(
-              listener: (BuildContext context, AudioPlayerScreenState state) {
-                // print(state);
-              },
-              buildWhen: (prevState, state) {
-                return state is AudioPlayerScreenInitial;
-              },
-              builder: (BuildContext context, AudioPlayerScreenState state) {
-                switch (state) {
-                  case AudioPlayerScreenInitial():
-                    return HomeBody(
-                      state: state.playerState,
-                      totalDuration: state.totalDuration,
-                      currentDuration: state.playerPosition,
+            Align(
+              alignment: Alignment.center,
+              child: FractionallySizedBox(
+                widthFactor: 0.6,
+                child: WhisprRecordButton(
+                  onClick: () async {
+                    await NavigationCoordinator.navigateToRecordAudio(
+                      context: context,
+                      startImmediately: true,
                     );
-
-                  case AudioPlayerScreenError():
-                    throw UnimplementedError();
-                }
-              },
+                  },
+                ),
+              ),
             ),
-            BlocBuilder<AudioRecordingsCubit, AudioRecordingsState>(
-              builder: (BuildContext context, AudioRecordingsState state) {
-                switch (state) {
-                  case AudioRecordingsInitialState():
-                    return SizedBox();
-                  case AudioRecordingsLoadingState():
-                    return CircularProgressIndicator();
-                  case AudioRecordingsLoadedState():
-                    return Column(
-                      children: state.audioRecordings
-                          .map(
-                            (x) => Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Card(
-                                child: Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(x.createdAt.formattedTime),
-                                      Text(x.name),
-                                      Row(
-                                        children: x.tags
-                                            .map((tag) => Text("#${tag.label}"))
-                                            .toList(),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    );
-                }
-              },
-            )
           ],
         ),
       ),
