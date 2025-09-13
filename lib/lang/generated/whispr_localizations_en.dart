@@ -36,6 +36,15 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get close => 'Close';
 
   @override
+  String get shareYourThoughts => 'Share your thoughts';
+
+  @override
+  String get recording => 'Recording...';
+
+  @override
+  String get paused => 'Paused';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

@@ -17,6 +17,6 @@ class WhisprRouter extends RootStackRouter {
         CustomRoute(
           page: RecordAudioRoute.page,
           path: WhisprNavigationPaths.recordAudioPath,
-        )
+        ),
       ];
 }

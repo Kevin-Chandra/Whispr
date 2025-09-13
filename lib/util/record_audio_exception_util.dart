@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whispr/data/local/record_audio_exception.dart';
+import 'package:whispr/data/local/audio_recorder/record_audio_exception.dart';
 import 'package:whispr/util/extensions.dart';
 
 extension RecordAudioExceptionUtil on RecordAudioException {

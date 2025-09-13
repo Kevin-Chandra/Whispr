@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:whispr/presentation/themes/colors.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
 
 class WhisprAppBar extends StatelessWidget {
   const WhisprAppBar({
@@ -18,8 +19,9 @@ class WhisprAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       title: Text(title),
-      titleTextStyle: TextStyle(
+      titleTextStyle: WhisprTextStyles.heading4.copyWith(
         color: isDarkBackground ? Colors.white : WhisprColors.spanishViolet,
+        fontWeight: FontWeight.bold,
         fontSize: 24,
       ),
       leading: enableBackButton
