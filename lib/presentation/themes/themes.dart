@@ -6,6 +6,17 @@ abstract class WhisprThemes {
   static final lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: WhisprColors.spanishViolet),
     textTheme: WhisprTextStyles.whisprTextTheme,
+    tabBarTheme: navigationTabTheme,
+  );
+
+  static final navigationTabTheme = TabBarThemeData(
+    dividerHeight: 0,
+    labelColor: WhisprColors.vistaBlue,
+    unselectedLabelColor: WhisprColors.paleLavenderWeb,
+    indicatorSize: TabBarIndicatorSize.label,
+    indicatorColor: Colors.transparent,
+    splashFactory: NoSplash.splashFactory,
+    tabAlignment: TabAlignment.fill,
     filledButtonTheme: FilledButtonThemeData(style: filledButtonTheme),
     outlinedButtonTheme:
         const OutlinedButtonThemeData(style: outlinedButtonTheme),

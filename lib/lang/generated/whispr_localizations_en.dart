@@ -57,6 +57,15 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get resume => 'Resume';
 
   @override
+  String get journal => 'Journal';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get favourite => 'Favourite';
+
+  @override
   String get happy => 'Happy';
 
   @override

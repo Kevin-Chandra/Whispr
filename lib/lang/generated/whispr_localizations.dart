@@ -190,6 +190,24 @@ abstract class WhisprLocalizations {
   /// **'Resume'**
   String get resume;
 
+  /// No description provided for @journal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get journal;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @favourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite'**
+  String get favourite;
+
   /// No description provided for @happy.
   ///
   /// In en, this message translates to:
