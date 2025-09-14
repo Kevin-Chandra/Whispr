@@ -12,6 +12,15 @@ final class RecordAudioInitialState extends RecordAudioState {
   const RecordAudioInitialState();
 }
 
+final class RecordAudioSaveSuccessState extends RecordAudioState {
+  const RecordAudioSaveSuccessState({required this.audioPath});
+
+  final String audioPath;
+
+  @override
+  List<Object?> get props => [audioPath];
+}
+
 final class RecordAudioPausedState extends RecordAudioState {
   const RecordAudioPausedState();
 }

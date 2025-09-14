@@ -22,4 +22,20 @@ abstract class NavigationCoordinator {
     );
     return;
   }
+
+  static Future<void> navigateToSaveRecording({
+    required BuildContext context,
+    required String audioRecordingPath,
+  }) async {
+    await context.maybePop();
+
+    if (!context.mounted) return;
+
+    await context.pushRoute(
+      SaveAudioRecordingRoute(
+        audioRecordingPath: audioRecordingPath,
+      ),
+    );
+    return;
+  }
 }
