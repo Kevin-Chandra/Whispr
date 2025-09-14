@@ -39,6 +39,25 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, widget) {
+        final mediaQueryData = MediaQuery.of(context);
+
+        // Ensure the text scale stays within a specified range.
+        final scale = mediaQueryData.textScaler.clamp(
+          minScaleFactor: 1.0, // Minimum scale factor allowed.
+          maxScaleFactor: 1.0, // Maximum scale factor allowed.
+        );
+
+        // For now we do not allow any scaling.
+
+        return MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaler: scale,
+            alwaysUse24HourFormat: true,
+          ),
+          child: widget ?? const SizedBox(),
+        );
+      },
     );
   }
 }

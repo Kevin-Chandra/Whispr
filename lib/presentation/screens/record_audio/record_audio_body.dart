@@ -61,25 +61,29 @@ class _RecordAudioBodyState extends State<RecordAudioBody> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   widget.isRecording
-                      ? WhisprElevatedIconButton(
+                      ? _elevatedButtonAndText(
                           onClick: widget.onPauseClick,
                           icon: Icons.pause_rounded,
                           buttonSize: ButtonSize.xLarge,
+                          text: context.strings.pause,
                         )
-                      : WhisprElevatedIconButton(
+                      : _elevatedButtonAndText(
                           onClick: widget.onResumeClick,
                           icon: Icons.play_arrow_rounded,
                           buttonSize: ButtonSize.xLarge,
+                          text: context.strings.resume,
                         ),
-                  WhisprElevatedIconButton(
+                  _elevatedButtonAndText(
                     onClick: widget.onSaveClick,
                     icon: Icons.check_rounded,
                     buttonSize: ButtonSize.xxLarge,
+                    text: context.strings.save,
                   ),
-                  WhisprElevatedIconButton(
+                  _elevatedButtonAndText(
                     onClick: widget.onCancelClick,
                     icon: Icons.close_rounded,
                     buttonSize: ButtonSize.xLarge,
+                    text: context.strings.cancel,
                   ),
                 ],
               ),
@@ -88,6 +92,33 @@ class _RecordAudioBodyState extends State<RecordAudioBody> {
               )
             ],
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _elevatedButtonAndText({
+    required VoidCallback onClick,
+    required IconData icon,
+    required ButtonSize buttonSize,
+    required String text,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        WhisprElevatedIconButton(
+          onClick: onClick,
+          icon: icon,
+          buttonSize: buttonSize,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+          text,
+          style: WhisprTextStyles.heading5
+              .copyWith(color: WhisprColors.cornflowerBlue),
         ),
       ],
     );

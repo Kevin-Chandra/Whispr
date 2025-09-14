@@ -7,7 +7,7 @@ class WhisprElevatedIconButton extends StatelessWidget {
     required this.onClick,
     required this.icon,
     this.backgroundColor = Colors.white,
-    this.iconColor = WhisprColors.spanishViolet,
+    this.iconColor = WhisprColors.cornflowerBlue,
     this.buttonSize = ButtonSize.small,
   });
 
@@ -20,7 +20,7 @@ class WhisprElevatedIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 3,
       color: backgroundColor,
       shape: CircleBorder(),
       child: InkWell(
@@ -51,7 +51,7 @@ class WhisprElevatedIconButton extends StatelessWidget {
       case ButtonSize.xLarge:
         return 36;
       case ButtonSize.xxLarge:
-        return 42;
+        return 56;
     }
   }
 

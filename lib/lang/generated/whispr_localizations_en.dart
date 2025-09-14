@@ -45,6 +45,18 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get paused => 'Paused';
 
   @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get resume => 'Resume';
+
+  @override
   String get happy => 'Happy';
 
   @override

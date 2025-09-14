@@ -40,7 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: NestedScrollView(
         physics: NeverScrollableScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [WhisprAppBar(title: context.strings.home)];
+          return [
+            WhisprAppBar(
+              title: context.strings.home,
+              enableBackButton: false,
+            )
+          ];
         },
         body: Stack(
           children: [

@@ -4,6 +4,7 @@ abstract class WhisprColors {
   static const mauve = Color(0xFFE5ACF3);
   static const paleViolet = Color(0xFFC2A8FF);
   static const lavenderBlue = Color(0xFFC9C4FF);
+  static const aliceBlue = Color(0xFFECF0FD);
   static const vodka = Color(0xFFBCB7FC);
   static const magnolia = Color(0xFFFBE8FF);
   static const paleMagnolia = Color(0xFFFCF1FF);

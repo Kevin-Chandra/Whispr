@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/data/local/audio_recorder/record_audio_exception.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_cubit.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_state.dart';
+import 'package:whispr/presentation/router/navigation_coordinator.dart';
 import 'package:whispr/presentation/screens/record_audio/record_audio_body.dart';
 import 'package:whispr/presentation/screens/record_audio/record_audio_skeleton_loading.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
@@ -53,8 +54,33 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       gradient: WhisprGradient.purpleGradient,
       body: Stack(
         children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              children: [
+                Expanded(flex: 2, child: SizedBox()),
+                Expanded(
+                  flex: 1,
+                  child: StreamBuilder(
+                      stream: _recordAudioCubit.recordingTimer,
+                      builder: (ctx, snapshot) {
+                        return snapshot.data == null
+                            ? SizedBox()
+                            : Text(
+                                snapshot.data!.durationDisplay,
+                                style: WhisprTextStyles.heading1.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 48,
+                                ),
+                              );
+                      }),
+                ),
+              ],
+            ),
+          ),
           BlocConsumer<RecordAudioCubit, RecordAudioState>(
             listener: (BuildContext context, RecordAudioState state) {
+              print(state);
               if (state is RecordAudioErrorState) {
                 if (state.error.exception is RecordAudioException) {
                   final permissionException =
@@ -75,16 +101,30 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                 _recordAudioCubit.resetState();
                 return;
               }
+
+              if (state is RecordAudioSaveSuccessState) {
+                NavigationCoordinator.navigateToSaveRecording(
+                  context: context,
+                  audioRecordingPath: state.audioPath,
+                );
+              }
             },
             buildWhen: (previousState, state) {
-              return (state is! RecordAudioErrorState);
+              return (state is! RecordAudioErrorState &&
+                  state is! RecordAudioSaveSuccessState);
             },
             builder: (BuildContext context, RecordAudioState state) {
               return NestedScrollView(
                   headerSliverBuilder:
                       (BuildContext context, bool innerBoxIsScrolled) {
-                    return [WhisprAppBar(title: context.strings.voice_record)];
+                    return [
+                      WhisprAppBar(
+                        title: context.strings.voice_record,
+                        enableBackButton: false,
+                      )
+                    ];
                   },
+                  physics: NeverScrollableScrollPhysics(),
                   body: AnimatedSwitcher(
                     duration: const Duration(
                       milliseconds: WhisprDuration.stateFadeTransitionMillis,
@@ -152,27 +192,6 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                   );
                 },
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              children: [
-                Expanded(flex: 3, child: SizedBox()),
-                Expanded(
-                  child: StreamBuilder(
-                      stream: _recordAudioCubit.recordingTimer,
-                      builder: (ctx, snapshot) {
-                        return snapshot.data == null
-                            ? SizedBox()
-                            : Text(
-                                snapshot.data!.durationDisplay,
-                                style: WhisprTextStyles.heading1
-                                    .copyWith(color: Colors.white),
-                              );
-                      }),
-                ),
-              ],
             ),
           ),
         ],
