@@ -1,1 +1,1 @@
-enum AudioPlayerCommand { pause, resume, stop }
+enum AudioPlayerCommand { play, pause, resume, stop }

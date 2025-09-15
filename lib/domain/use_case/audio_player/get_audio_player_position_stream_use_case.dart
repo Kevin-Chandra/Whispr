@@ -8,6 +8,6 @@ class GetAudioPlayerPositionStreamUseCase {
   final AudioPlayerRepository _audioPlayerRepository;
 
   Stream<Duration>? call() {
-    return _audioPlayerRepository.getPlayerDurationStream();
+    return _audioPlayerRepository.getPlayerPositionStream();
   }
 }
