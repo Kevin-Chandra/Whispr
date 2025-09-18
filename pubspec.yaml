@@ -52,6 +52,8 @@ dependencies:
   flutter_secure_storage: 9.2.4
   listenable_stream: 2.0.1
   uuid: 4.5.1
+  gradient_borders: 1.0.2
+  gradient_icon: 2.0.9
 
 dev_dependencies:
   flutter_test:

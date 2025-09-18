@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 abstract class WhisprGradient {
-  static final LinearGradient purpleGradient = LinearGradient(
+  static const LinearGradient purpleGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: <Color>[
@@ -13,7 +13,7 @@ abstract class WhisprGradient {
     ],
   );
 
-  static final LinearGradient purpleShadeGradient = LinearGradient(
+  static const LinearGradient purpleShadeGradient = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
     colors: <Color>[
@@ -22,7 +22,7 @@ abstract class WhisprGradient {
     ],
   );
 
-  static final LinearGradient purplePinkGradient = LinearGradient(
+  static const LinearGradient purplePinkGradient = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
     colors: <Color>[
