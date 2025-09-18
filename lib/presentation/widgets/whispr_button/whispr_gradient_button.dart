@@ -45,8 +45,8 @@ class WhisprGradientButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: _resolveBackgroundGradient(),
         border: GradientBoxBorder(
-          width: 2,
-          gradient: _resolveBorderGradient(),
+          width: _resolveBorderWidth(),
+          gradient: _resolveGradient(),
         ),
         borderRadius: WhisprButtonUtil.resolveBorderRadius(),
       ),
@@ -79,8 +79,7 @@ class WhisprGradientButton extends StatelessWidget {
       case WhisprGradientButtonStyle.outlined:
         return WhisprThemes.outlinedButtonTheme.copyWith(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          minimumSize: WidgetStatePropertyAll(
-              WhisprButtonUtil.resolveButtonSize(buttonSize)),
+          minimumSize: WidgetStatePropertyAll(_resolveOutlinedButtonSize()),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: WhisprButtonUtil.resolveBorderRadius(),
@@ -116,6 +115,22 @@ class WhisprGradientButton extends StatelessWidget {
     }
   }
 
+  // Border width for outline button.
+  // Filled button has no border.
+  double _resolveBorderWidth() => switch (buttonStyle) {
+        WhisprGradientButtonStyle.outlined =>
+          WhisprButtonUtil.outlineBorderWidth,
+        WhisprGradientButtonStyle.filled => 0,
+      };
+
+  // Due to using container border in outline button, the size
+  // has to be reduced to ensure button size consistency.
+  Size _resolveOutlinedButtonSize() {
+    final size = WhisprButtonUtil.resolveButtonSize(buttonSize);
+    return Size(size.width - 2 * WhisprButtonUtil.outlineBorderWidth,
+        size.height - 2 * WhisprButtonUtil.outlineBorderWidth);
+  }
+
   GradientIcon? _resolveGradientIcon() => icon == null
       ? null
       : GradientIcon(
@@ -127,14 +142,6 @@ class WhisprGradientButton extends StatelessWidget {
 
   Gradient _resolveGradient() =>
       onPressed == null ? gradient.withOpacity(0.5) : gradient;
-
-  // Gradient for border
-  // Both filled and outlined will have the gradient border,
-  // this is to ensure both button have the same size.
-  Gradient _resolveBorderGradient() => switch (buttonStyle) {
-        WhisprGradientButtonStyle.outlined => _resolveGradient(),
-        WhisprGradientButtonStyle.filled => _resolveGradient().scale(0.1),
-      };
 
   // Gradient for background color.
   Gradient? _resolveBackgroundGradient() => switch (buttonStyle) {

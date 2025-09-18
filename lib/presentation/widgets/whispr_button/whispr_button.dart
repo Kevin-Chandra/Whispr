@@ -88,12 +88,12 @@ class WhisprButton extends StatelessWidget {
           side: WidgetStateProperty.resolveWith((state) {
             if (state.contains(WidgetState.disabled)) {
               return const BorderSide(
-                width: 2,
+                width: WhisprButtonUtil.outlineBorderWidth,
                 color: _disabledColor,
               );
             } else {
               return const BorderSide(
-                width: 2,
+                width: WhisprButtonUtil.outlineBorderWidth,
                 color: _outlinedButtonColor,
               );
             }
