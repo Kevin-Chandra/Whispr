@@ -9,6 +9,7 @@ abstract class WhisprThemes {
     filledButtonTheme: FilledButtonThemeData(style: filledButtonTheme),
     outlinedButtonTheme:
         const OutlinedButtonThemeData(style: outlinedButtonTheme),
+    dialogTheme: dialogTheme,
   );
 
   static final filledButtonTheme = ButtonStyle(
@@ -17,6 +18,8 @@ abstract class WhisprThemes {
   );
 
   static const outlinedButtonTheme = ButtonStyle();
-
   static const textButtonTheme = ButtonStyle();
+  static const dialogTheme = DialogThemeData(
+    backgroundColor: Colors.white,
+  );
 }

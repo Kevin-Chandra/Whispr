@@ -8,7 +8,10 @@ abstract class WhisprColors {
   static const paleMagnolia = Color(0xFFFCF1FF);
   static const lavenderWeb = Color(0xFFDEE5FF);
   static const cornflowerBlue = Color(0xFF6A86E9);
+  static const blueMagentaViolet = Color(0xFF5D3C8F);
   static const spanishViolet = Color(0xFF452B88);
+  static const interdimensionalBlue = Color(0xFF501BD4);
+  static const cosmicCobalt = Color(0xFF333581);
 
   // Negative colors.
   static const crayola = Color(0xFFFF5449);

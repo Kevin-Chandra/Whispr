@@ -9,6 +9,10 @@ abstract class NavigationCoordinator {
   /// otherwise use [context.router.pushNamed()] and
   /// [context.router.maybePop()]
   ///
+
+  static void navigatorPop({required BuildContext context}) =>
+      Navigator.pop(context);
+
   static Future<void> navigateToRecordAudio({
     required BuildContext context,
     required bool startImmediately,

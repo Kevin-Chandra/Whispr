@@ -3,6 +3,8 @@ import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.dart';
 
 abstract class WhisprButtonUtil {
+  static const outlineBorderWidth = 2.0;
+
   static TextStyle resolveTextStyle(WhisprButtonSizes buttonSize) {
     switch (buttonSize) {
       case WhisprButtonSizes.xsmall:
