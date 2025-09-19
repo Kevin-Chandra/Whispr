@@ -40,4 +40,13 @@ abstract class WhisprGradient {
       WhisprColors.interdimensionalBlue,
     ],
   );
+
+  static const LinearGradient mediumPurplePaleVioletGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: <Color>[
+      WhisprColors.mediumPurple,
+      WhisprColors.paleViolet,
+    ],
+  );
 }

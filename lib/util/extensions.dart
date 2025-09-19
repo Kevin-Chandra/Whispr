@@ -18,3 +18,15 @@ extension CubitExtension<T> on Cubit<T> {
     }
   }
 }
+
+extension NullableStringExtension on String? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+
+  bool get isNotNullOrEmpty => !isNullOrEmpty;
+}
+
+extension StringExtension on String {
+  bool isDigit() {
+    return RegExp(r'^\d+$').hasMatch(this);
+  }
+}
