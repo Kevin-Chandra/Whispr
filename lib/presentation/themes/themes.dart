@@ -10,6 +10,7 @@ abstract class WhisprThemes {
     outlinedButtonTheme:
         const OutlinedButtonThemeData(style: outlinedButtonTheme),
     dialogTheme: dialogTheme,
+    inputDecorationTheme: inputDecorationTheme,
   );
 
   static final filledButtonTheme = ButtonStyle(
@@ -21,5 +22,11 @@ abstract class WhisprThemes {
   static const textButtonTheme = ButtonStyle();
   static const dialogTheme = DialogThemeData(
     backgroundColor: Colors.white,
+  );
+
+  static final inputDecorationTheme = InputDecorationTheme(
+    errorStyle: WhisprTextStyles.bodyS,
+    helperStyle: WhisprTextStyles.bodyS,
+    hintStyle: WhisprTextStyles.bodyM.copyWith(color: WhisprColors.spanishGray),
   );
 }
