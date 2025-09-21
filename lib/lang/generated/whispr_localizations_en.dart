@@ -45,6 +45,36 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get paused => 'Paused';
 
   @override
+  String get happy => 'Happy';
+
+  @override
+  String get sad => 'Sad';
+
+  @override
+  String get angry => 'Angry';
+
+  @override
+  String get shock => 'Shock';
+
+  @override
+  String get flirty => 'Flirty';
+
+  @override
+  String get calm => 'Calm';
+
+  @override
+  String get playful => 'Playful';
+
+  @override
+  String get smooch => 'Smooch';
+
+  @override
+  String get tired => 'Tired';
+
+  @override
+  String get confused => 'Confused';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

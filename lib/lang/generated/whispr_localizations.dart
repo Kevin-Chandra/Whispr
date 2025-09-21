@@ -166,6 +166,66 @@ abstract class WhisprLocalizations {
   /// **'Paused'**
   String get paused;
 
+  /// No description provided for @happy.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy'**
+  String get happy;
+
+  /// No description provided for @sad.
+  ///
+  /// In en, this message translates to:
+  /// **'Sad'**
+  String get sad;
+
+  /// No description provided for @angry.
+  ///
+  /// In en, this message translates to:
+  /// **'Angry'**
+  String get angry;
+
+  /// No description provided for @shock.
+  ///
+  /// In en, this message translates to:
+  /// **'Shock'**
+  String get shock;
+
+  /// No description provided for @flirty.
+  ///
+  /// In en, this message translates to:
+  /// **'Flirty'**
+  String get flirty;
+
+  /// No description provided for @calm.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm'**
+  String get calm;
+
+  /// No description provided for @playful.
+  ///
+  /// In en, this message translates to:
+  /// **'Playful'**
+  String get playful;
+
+  /// No description provided for @smooch.
+  ///
+  /// In en, this message translates to:
+  /// **'Smooch'**
+  String get smooch;
+
+  /// No description provided for @tired.
+  ///
+  /// In en, this message translates to:
+  /// **'Tired'**
+  String get tired;
+
+  /// No description provided for @confused.
+  ///
+  /// In en, this message translates to:
+  /// **'Confused'**
+  String get confused;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:

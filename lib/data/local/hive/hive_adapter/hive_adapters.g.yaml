@@ -35,7 +35,25 @@ types:
         index: 1
   Mood:
     typeId: 2
-    nextIndex: 1
+    nextIndex: 17
     fields:
       happy:
         index: 0
+      angry:
+        index: 1
+      confused:
+        index: 2
+      sad:
+        index: 10
+      shock:
+        index: 11
+      flirty:
+        index: 12
+      calm:
+        index: 13
+      playful:
+        index: 14
+      smooch:
+        index: 15
+      tired:
+        index: 16
