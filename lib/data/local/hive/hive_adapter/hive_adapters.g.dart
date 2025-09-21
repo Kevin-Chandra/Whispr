@@ -110,6 +110,24 @@ class MoodAdapter extends TypeAdapter<Mood> {
     switch (reader.readByte()) {
       case 0:
         return Mood.happy;
+      case 1:
+        return Mood.angry;
+      case 2:
+        return Mood.confused;
+      case 10:
+        return Mood.sad;
+      case 11:
+        return Mood.shock;
+      case 12:
+        return Mood.flirty;
+      case 13:
+        return Mood.calm;
+      case 14:
+        return Mood.playful;
+      case 15:
+        return Mood.smooch;
+      case 16:
+        return Mood.tired;
       default:
         return Mood.happy;
     }
@@ -120,6 +138,24 @@ class MoodAdapter extends TypeAdapter<Mood> {
     switch (obj) {
       case Mood.happy:
         writer.writeByte(0);
+      case Mood.angry:
+        writer.writeByte(1);
+      case Mood.confused:
+        writer.writeByte(2);
+      case Mood.sad:
+        writer.writeByte(10);
+      case Mood.shock:
+        writer.writeByte(11);
+      case Mood.flirty:
+        writer.writeByte(12);
+      case Mood.calm:
+        writer.writeByte(13);
+      case Mood.playful:
+        writer.writeByte(14);
+      case Mood.smooch:
+        writer.writeByte(15);
+      case Mood.tired:
+        writer.writeByte(16);
     }
   }
 
