@@ -85,7 +85,6 @@ class WhisprTextField extends StatefulWidget {
 }
 
 class _WhisprTextFieldState extends State<WhisprTextField> {
-  final GlobalKey<FormFieldState> _formKey = GlobalKey<FormFieldState>();
   final FocusNode _focusNode = FocusNode();
   late final TextEditingController _controller =
       widget.controller ?? TextEditingController();
@@ -127,7 +126,6 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
         Container(
           decoration: _resolveDecoration(),
           child: TextFormField(
-            key: _formKey,
             focusNode: _focusNode,
             maxLines: widget.isPassword ? 1 : widget.maxLines,
             minLines: widget.minLines,
@@ -149,6 +147,11 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
             keyboardType: widget.textInputType,
             inputFormatters: widget.inputFormatters,
+            validator: (value) {
+              final err = widget.validator?.call(value);
+              setState(() => _validatorErrorText = err);
+              return err;
+            },
             // Disable built-in error text.
             errorBuilder: (_, error) => SizedBox(),
             // Disable built-in text counter.
@@ -205,12 +208,16 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
       // Set to default color for disabled icon color.
       prefixIconColor: widget.isEditable ? WhisprColors.mediumPurple : null,
       suffixIconColor: widget.isEditable ? WhisprColors.mediumPurple : null,
-      error: _isError ? SizedBox() : null,
-      focusedErrorBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.red, width: 2),
-      ),
+      focusedErrorBorder: _resolveErrorBorder(),
     );
   }
+
+  InputBorder? _resolveErrorBorder() => switch (widget.whisprTextFieldStyle) {
+        WhisprTextFieldStyle.outlined => null,
+        WhisprTextFieldStyle.underlined => UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red, width: 2),
+          ),
+      };
 
   InputBorder? _resolveBorder() {
     return switch (widget.whisprTextFieldStyle) {
