@@ -96,6 +96,37 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get confused => 'Confused';
 
   @override
+  String get whatWouldYouLikeToNameThis => 'What would you like to name this?';
+
+  @override
+  String get whatIsThisAbout => 'What is this about?';
+
+  @override
+  String get selectAMood => 'Select a mood';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get saveEntry => 'Save Entry';
+
+  @override
+  String get discardRecording => 'Discard recording?';
+
+  @override
+  String get discard => 'Discard';
+
+  @override
+  String get recordingWillNotBeSaved => 'Your recording will not be saved';
+
+  @override
+  String get failedToSaveAudioRecording => 'Failed to save audio recording!';
+
+  @override
+  String get titleEmptyErrorMessage =>
+      'Oops — don’t forget to give this a name.';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 
