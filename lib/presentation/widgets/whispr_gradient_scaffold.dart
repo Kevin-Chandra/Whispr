@@ -19,6 +19,7 @@ class WhisprGradientScaffold extends StatelessWidget {
         gradient: gradient,
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: body,
         bottomNavigationBar: bottomNavigationBar,
