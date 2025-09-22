@@ -29,7 +29,7 @@ class WhisprAppBar extends StatelessWidget {
           ? context.router.canNavigateBack
               ? IconButton(
                   onPressed: () {
-                    context.router.pop();
+                    context.router.maybePop();
                   },
                   icon: Icon(
                     Icons.chevron_left_rounded,
