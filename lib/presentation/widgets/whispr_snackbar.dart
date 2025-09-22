@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:whispr/presentation/themes/colors.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
+import 'package:whispr/util/extensions.dart';
 
 class WhisprSnackBar {
   ///
@@ -19,7 +22,8 @@ class WhisprSnackBar {
     return SnackBar(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      // backgroundColor: isError ? AtlasColors.sinopia : AtlasColors.oxfordBlue,
+      backgroundColor:
+          isError ? WhisprColors.crayola : WhisprColors.brightLavender,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -42,16 +46,16 @@ class WhisprSnackBar {
               children: [
                 Text(
                   title,
-                  // style: AtlasTextStyle.badgeS.copyWith(color: Colors.white),
+                  style: WhisprTextStyles.bodyS.copyWith(color: Colors.white),
                 ),
                 SizedBox(
                   height: subtitle != null ? 6 : 0,
                 ),
-                subtitle != null
+                subtitle.isNotNullOrEmpty
                     ? Text(
                         subtitle!,
-                        // style:
-                        // AtlasTextStyle.bodyS.copyWith(color: Colors.white),
+                        style: WhisprTextStyles.bodyS
+                            .copyWith(color: Colors.white),
                       )
                     : const SizedBox(),
               ],
