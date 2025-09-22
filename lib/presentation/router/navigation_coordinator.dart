@@ -27,7 +27,7 @@ abstract class NavigationCoordinator {
     required BuildContext context,
     required String audioRecordingPath,
   }) async {
-    await context.maybePop();
+    navigatorPop(context: context);
 
     if (!context.mounted) return;
 

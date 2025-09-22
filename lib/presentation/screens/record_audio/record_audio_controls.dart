@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
-import 'package:whispr/presentation/widgets/whispr_elevated_icon_button.dart';
+import 'package:whispr/presentation/widgets/whispr_button/whispr_icon_button.dart';
 import 'package:whispr/util/extensions.dart';
 
 class RecordAudioControls extends StatefulWidget {
@@ -69,10 +69,11 @@ class _RecordAudioControlsState extends State<RecordAudioControls> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        WhisprElevatedIconButton(
+        WhisprIconButton(
           onClick: onClick,
           icon: icon,
           buttonSize: buttonSize,
+          buttonStyle: WhisprIconButtonStyle.solid,
         ),
         SizedBox(
           height: 8,
