@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/data/models/audio_player_state.dart';
@@ -8,37 +9,54 @@ import 'package:whispr/domain/entities/audio_player_command.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart';
-import 'package:whispr/domain/use_case/audio_player/play_audio_use_case.dart';
+import 'package:whispr/domain/use_case/audio_player/get_audio_wave_form_use_case.dart';
+import 'package:whispr/domain/use_case/audio_player/prepare_audio_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/send_audio_player_command_use_case.dart';
 import 'package:whispr/util/extensions.dart';
 
 part 'audio_player_screen_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
-  AudioPlayerCubit()
-      : super(AudioPlayerScreenInitial(
-          AudioPlayerState.idle,
-          Duration.zero,
-          Duration.zero,
-        ));
+  AudioPlayerCubit() : super(AudioPlayerLoadingState(AudioPlayerState.idle));
 
+  // Audio player state.
   StreamSubscription? _audioPlayerStateSubscription;
+
+  // Audio player position.
+  final _audioPlayerPositionStreamController = StreamController<Duration>();
+
+  Stream<Duration> get position => _audioPlayerPositionStreamController.stream;
   StreamSubscription? _audioPlayerPositionSubscription;
 
-  void playAudio() async {
-    final response = await di.get<PlayAudioUseCase>().call(
-        "/data/user/0/com.xenon.whispr/app_flutter/audio_recordings/audio_recording_20250828_123210.m4a");
+  // Prepare the audio to be play and also constructs audio waveform.
+  void prepareAudio(String file, {bool playImmediately = false}) async {
+    final response =
+        await di.get<PrepareAudioUseCase>().call(file, playImmediately: false);
 
     subscribePlayerPosition();
     subscribePlayerState();
 
-    response.fold((duration) {
-      safeEmit(AudioPlayerScreenInitial(
-          state.playerState, state.playerPosition, duration ?? Duration.zero));
+    response.fold((controller) async {
+      final waveformResponse =
+          await di.get<GetAudioWaveFormUseCase>().call(file);
+      waveformResponse.fold((waveform) {
+        safeEmit(
+          AudioPlayerLoadedState(
+            state.state,
+            controller: controller,
+            waveform: waveform,
+          ),
+        );
+      }, (error) {
+        safeEmit(AudioPlayerScreenError(state.state, error));
+      });
     }, (error) {
-      safeEmit(AudioPlayerScreenError(
-          state.playerState, state.playerPosition, state.totalDuration, error));
+      safeEmit(AudioPlayerScreenError(state.state, error));
     });
+  }
+
+  void play() {
+    di.get<SendAudioPlayerCommandUseCase>().call(AudioPlayerCommand.play);
   }
 
   void pause() {
@@ -59,12 +77,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
         .get<GetAudioPlayerStateStreamUseCase>()
         .call()
         ?.listen((playerState) {
-      if (playerState == AudioPlayerState.stopped) {
-        _closeSubscription();
-      }
-
-      safeEmit(AudioPlayerScreenInitial(
-          playerState, state.playerPosition, state.totalDuration));
+      safeEmit(state.copyWith(playerState));
     });
   }
 
@@ -74,8 +87,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
         .get<GetAudioPlayerPositionStreamUseCase>()
         .call()
         ?.listen((position) {
-      safeEmit(AudioPlayerScreenInitial(
-          state.playerState, position, state.totalDuration));
+      _audioPlayerPositionStreamController.add(position);
     });
   }
 
@@ -86,6 +98,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
 
   @override
   Future<void> close() async {
+    stop();
     await _closeSubscription();
     return super.close();
   }

@@ -334,6 +334,12 @@ abstract class WhisprLocalizations {
   /// **'Recorder error!'**
   String get recorderError;
 
+  /// No description provided for @loadingAudioPlaybackError.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading audio playback error!'**
+  String get loadingAudioPlaybackError;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:
