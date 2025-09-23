@@ -8,9 +8,7 @@ sealed class RecordAudioState extends Equatable {
   List<Object?> get props => [];
 }
 
-final class RecordAudioInitialState extends RecordAudioState {
-  const RecordAudioInitialState();
-}
+final class RecordAudioInitialState extends RecordAudioState {}
 
 final class RecordAudioSaveSuccessState extends RecordAudioState {
   const RecordAudioSaveSuccessState({required this.audioPath});
@@ -21,17 +19,13 @@ final class RecordAudioSaveSuccessState extends RecordAudioState {
   List<Object?> get props => [audioPath];
 }
 
-final class RecordAudioPausedState extends RecordAudioState {
-  const RecordAudioPausedState();
-}
+final class RecordAudioPausedState extends RecordAudioState {}
 
-final class RecordAudioRecordingState extends RecordAudioState {
-  const RecordAudioRecordingState();
-}
+final class RecordAudioRecordingState extends RecordAudioState {}
 
-final class RecordAudioLoadingState extends RecordAudioState {
-  const RecordAudioLoadingState();
-}
+final class RecordAudioLoadingState extends RecordAudioState {}
+
+final class RecordAudioCancelledState extends RecordAudioState {}
 
 class RecordAudioErrorState extends RecordAudioState {
   const RecordAudioErrorState({required this.error});

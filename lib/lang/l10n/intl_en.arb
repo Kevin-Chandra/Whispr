@@ -39,6 +39,7 @@
   "recordingWillNotBeSaved": "Your recording will not be saved",
   "failedToSaveAudioRecording": "Failed to save audio recording!",
   "titleEmptyErrorMessage": "Oops — don’t forget to give this a name.",
+  "recorderError": "Recorder error!",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

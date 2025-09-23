@@ -127,6 +127,9 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
       'Oops — don’t forget to give this a name.';
 
   @override
+  String get recorderError => 'Recorder error!';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

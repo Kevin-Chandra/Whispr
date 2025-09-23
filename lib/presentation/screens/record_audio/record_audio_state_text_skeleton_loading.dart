@@ -7,6 +7,6 @@ class RecordAudioStateTextSkeletonLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Skeletonizer(child: RecordAudioStateText(isRecording: false));
+    return Skeletonizer(child: RecordAudioStateText(isRecording: true));
   }
 }

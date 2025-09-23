@@ -42,7 +42,8 @@ abstract class WhisprThemes {
     hintStyle: WhisprTextStyles.bodyM.copyWith(color: WhisprColors.spanishGray),
   );
 
-  static const progressIndicatorTheme = ProgressIndicatorThemeData(
+  static final progressIndicatorTheme = ProgressIndicatorThemeData(
     color: WhisprColors.spanishViolet,
+    strokeCap: StrokeCap.round,
   );
 }

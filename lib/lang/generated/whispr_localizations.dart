@@ -328,6 +328,12 @@ abstract class WhisprLocalizations {
   /// **'Oops — don’t forget to give this a name.'**
   String get titleEmptyErrorMessage;
 
+  /// No description provided for @recorderError.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorder error!'**
+  String get recorderError;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:
