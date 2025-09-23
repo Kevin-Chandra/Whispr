@@ -19,6 +19,7 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
     return AudioRecordingModel(
       id: fields[8] as String,
       name: fields[0] as String,
+      description: fields[1] as String?,
       filePath: fields[2] as String,
       mood: fields[4] as Mood,
       tags: (fields[5] as List).cast<RecordingTagModel>(),
@@ -31,9 +32,11 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
   @override
   void write(BinaryWriter writer, AudioRecordingModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.description)
       ..writeByte(2)
       ..write(obj.filePath)
       ..writeByte(3)

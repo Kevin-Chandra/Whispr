@@ -40,7 +40,7 @@ class WhisprDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +53,7 @@ class WhisprDialog extends StatelessWidget {
                       icon,
                       size: 50,
                       color: isNegativeAction
-                          ? WhisprColors.crayola
+                          ? WhisprColors.melon
                           : WhisprColors.lavenderBlue,
                     ),
                   )

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WhisprGradientScaffold extends StatelessWidget {
-  const WhisprGradientScaffold({
-    super.key,
-    required this.gradient,
-    this.body,
-    this.bottomNavigationBar,
-  });
+  const WhisprGradientScaffold({super.key, required this.gradient, this.body});
 
   final Gradient gradient;
   final Widget? body;
-  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +13,8 @@ class WhisprGradientScaffold extends StatelessWidget {
         gradient: gradient,
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: body,
-        bottomNavigationBar: bottomNavigationBar,
       ),
     );
   }

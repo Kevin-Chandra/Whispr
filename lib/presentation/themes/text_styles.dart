@@ -20,7 +20,7 @@ class WhisprTextStyles {
 
   static final TextStyle heading3 = heading.copyWith(
     fontSize: 24.0,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
   );
 
   static final TextStyle heading4 = heading.copyWith(

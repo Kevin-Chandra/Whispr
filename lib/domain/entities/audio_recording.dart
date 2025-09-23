@@ -6,6 +6,7 @@ import 'mood.dart';
 class AudioRecording {
   final String id;
   final String name;
+  final String? description;
   final String filePath;
   final bool isFavourite;
   final Mood mood;
@@ -16,6 +17,7 @@ class AudioRecording {
   AudioRecording({
     required this.id,
     required this.name,
+    required this.description,
     required this.filePath,
     required this.mood,
     required this.tags,
@@ -27,6 +29,7 @@ class AudioRecording {
   factory AudioRecording.mock() => AudioRecording(
         id: UuidUtil.getRandomUuid(),
         name: "LOL",
+        description: "description",
         filePath: "filePath",
         mood: Mood.happy,
         tags: [],

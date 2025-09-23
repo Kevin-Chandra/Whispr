@@ -10,39 +10,13 @@ class WhisprRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-            page: HomeRoute.page,
-            initial: true,
-            path: WhisprNavigationPaths.homePath,
-            children: [
-              RedirectRoute(
-                path: '',
-                redirectTo: WhisprNavigationPaths.voiceRecordHomePath,
-              ),
-              CustomRoute(
-                page: VoiceRecordHomeRoute.page,
-                path: WhisprNavigationPaths.voiceRecordHomePath,
-              ),
-              CustomRoute(
-                page: FavouriteRoute.page,
-                path: WhisprNavigationPaths.favouritePath,
-              ),
-              CustomRoute(
-                page: JournalRoute.page,
-                path: WhisprNavigationPaths.journalPath,
-              ),
-              CustomRoute(
-                page: SettingsRoute.page,
-                path: WhisprNavigationPaths.settingsPath,
-              ),
-            ]),
+          page: HomeRoute.page,
+          initial: true,
+          path: WhisprNavigationPaths.homePath,
+        ),
         CustomRoute(
           page: RecordAudioRoute.page,
           path: WhisprNavigationPaths.recordAudioPath,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-        ),
-        CustomRoute(
-          page: SaveAudioRecordingRoute.page,
-          path: WhisprNavigationPaths.saveAudioRecordingPath,
         ),
       ];
 }

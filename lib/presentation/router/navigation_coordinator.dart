@@ -22,29 +22,4 @@ abstract class NavigationCoordinator {
     );
     return;
   }
-
-  static Future<void> navigateToSaveRecording({
-    required BuildContext context,
-    required String audioRecordingPath,
-  }) async {
-    navigatorPop(context: context);
-
-    if (!context.mounted) return;
-
-    await context.pushRoute(
-      SaveAudioRecordingRoute(
-        audioRecordingPath: audioRecordingPath,
-      ),
-    );
-    return;
-  }
-
-  static Future<void> navigateToJournalTab({
-    required BuildContext context,
-  }) async {
-    context.router.popUntilRoot();
-    await context.router.navigate(
-      const HomeRoute(children: [JournalRoute()]),
-    );
-  }
 }

@@ -57,27 +57,12 @@ class RecordAudioCubit extends Cubit<RecordAudioState> {
     di.get<SendAudioRecorderCommandUseCase>().call(AudioRecorderCommand.resume);
   }
 
-  void stopRecording() async {
-    final response = await di.get<StopAudioRecorderUseCase>().call();
-    response.fold((audioFilePath) {
-      safeEmit(RecordAudioSaveSuccessState(audioPath: audioFilePath));
-    }, (failure) {
-      safeEmit(RecordAudioErrorState(error: failure));
-    });
+  void stopRecording() {
+    di.get<StopAudioRecorderUseCase>().call();
   }
 
-  void cancelRecording() async {
-    final response = await di.get<CancelAudioRecorderUseCase>().call();
-    response.fold((success) {
-      safeEmit(RecordAudioCancelledState());
-    }, (failure) {
-      // This will show the error in the UI.
-      safeEmit(RecordAudioErrorState(error: failure));
-
-      // Emit `RecordAudioCancelledState` to always pop back
-      // if the user cancels the recording.
-      safeEmit(RecordAudioCancelledState());
-    });
+  void cancelRecording() {
+    di.get<CancelAudioRecorderUseCase>().call();
   }
 
   void openMicrophoneAppSettings() {

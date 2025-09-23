@@ -1,66 +1,38 @@
 part of 'audio_player_cubit.dart';
 
 sealed class AudioPlayerScreenState extends Equatable {
-  const AudioPlayerScreenState(this.state);
+  const AudioPlayerScreenState(
+    this.playerState,
+    this.playerPosition,
+    this.totalDuration,
+  );
 
-  final AudioPlayerState state;
+  final AudioPlayerState playerState;
+  final Duration playerPosition;
+  final Duration totalDuration;
 
   @override
-  List<Object> get props => [state];
-
-  AudioPlayerScreenState copyWith(AudioPlayerState state);
+  List<Object> get props => [playerState, playerPosition, totalDuration];
 }
 
-final class AudioPlayerInitialState extends AudioPlayerScreenState {
-  const AudioPlayerInitialState(super.state);
-
-  @override
-  AudioPlayerScreenState copyWith(AudioPlayerState state) =>
-      AudioPlayerInitialState(state);
-}
-
-final class AudioPlayerLoadingState extends AudioPlayerScreenState {
-  const AudioPlayerLoadingState(super.state);
-
-  @override
-  AudioPlayerScreenState copyWith(AudioPlayerState state) =>
-      AudioPlayerLoadingState(state);
-}
-
-final class AudioPlayerLoadedState extends AudioPlayerScreenState {
-  const AudioPlayerLoadedState(
-    super.state, {
-    required this.controller,
-    required this.waveform,
-  });
-
-  final PlayerController controller;
-  final List<double> waveform;
-
-  @override
-  List<Object> get props => super.props..addAll([waveform, controller]);
-
-  @override
-  AudioPlayerScreenState copyWith(AudioPlayerState state) =>
-      AudioPlayerLoadedState(
-        state,
-        controller: controller,
-        waveform: waveform,
-      );
+final class AudioPlayerScreenInitial extends AudioPlayerScreenState {
+  const AudioPlayerScreenInitial(
+    super.playerState,
+    super.playerPosition,
+    super.totalDuration,
+  );
 }
 
 final class AudioPlayerScreenError extends AudioPlayerScreenState {
   const AudioPlayerScreenError(
-    super.state,
+    super.playerState,
+    super.playerPosition,
+    super.totalDuration,
     this.error,
   );
 
   final FailureEntity error;
 
   @override
-  List<Object> get props => [error];
-
-  @override
-  AudioPlayerScreenState copyWith(AudioPlayerState state) =>
-      AudioPlayerScreenError(state, error);
+  List<Object> get props => super.props..add(error);
 }

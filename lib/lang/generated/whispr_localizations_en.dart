@@ -45,27 +45,6 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get paused => 'Paused';
 
   @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get save => 'Save';
-
-  @override
-  String get pause => 'Pause';
-
-  @override
-  String get resume => 'Resume';
-
-  @override
-  String get journal => 'Journal';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
-  String get favourite => 'Favourite';
-
-  @override
   String get happy => 'Happy';
 
   @override
@@ -94,46 +73,6 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
 
   @override
   String get confused => 'Confused';
-
-  @override
-  String get whatWouldYouLikeToNameThis => 'What would you like to name this?';
-
-  @override
-  String get whatIsThisAbout => 'What is this about?';
-
-  @override
-  String get selectAMood => 'Select a mood';
-
-  @override
-  String get tags => 'Tags';
-
-  @override
-  String get saveEntry => 'Save Entry';
-
-  @override
-  String get discardRecording => 'Discard recording?';
-
-  @override
-  String get discard => 'Discard';
-
-  @override
-  String get recordingWillNotBeSaved => 'Your recording will not be saved';
-
-  @override
-  String get failedToSaveAudioRecording => 'Failed to save audio recording!';
-
-  @override
-  String get titleEmptyErrorMessage =>
-      'Oops — don’t forget to give this a name.';
-
-  @override
-  String get recorderError => 'Recorder error!';
-
-  @override
-  String get loadingAudioPlaybackError => 'Loading audio playback error!';
-
-  @override
-  String get recordingSavedSuccessfully => 'Recording saved successfully!';
 
   @override
   String get microphonePermissionDeniedTitle =>

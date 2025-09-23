@@ -1,7 +1,6 @@
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:whispr/data/local/audio_player/audio_player_waveform_service.dart';
+import 'package:whispr/data/local/audio_player/audio_player_service.dart';
 import 'package:whispr/data/mappers/failure_mapper.dart';
 import 'package:whispr/data/models/audio_player_state.dart';
 import 'package:whispr/domain/entities/audio_player_command.dart';
@@ -12,15 +11,11 @@ import 'package:whispr/domain/repository/audio_player_repository.dart';
 class AudioPlayerRepositoryImpl implements AudioPlayerRepository {
   AudioPlayerRepositoryImpl(this._audioPlayerService);
 
-  final AudioPlayerWaveformService _audioPlayerService;
+  final AudioPlayerService _audioPlayerService;
 
   @override
   Future<void> receiveCommand(AudioPlayerCommand command) async {
     switch (command) {
-      case AudioPlayerCommand.play:
-        {
-          _audioPlayerService.play();
-        }
       case AudioPlayerCommand.pause:
         {
           await _audioPlayerService.pause();
@@ -37,40 +32,22 @@ class AudioPlayerRepositoryImpl implements AudioPlayerRepository {
   }
 
   @override
-  Future<Either<PlayerController, FailureEntity>> prepare(
-    String filePath, {
-    bool playImmediately = false,
-  }) async {
+  Future<Either<Duration?, FailureEntity>> startAndPlay(String filePath) async {
     final response = await _audioPlayerService.initPlayer(filePath);
 
-    return response.fold((controller) async {
-      if (playImmediately) {
-        _audioPlayerService.play();
-      }
-
-      return left(controller);
+    return response.fold((d) async {
+      _audioPlayerService.play();
+      return left(d);
     }, (failure) {
       return right(failure.mapToDomain());
     });
   }
 
   @override
-  Stream<Duration>? getPlayerPositionStream() =>
+  Stream<Duration>? getPlayerDurationStream() =>
       _audioPlayerService.getPlayerPositionStream();
 
   @override
-  Stream<AudioPlayerState>? getPlayerStateStream() =>
+  Stream<AudioPlayerState>? getAudioPlayerStateStream() =>
       _audioPlayerService.getPlayerStateStream();
-
-  @override
-  Future<Either<List<double>, FailureEntity>> getAudioWaveform(
-    String filePath,
-  ) async {
-    final response = await _audioPlayerService.getWaveFormData(filePath);
-    return response.fold((waveform) {
-      return left(waveform);
-    }, (failure) {
-      return right(failure.mapToDomain());
-    });
-  }
 }

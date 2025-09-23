@@ -49,14 +49,4 @@ abstract class WhisprGradient {
       WhisprColors.paleViolet,
     ],
   );
-
-  static const LinearGradient whiteBlueWhiteGradient = LinearGradient(
-    begin: Alignment.bottomLeft,
-    end: Alignment.topRight,
-    colors: <Color>[
-      Colors.white,
-      WhisprColors.aliceBlue,
-      Colors.white,
-    ],
-  );
 }
