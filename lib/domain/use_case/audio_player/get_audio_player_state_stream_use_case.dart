@@ -9,6 +9,6 @@ class GetAudioPlayerStateStreamUseCase {
   final AudioPlayerRepository _audioPlayerRepository;
 
   Stream<AudioPlayerState>? call() {
-    return _audioPlayerRepository.getAudioPlayerStateStream();
+    return _audioPlayerRepository.getPlayerStateStream();
   }
 }

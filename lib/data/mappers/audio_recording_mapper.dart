@@ -6,7 +6,6 @@ extension AudioRecordingModelMapper on AudioRecordingModel {
   AudioRecording mapToDomain() => AudioRecording(
         id: id,
         name: name,
-        description: description,
         filePath: filePath,
         mood: mood,
         tags: tags.map((x) => x.mapToDomain()).toList(),
@@ -19,7 +18,6 @@ extension AudioRecordingMapper on AudioRecording {
   AudioRecordingModel mapToModel() => AudioRecordingModel(
         id: id,
         name: name,
-        description: description,
         filePath: filePath,
         mood: mood,
         tags: tags.map((x) => x.mapToModel()).toList(),

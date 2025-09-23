@@ -19,6 +19,7 @@ class WhisprAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       title: Text(title),
+      automaticallyImplyLeading: false,
       titleTextStyle: WhisprTextStyles.heading4.copyWith(
         color: isDarkBackground ? Colors.white : WhisprColors.spanishViolet,
         fontWeight: FontWeight.bold,
@@ -28,7 +29,7 @@ class WhisprAppBar extends StatelessWidget {
           ? context.router.canNavigateBack
               ? IconButton(
                   onPressed: () {
-                    context.router.pop();
+                    context.router.maybePop();
                   },
                   icon: Icon(
                     Icons.chevron_left_rounded,

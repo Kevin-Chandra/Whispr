@@ -32,4 +32,10 @@ class FileService {
     final file = File(filePath);
     return await file.exists();
   }
+
+  Future<bool> deleteFile(String filePath) async {
+    final file = File(filePath);
+    await file.delete();
+    return true;
+  }
 }

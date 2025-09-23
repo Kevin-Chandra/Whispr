@@ -9,8 +9,6 @@ types:
     fields:
       name:
         index: 0
-      description:
-        index: 1
       filePath:
         index: 2
       isFavourite:

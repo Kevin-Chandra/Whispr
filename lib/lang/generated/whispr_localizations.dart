@@ -166,6 +166,48 @@ abstract class WhisprLocalizations {
   /// **'Paused'**
   String get paused;
 
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resume;
+
+  /// No description provided for @journal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get journal;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @favourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite'**
+  String get favourite;
+
   /// No description provided for @happy.
   ///
   /// In en, this message translates to:
@@ -225,6 +267,84 @@ abstract class WhisprLocalizations {
   /// In en, this message translates to:
   /// **'Confused'**
   String get confused;
+
+  /// No description provided for @whatWouldYouLikeToNameThis.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to name this?'**
+  String get whatWouldYouLikeToNameThis;
+
+  /// No description provided for @whatIsThisAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this about?'**
+  String get whatIsThisAbout;
+
+  /// No description provided for @selectAMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a mood'**
+  String get selectAMood;
+
+  /// No description provided for @tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// No description provided for @saveEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Entry'**
+  String get saveEntry;
+
+  /// No description provided for @discardRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard recording?'**
+  String get discardRecording;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
+  /// No description provided for @recordingWillNotBeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recording will not be saved'**
+  String get recordingWillNotBeSaved;
+
+  /// No description provided for @failedToSaveAudioRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save audio recording!'**
+  String get failedToSaveAudioRecording;
+
+  /// No description provided for @titleEmptyErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops — don’t forget to give this a name.'**
+  String get titleEmptyErrorMessage;
+
+  /// No description provided for @recorderError.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorder error!'**
+  String get recorderError;
+
+  /// No description provided for @loadingAudioPlaybackError.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading audio playback error!'**
+  String get loadingAudioPlaybackError;
+
+  /// No description provided for @recordingSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording saved successfully!'**
+  String get recordingSavedSuccessfully;
 
   /// No description provided for @microphonePermissionDeniedTitle.
   ///

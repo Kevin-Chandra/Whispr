@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_radial_visualizer.dart';
 
@@ -32,10 +31,19 @@ class WhisprRecordButton extends StatelessWidget {
           ),
         ),
         WhisprRadialVisualizer(
-            level: amplitudeLevel,
-            center: Material(
-              elevation: 10,
-              shadowColor: WhisprColors.mauve,
+          level: amplitudeLevel,
+          center: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 36,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Material(
               color: Colors.transparent,
               shape: const CircleBorder(),
               clipBehavior: Clip.antiAlias,
@@ -65,7 +73,9 @@ class WhisprRecordButton extends StatelessWidget {
                   ),
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }

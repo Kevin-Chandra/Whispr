@@ -8,5 +8,7 @@ abstract class AudioRecordingRepository {
 
   Future<Either<bool, FailureEntity>> deleteAudioRecording(String id);
 
+  Future<Either<bool, FailureEntity>> deleteAudioRecordingFile(String filePath);
+
   Stream<List<AudioRecording>> getAllRecordings();
 }

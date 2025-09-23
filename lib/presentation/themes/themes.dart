@@ -6,16 +6,28 @@ abstract class WhisprThemes {
   static final lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: WhisprColors.spanishViolet),
     textTheme: WhisprTextStyles.whisprTextTheme,
-    filledButtonTheme: FilledButtonThemeData(style: filledButtonTheme),
+    tabBarTheme: navigationTabTheme,
+    filledButtonTheme: const FilledButtonThemeData(style: filledButtonTheme),
     outlinedButtonTheme:
         const OutlinedButtonThemeData(style: outlinedButtonTheme),
     dialogTheme: dialogTheme,
     inputDecorationTheme: inputDecorationTheme,
+    progressIndicatorTheme: progressIndicatorTheme,
   );
 
-  static final filledButtonTheme = ButtonStyle(
-    iconColor: const WidgetStatePropertyAll(Colors.white),
-    foregroundColor: const WidgetStatePropertyAll(Colors.white),
+  static final navigationTabTheme = TabBarThemeData(
+    dividerHeight: 0,
+    labelColor: WhisprColors.vistaBlue,
+    unselectedLabelColor: WhisprColors.paleLavenderWeb,
+    indicatorSize: TabBarIndicatorSize.label,
+    indicatorColor: Colors.transparent,
+    splashFactory: NoSplash.splashFactory,
+    tabAlignment: TabAlignment.fill,
+  );
+
+  static const filledButtonTheme = ButtonStyle(
+    iconColor: WidgetStatePropertyAll(Colors.white),
+    foregroundColor: WidgetStatePropertyAll(Colors.white),
   );
 
   static const outlinedButtonTheme = ButtonStyle();
@@ -28,5 +40,10 @@ abstract class WhisprThemes {
     errorStyle: WhisprTextStyles.bodyS,
     helperStyle: WhisprTextStyles.bodyS,
     hintStyle: WhisprTextStyles.bodyM.copyWith(color: WhisprColors.spanishGray),
+  );
+
+  static final progressIndicatorTheme = ProgressIndicatorThemeData(
+    color: WhisprColors.spanishViolet,
+    strokeCap: StrokeCap.round,
   );
 }
