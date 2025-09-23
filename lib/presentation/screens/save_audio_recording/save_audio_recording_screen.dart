@@ -102,6 +102,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
               WhisprAppBar(
                 title: context.strings.voice_record,
                 isDarkBackground: false,
+                enableBackButton: false,
               )
             ];
           },
@@ -120,7 +121,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
 
               if (state is SaveAudioRecordingCancelledState) {
                 _isSaveCancelled = true;
-                NavigationCoordinator.navigateToJournalTab(context: context);
+                context.router.maybePop();
                 return;
               }
 
