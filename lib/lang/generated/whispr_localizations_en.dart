@@ -133,6 +133,9 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get loadingAudioPlaybackError => 'Loading audio playback error!';
 
   @override
+  String get recordingSavedSuccessfully => 'Recording saved successfully!';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

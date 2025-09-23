@@ -41,6 +41,7 @@
   "titleEmptyErrorMessage": "Oops — don’t forget to give this a name.",
   "recorderError": "Recorder error!",
   "loadingAudioPlaybackError": "Loading audio playback error!",
+  "recordingSavedSuccessfully": "Recording saved successfully!",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

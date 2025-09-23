@@ -340,6 +340,12 @@ abstract class WhisprLocalizations {
   /// **'Loading audio playback error!'**
   String get loadingAudioPlaybackError;
 
+  /// No description provided for @recordingSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording saved successfully!'**
+  String get recordingSavedSuccessfully;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:

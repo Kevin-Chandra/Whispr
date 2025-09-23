@@ -38,4 +38,13 @@ abstract class NavigationCoordinator {
     );
     return;
   }
+
+  static Future<void> navigateToJournalTab({
+    required BuildContext context,
+  }) async {
+    context.router.popUntilRoot();
+    await context.router.navigate(
+      const HomeRoute(children: [JournalRoute()]),
+    );
+  }
 }
