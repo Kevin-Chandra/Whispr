@@ -1,5 +1,4 @@
 import 'package:whispr/domain/entities/recording_tag.dart';
-import 'package:whispr/util/uuid_util.dart';
 
 import 'mood.dart';
 
@@ -23,6 +22,26 @@ class AudioRecording {
     required this.updatedAt,
     this.isFavourite = false,
   });
+
+  AudioRecording copyWith({
+    String? name,
+    String? filePath,
+    bool? isFavourite,
+    Mood? mood,
+    List<RecordingTag>? tags,
+    DateTime? updatedAt,
+  }) {
+    return AudioRecording(
+      id: id,
+      name: name ?? this.name,
+      filePath: this.filePath,
+      isFavourite: isFavourite ?? this.isFavourite,
+      mood: mood ?? this.mood,
+      tags: tags ?? List.from(this.tags),
+      createdAt: createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 
   factory AudioRecording.mock() => AudioRecording(
         id: UuidUtil.getRandomUuid(),

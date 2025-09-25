@@ -19,9 +19,9 @@ class AudioRecordingModel extends HiveObject {
     required this.filePath,
     required this.mood,
     required this.tags,
+    required this.isFavourite,
     required this.createdAt,
     required this.updatedAt,
-    this.isFavourite = false,
   });
 
   factory AudioRecordingModel.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +32,7 @@ class AudioRecordingModel extends HiveObject {
         mood: Mood.values.byName(json['mood']),
         tags: List<RecordingTagModel>.from(
             json['tags'].map((x) => RecordingTagModel.fromJson(x))),
+        isFavourite: json['isFavourite'],
         createdAt: DateTime.parse(json['createdAt']),
         updatedAt: DateTime.parse(json['updatedAt']),
       );
