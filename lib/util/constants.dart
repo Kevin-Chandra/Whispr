@@ -14,4 +14,5 @@ abstract class WhisprDuration {
 abstract class DateFormatConstants {
   static const String fileTimestamp = 'yyyyMMdd_HHmmss';
   static const String timeFormat = 'HH:mm';
+  static const String dateIndexFormat = 'yyyyMMdd';
 }

@@ -25,7 +25,11 @@ extension DurationUtils on Duration {
 }
 
 abstract class DateTimeHelper {
-  static String getTimestamp(String format) {
+  static String getCurrentTimestamp(String format) {
     return DateFormat(format).format(DateTime.now());
+  }
+
+  static String formatDateTime(DateTime dateTime, String format) {
+    return DateFormat(format).format(dateTime);
   }
 }

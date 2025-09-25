@@ -19,7 +19,7 @@ class FileService {
     }
 
     final timestamp =
-        DateTimeHelper.getTimestamp(DateFormatConstants.fileTimestamp);
+        DateTimeHelper.getCurrentTimestamp(DateFormatConstants.fileTimestamp);
 
     return "${audioDirectory.path}/${audioFileHeaderName}_$timestamp$audioFileExtension";
   }

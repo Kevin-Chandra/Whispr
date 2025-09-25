@@ -22,9 +22,9 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
       filePath: fields[2] as String,
       mood: fields[4] as Mood,
       tags: (fields[5] as List).cast<RecordingTagModel>(),
+      isFavourite: fields[3] as bool,
       createdAt: fields[6] as DateTime,
       updatedAt: fields[7] as DateTime,
-      isFavourite: fields[3] == null ? false : fields[3] as bool,
     );
   }
 

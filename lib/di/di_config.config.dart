@@ -19,6 +19,8 @@ import 'package:whispr/data/local/audio_player/audio_player_waveform_service.dar
     as _i954;
 import 'package:whispr/data/local/audio_recorder/record_audio_service.dart'
     as _i864;
+import 'package:whispr/data/local/database/audio_recording_local_indexable_database.dart'
+    as _i310;
 import 'package:whispr/data/local/file_service.dart' as _i13;
 import 'package:whispr/data/local/hive/hive_db.dart' as _i1032;
 import 'package:whispr/data/models/audio_recording_model.dart' as _i708;
@@ -50,10 +52,16 @@ import 'package:whispr/domain/use_case/audio_player/send_audio_player_command_us
     as _i653;
 import 'package:whispr/domain/use_case/audio_recordings/delete_audio_recording_file_use_case.dart'
     as _i428;
+import 'package:whispr/domain/use_case/audio_recordings/delete_audio_recording_use_case.dart'
+    as _i30;
 import 'package:whispr/domain/use_case/audio_recordings/get_all_audio_recordings_use_case.dart'
     as _i489;
+import 'package:whispr/domain/use_case/audio_recordings/get_audio_recordings_by_date_use_case.dart'
+    as _i648;
 import 'package:whispr/domain/use_case/audio_recordings/save_audio_recording_use_case.dart'
     as _i319;
+import 'package:whispr/domain/use_case/audio_recordings/update_audio_recording_use_case.dart'
+    as _i185;
 import 'package:whispr/domain/use_case/record_audio/cancel_audio_recorder_use_case.dart'
     as _i410;
 import 'package:whispr/domain/use_case/record_audio/get_audio_recorder_amplitude_use_case.dart'
@@ -121,11 +129,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i874.GetAudioRecorderAmplitudeUseCase>(() =>
         _i874.GetAudioRecorderAmplitudeUseCase(
             gh<_i241.RecordAudioRepository>()));
-    gh.factory<_i383.AudioRecordingRepository>(
-        () => _i1020.AudioRecordingRepositoryImpl(
-              gh<_i170.Box<_i708.AudioRecordingModel>>(),
-              gh<_i13.FileService>(),
-            ));
     gh.factory<_i878.RecordingTagRepository>(() =>
         _i597.RecordingTagRepositoryImpl(
             gh<_i170.Box<_i337.RecordingTagModel>>()));
@@ -133,17 +136,23 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i558.FlutterSecureStorage>(),
           gh<_i13.FileService>(),
         ));
-    gh.factory<_i319.SaveAudioRecordingUseCase>(() =>
-        _i319.SaveAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
-    gh.factory<_i489.GetAllAudioRecordingsUseCase>(() =>
-        _i489.GetAllAudioRecordingsUseCase(
-            gh<_i383.AudioRecordingRepository>()));
-    gh.factory<_i428.DeleteAudioRecordingFileUseCase>(() =>
-        _i428.DeleteAudioRecordingFileUseCase(
-            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i310.AudioRecordingLocalIndexableDatabase>(
+        () => _i310.AudioRecordingLocalIndexableDatabase(
+              gh<_i170.Box<_i708.AudioRecordingModel>>(
+                  instanceName: 'AUDIO_RECORDING_BOX_KEY'),
+              gh<_i170.Box<Set<String>>>(
+                  instanceName: 'AUDIO_RECORDING_DATE_INDEX_BOX_KEY'),
+              gh<_i170.Box<Set<String>>>(
+                  instanceName: 'AUDIO_RECORDING_IS_FAVOURITE_INDEX_BOX_KEY'),
+            ));
     gh.singleton<_i480.AudioPlayerRepository>(() =>
         _i146.AudioPlayerRepositoryImpl(
             gh<_i954.AudioPlayerWaveformService>()));
+    gh.factory<_i383.AudioRecordingRepository>(
+        () => _i1020.AudioRecordingRepositoryImpl(
+              gh<_i310.AudioRecordingLocalIndexableDatabase>(),
+              gh<_i13.FileService>(),
+            ));
     gh.factory<_i898.SaveRecordingTagUseCase>(() =>
         _i898.SaveRecordingTagUseCase(gh<_i878.RecordingTagRepository>()));
     gh.factory<_i166.GetAllRecordingTagsUseCase>(() =>
@@ -160,6 +169,22 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i342.PrepareAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i667.GetAudioWaveFormUseCase>(
         () => _i667.GetAudioWaveFormUseCase(gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i319.SaveAudioRecordingUseCase>(() =>
+        _i319.SaveAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i489.GetAllAudioRecordingsUseCase>(() =>
+        _i489.GetAllAudioRecordingsUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i428.DeleteAudioRecordingFileUseCase>(() =>
+        _i428.DeleteAudioRecordingFileUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i185.UpdateAudioRecordingUseCase>(() =>
+        _i185.UpdateAudioRecordingUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i30.DeleteAudioRecordingUseCase>(() =>
+        _i30.DeleteAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i648.GetAudioRecordingsByDateUseCase>(() =>
+        _i648.GetAudioRecordingsByDateUseCase(
+            gh<_i383.AudioRecordingRepository>()));
     return this;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:whispr/domain/entities/recording_tag.dart';
+import 'package:whispr/util/uuid_util.dart';
 
 import 'mood.dart';
 
