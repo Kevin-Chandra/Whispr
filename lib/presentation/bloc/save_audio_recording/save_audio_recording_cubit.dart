@@ -50,6 +50,7 @@ class SaveAudioRecordingCubit extends Cubit<SaveAudioRecordingState> {
           filePath: _filePath,
           mood: _selectedMood,
           tags: _selectedTags,
+          isFavourite: false,
         );
 
     return response.fold((success) {

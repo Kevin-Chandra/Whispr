@@ -3,34 +3,29 @@ import 'package:injectable/injectable.dart';
 import 'package:whispr/domain/entities/audio_recording.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/entities/mood.dart';
-import 'package:whispr/domain/entities/recording_tag.dart';
 import 'package:whispr/domain/repository/audio_recording_repository.dart';
-import 'package:whispr/util/uuid_util.dart';
 
 @injectable
-class SaveAudioRecordingUseCase {
-  SaveAudioRecordingUseCase(this._audioRecordingRepository);
+class UpdateAudioRecordingUseCase {
+  UpdateAudioRecordingUseCase(this._audioRecordingRepository);
 
   final AudioRecordingRepository _audioRecordingRepository;
 
   Future<Either<bool, FailureEntity>> call({
+    required AudioRecording currentAudioRecording,
     required String name,
-    required String filePath,
     required Mood mood,
     required bool isFavourite,
-    required List<RecordingTag> tags,
+    required List<String> tags,
   }) {
-    final audioRecording = AudioRecording(
-      id: UuidUtil.getRandomUuid(),
+    final audioRecording = currentAudioRecording.copyWith(
       name: name,
-      filePath: filePath,
       mood: mood,
-      tags: tags,
+      tags: [],
       isFavourite: isFavourite,
-      createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
 
-    return _audioRecordingRepository.saveAudioRecording(audioRecording);
+    return _audioRecordingRepository.updateAudioRecording(audioRecording);
   }
 }
