@@ -10,6 +10,8 @@ class AudioRecordingModel extends HiveObject {
   final bool isFavourite;
   final Mood mood;
   final List<RecordingTagModel> tags;
+  final List<double>? waveformData;
+  final Duration duration;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -20,6 +22,8 @@ class AudioRecordingModel extends HiveObject {
     required this.mood,
     required this.tags,
     required this.isFavourite,
+    required this.waveformData,
+    required this.duration,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -35,6 +39,8 @@ class AudioRecordingModel extends HiveObject {
         isFavourite: json['isFavourite'],
         createdAt: DateTime.parse(json['createdAt']),
         updatedAt: DateTime.parse(json['updatedAt']),
+        waveformData: List<double>.from(json['waveformData']),
+        duration: Duration(milliseconds: json['duration']),
       );
 
   Map<String, dynamic> toJson() {
@@ -45,6 +51,8 @@ class AudioRecordingModel extends HiveObject {
       'isFavourite': isFavourite,
       'mood': mood.name, // store enum as string
       'tags': tags.map((tag) => tag.toJson()).toList(),
+      'waveformData': waveformData,
+      'duration': duration.inMilliseconds,
       'createdAt': createdAt.formattedJsonTime,
       'updatedAt': updatedAt.formattedJsonTime,
     };

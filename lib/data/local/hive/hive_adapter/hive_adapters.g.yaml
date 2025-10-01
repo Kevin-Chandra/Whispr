@@ -5,7 +5,7 @@ nextTypeId: 3
 types:
   AudioRecordingModel:
     typeId: 0
-    nextIndex: 9
+    nextIndex: 11
     fields:
       name:
         index: 0
@@ -23,6 +23,10 @@ types:
         index: 7
       id:
         index: 8
+      waveformData:
+        index: 9
+      duration:
+        index: 10
   RecordingTagModel:
     typeId: 1
     nextIndex: 2

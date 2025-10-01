@@ -17,8 +17,7 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
 
   @override
   Future<Either<bool, FailureEntity>> saveAudioRecording(
-    AudioRecording audioRecording,
-  ) async {
+      AudioRecording audioRecording,) async {
     try {
       final response = await database.createRecord(audioRecording.mapToModel());
       return left(response);
@@ -45,20 +44,25 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
     try {
       final audioRecording = await database.getAudioRecording(id);
       if (audioRecording == null) {
-        return right(FailureEntity(error: "Audio recording not found"));
+        return right(FailureEntity(
+            error: "Delete Error!",
+            errorDescription: "Audio recording not found"));
       }
 
       final response = await database.deleteRecord(audioRecording.id);
       if (response == false) {
-        return right(FailureEntity(error: "Audio recording not found"));
+        return right(FailureEntity(
+            error: "Delete Error!",
+            errorDescription: "Audio recording not found"));
       }
 
       final deleteFileResponse =
-          await deleteAudioRecordingFile(audioRecording.filePath);
+      await deleteAudioRecordingFile(audioRecording.filePath);
       return deleteFileResponse;
     } catch (e) {
       Constants.logger.e(e);
-      return right(FailureEntity(error: e.toString()));
+      return right(FailureEntity(
+          error: "Delete Error!", errorDescription: e.toString()));
     }
   }
 
@@ -67,7 +71,7 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
     return database.watchRecordings().map((i) {
       final list = i.map((recording) => recording.mapToDomain()).toList();
       list.sort((recording1, recording2) =>
-          recording2.createdAt.compareTo(recording1.createdAt));
+          recording1.createdAt.compareTo(recording2.createdAt));
       return list;
     });
   }

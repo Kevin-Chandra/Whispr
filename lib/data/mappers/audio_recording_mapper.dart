@@ -12,6 +12,8 @@ extension AudioRecordingModelMapper on AudioRecordingModel {
         tags: tags.map((x) => x.mapToDomain()).toList(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        waveformData: waveformData,
+        duration: duration,
       );
 }
 
@@ -25,5 +27,7 @@ extension AudioRecordingMapper on AudioRecording {
         tags: tags.map((x) => x.mapToModel()).toList(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        waveformData: waveformData,
+        duration: duration,
       );
 }

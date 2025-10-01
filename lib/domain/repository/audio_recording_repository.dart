@@ -20,4 +20,7 @@ abstract class AudioRecordingRepository {
       bool isFavourite);
 
   Stream<List<AudioRecording>> getAllRecordings();
+
+  Future<Either<AudioRecording, FailureEntity>> getAudioRecordingById(
+      String id);
 }

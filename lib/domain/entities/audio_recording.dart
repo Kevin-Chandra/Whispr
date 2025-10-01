@@ -10,6 +10,8 @@ class AudioRecording {
   final bool isFavourite;
   final Mood mood;
   final List<RecordingTag> tags;
+  final List<double>? waveformData;
+  final Duration duration;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -21,6 +23,8 @@ class AudioRecording {
     required this.tags,
     required this.createdAt,
     required this.updatedAt,
+    required this.waveformData,
+    required this.duration,
     this.isFavourite = false,
   });
 
@@ -41,6 +45,8 @@ class AudioRecording {
       tags: tags ?? List.from(this.tags),
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      waveformData: waveformData,
+      duration: duration,
     );
   }
 
@@ -49,8 +55,14 @@ class AudioRecording {
         name: "LOL",
         filePath: "filePath",
         mood: Mood.happy,
-        tags: [],
+        tags: [
+          RecordingTag.mock1(),
+          RecordingTag.mock2(),
+          RecordingTag.mock3(),
+        ],
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        waveformData: [],
+        duration: Duration(seconds: 1),
       );
 }

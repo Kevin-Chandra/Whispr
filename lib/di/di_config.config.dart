@@ -46,16 +46,22 @@ import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_strea
     as _i147;
 import 'package:whispr/domain/use_case/audio_player/get_audio_wave_form_use_case.dart'
     as _i667;
+import 'package:whispr/domain/use_case/audio_player/get_current_playing_file_use_case.dart'
+    as _i163;
 import 'package:whispr/domain/use_case/audio_player/prepare_audio_use_case.dart'
     as _i342;
 import 'package:whispr/domain/use_case/audio_player/send_audio_player_command_use_case.dart'
     as _i653;
+import 'package:whispr/domain/use_case/audio_recordings/add_or_remove_audio_recording_favourite_use_case.dart'
+    as _i165;
 import 'package:whispr/domain/use_case/audio_recordings/delete_audio_recording_file_use_case.dart'
     as _i428;
 import 'package:whispr/domain/use_case/audio_recordings/delete_audio_recording_use_case.dart'
     as _i30;
 import 'package:whispr/domain/use_case/audio_recordings/get_all_audio_recordings_use_case.dart'
     as _i489;
+import 'package:whispr/domain/use_case/audio_recordings/get_audio_recording_by_id_use_case.dart'
+    as _i825;
 import 'package:whispr/domain/use_case/audio_recordings/get_audio_recordings_by_date_use_case.dart'
     as _i648;
 import 'package:whispr/domain/use_case/audio_recordings/save_audio_recording_use_case.dart'
@@ -169,6 +175,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i342.PrepareAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i667.GetAudioWaveFormUseCase>(
         () => _i667.GetAudioWaveFormUseCase(gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i163.GetCurrentPlayingFileUseCase>(() =>
+        _i163.GetCurrentPlayingFileUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i319.SaveAudioRecordingUseCase>(() =>
         _i319.SaveAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i489.GetAllAudioRecordingsUseCase>(() =>
@@ -185,6 +193,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i648.GetAudioRecordingsByDateUseCase>(() =>
         _i648.GetAudioRecordingsByDateUseCase(
             gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
+        _i825.GetAudioRecordingByIdUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i165.AddOrRemoveAudioRecordingFavouriteUseCase>(
+        () => _i165.AddOrRemoveAudioRecordingFavouriteUseCase(
+              gh<_i185.UpdateAudioRecordingUseCase>(),
+              gh<_i825.GetAudioRecordingByIdUseCase>(),
+            ));
     return this;
   }
 }

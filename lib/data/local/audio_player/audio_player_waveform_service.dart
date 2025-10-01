@@ -16,6 +16,8 @@ class AudioPlayerWaveformService {
 
   AudioPlayerWaveformService(this._fileService);
 
+  String? _currentPlayingFile;
+
   Future<Either<PlayerController, ServiceFailureModel>> initPlayer(
     String filePath,
   ) async {
@@ -29,6 +31,8 @@ class AudioPlayerWaveformService {
         serviceException: AudioFileNotFoundException(),
       ));
     }
+
+    _currentPlayingFile = filePath;
 
     // Init stream controller.
     _audioPlayerStateStreamController = StreamController();
@@ -49,8 +53,9 @@ class AudioPlayerWaveformService {
   }
 
   Future<Either<List<double>, ServiceFailureModel>> getWaveFormData(
-    String filePath,
-  ) async {
+    String filePath, {
+    int? noOfSamples,
+  }) async {
     if (!(await _fileService.isFileExist(filePath))) {
       return right(ServiceFailureModel(
         message: 'File not found!',
@@ -59,7 +64,10 @@ class AudioPlayerWaveformService {
     }
 
     final player = PlayerController();
-    final waveform = await player.extractWaveformData(path: filePath);
+    final waveform = await player.extractWaveformData(
+      path: filePath,
+      noOfSamples: noOfSamples ?? 100,
+    );
 
     // Release all player resources.
     player.release();
@@ -94,7 +102,12 @@ class AudioPlayerWaveformService {
         .map((duration) => Duration(milliseconds: duration));
   }
 
+  String? getCurrentPlayingFile() {
+    return _currentPlayingFile;
+  }
+
   void _reset() {
+    _currentPlayingFile = null;
     _audioPlayerStateStreamController?.add(AudioPlayerState.stopped);
     _player?.stopAllPlayers();
     _player?.release();
@@ -116,6 +129,7 @@ class AudioPlayerWaveformService {
           _audioPlayerStateStreamController?.add(AudioPlayerState.paused);
           break;
         case PlayerState.stopped:
+          _currentPlayingFile = null;
           _audioPlayerStateStreamController?.add(AudioPlayerState.stopped);
           break;
       }

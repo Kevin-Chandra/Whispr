@@ -9,7 +9,11 @@ class GetAudioWaveFormUseCase {
 
   final AudioPlayerRepository _audioPlayerRepository;
 
-  Future<Either<List<double>, FailureEntity>> call(String filePath) {
-    return _audioPlayerRepository.getAudioWaveform(filePath);
+  Future<Either<List<double>, FailureEntity>> call(
+    String filePath, {
+    int? noOfSamples,
+  }) {
+    return _audioPlayerRepository.getAudioWaveform(filePath,
+        noOfSamples: noOfSamples);
   }
 }
