@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:whispr/domain/entities/audio_recording.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/entities/mood.dart';
+import 'package:whispr/domain/entities/recording_tag.dart';
 import 'package:whispr/domain/repository/audio_recording_repository.dart';
 
 @injectable
@@ -13,15 +14,19 @@ class UpdateAudioRecordingUseCase {
 
   Future<Either<bool, FailureEntity>> call({
     required AudioRecording currentAudioRecording,
-    required String name,
-    required Mood mood,
-    required bool isFavourite,
-    required List<String> tags,
+    String? name,
+    Mood? mood,
+    bool? isFavourite,
+    List<String>? tags,
   }) {
     final audioRecording = currentAudioRecording.copyWith(
       name: name,
       mood: mood,
-      tags: [],
+      tags: [
+        RecordingTag.mock1(),
+        RecordingTag.mock2(),
+        RecordingTag.mock3(),
+      ],
       isFavourite: isFavourite,
       updatedAt: DateTime.now(),
     );

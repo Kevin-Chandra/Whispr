@@ -47,4 +47,12 @@ abstract class NavigationCoordinator {
       const HomeRoute(children: [JournalRoute()]),
     );
   }
+
+  static Future<void> navigateToHomeTab({
+    required BuildContext context,
+  }) async {
+    await context.router.navigate(
+      const HomeRoute(children: [VoiceRecordHomeRoute()]),
+    );
+  }
 }

@@ -41,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
         SettingsRoute(),
       ],
       builder: (context, child, controller) {
-        final activeIndex = AutoTabsRouter.of(context).activeIndex;
+        final tabsRouter = AutoTabsRouter.of(context);
+        final activeIndex = tabsRouter.activeIndex;
         return WhisprGradientScaffold(
           gradient: _resolveScaffoldGradient(index: activeIndex),
           bottomNavigationBar: WhisprBottomNavigationBar(
@@ -55,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 WhisprAppBar(
                   title: _resolveAppBarTitle(index: activeIndex),
                   enableBackButton: false,
-                  isDarkBackground: activeIndex != 3,
-                )
+                  isDarkBackground: activeIndex == 0 || activeIndex == 1,
+                ),
               ];
             },
             body: child,
@@ -70,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (index) {
       case 0:
       case 1:
-      case 2:
         return WhisprGradient.purpleGradient;
       default:
         return WhisprGradient.whiteBlueWhiteGradient;
