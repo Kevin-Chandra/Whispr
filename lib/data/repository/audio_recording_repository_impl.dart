@@ -117,4 +117,15 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
       return right(FailureEntity(error: e.toString()));
     }
   }
+
+  @override
+  Future<Either<AudioRecording, FailureEntity>> getAudioRecordingById(
+      String id) async {
+    final response = await database.getAudioRecording(id);
+    if (response == null) {
+      return right(FailureEntity(error: "Audio recording not found"));
+    } else {
+      return left(response.mapToDomain());
+    }
+  }
 }
