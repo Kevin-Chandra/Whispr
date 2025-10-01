@@ -42,6 +42,8 @@ class SaveAudioRecordingCubit extends Cubit<SaveAudioRecordingState> {
   void saveAudioRecording({
     required String name,
     required List<String> tags,
+    required Duration duration,
+    List<double>? waveformData,
   }) async {
     safeEmit(SaveAudioRecordingLoadingState());
 
@@ -51,6 +53,8 @@ class SaveAudioRecordingCubit extends Cubit<SaveAudioRecordingState> {
           mood: _selectedMood,
           tags: _selectedTags,
           isFavourite: false,
+          duration: duration,
+          waveformData: waveformData,
         );
 
     return response.fold((success) {

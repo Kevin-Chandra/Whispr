@@ -17,7 +17,8 @@ import 'package:whispr/util/extensions.dart';
 part 'audio_player_screen_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
-  AudioPlayerCubit() : super(AudioPlayerLoadingState(AudioPlayerState.idle));
+  AudioPlayerCubit()
+      : super(AudioPlayerInitialState(AudioPlayerState.idle, null));
 
   // Audio player state.
   StreamSubscription? _audioPlayerStateSubscription;
@@ -28,30 +29,60 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
   Stream<Duration> get position => _audioPlayerPositionStreamController.stream;
   StreamSubscription? _audioPlayerPositionSubscription;
 
+  String? _currentPlayingFile;
+
   // Prepare the audio to be play and also constructs audio waveform.
-  void prepareAudio(String file, {bool playImmediately = false}) async {
-    final response =
-        await di.get<PrepareAudioUseCase>().call(file, playImmediately: false);
+  void prepareAudio(
+    String file, {
+    bool playImmediately = false,
+    bool extractWaveForm = false,
+    int? noOfSamples,
+  }) async {
+    _currentPlayingFile = file;
+    safeEmit(AudioPlayerLoadingState(state.state, getCurrentPlayingFile()));
+
+    final response = await di
+        .get<PrepareAudioUseCase>()
+        .call(file, playImmediately: playImmediately);
 
     subscribePlayerPosition();
     subscribePlayerState();
 
     response.fold((controller) async {
-      final waveformResponse =
-          await di.get<GetAudioWaveFormUseCase>().call(file);
+      if (!extractWaveForm) {
+        safeEmit(
+          AudioPlayerLoadedState(
+            state.state,
+            getCurrentPlayingFile(),
+            controller: controller,
+            waveform: [],
+          ),
+        );
+        return;
+      }
+
+      final waveformResponse = await di
+          .get<GetAudioWaveFormUseCase>()
+          .call(file, noOfSamples: noOfSamples);
       waveformResponse.fold((waveform) {
         safeEmit(
           AudioPlayerLoadedState(
             state.state,
+            getCurrentPlayingFile(),
             controller: controller,
             waveform: waveform,
           ),
         );
       }, (error) {
-        safeEmit(AudioPlayerScreenError(state.state, error));
+        safeEmit(AudioPlayerScreenError(
+            state.state, getCurrentPlayingFile(), error));
       });
     }, (error) {
-      safeEmit(AudioPlayerScreenError(state.state, error));
+      safeEmit(AudioPlayerScreenError(
+        state.state,
+        getCurrentPlayingFile(),
+        error,
+      ));
     });
   }
 
@@ -77,7 +108,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
         .get<GetAudioPlayerStateStreamUseCase>()
         .call()
         ?.listen((playerState) {
-      safeEmit(state.copyWith(playerState));
+      safeEmit(state.copyWith(playerState, getCurrentPlayingFile()));
     });
   }
 
@@ -91,6 +122,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
     });
   }
 
+  String? getCurrentPlayingFile() => _currentPlayingFile;
+
   Future<void> _closeSubscription() async {
     await _audioPlayerPositionSubscription?.cancel();
     await _audioPlayerStateSubscription?.cancel();
@@ -98,6 +131,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
 
   @override
   Future<void> close() async {
+    _currentPlayingFile = null;
     stop();
     await _closeSubscription();
     return super.close();

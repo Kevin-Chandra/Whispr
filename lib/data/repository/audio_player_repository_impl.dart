@@ -64,13 +64,19 @@ class AudioPlayerRepositoryImpl implements AudioPlayerRepository {
 
   @override
   Future<Either<List<double>, FailureEntity>> getAudioWaveform(
-    String filePath,
-  ) async {
-    final response = await _audioPlayerService.getWaveFormData(filePath);
+    String filePath, {
+    int? noOfSamples,
+  }) async {
+    final response = await _audioPlayerService.getWaveFormData(filePath,
+        noOfSamples: noOfSamples);
     return response.fold((waveform) {
       return left(waveform);
     }, (failure) {
       return right(failure.mapToDomain());
     });
   }
+
+  @override
+  String? getCurrentPlayingFile() =>
+      _audioPlayerService.getCurrentPlayingFile();
 }
