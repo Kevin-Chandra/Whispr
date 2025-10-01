@@ -9,7 +9,7 @@ class WhisprIconButton extends StatelessWidget {
     required this.onClick,
     required this.buttonStyle,
     this.backgroundColor = Colors.white,
-    this.iconColor = WhisprColors.cornflowerBlue,
+    this.iconColor,
     this.buttonSize = ButtonSize.small,
     this.backgroundGradient = WhisprGradient.purplePinkGradient,
   });
@@ -18,7 +18,7 @@ class WhisprIconButton extends StatelessWidget {
   final IconData icon;
   final Gradient backgroundGradient;
   final Color backgroundColor;
-  final Color iconColor;
+  final Color? iconColor;
   final ButtonSize buttonSize;
   final WhisprIconButtonStyle buttonStyle;
 
@@ -40,13 +40,22 @@ class WhisprIconButton extends StatelessWidget {
               child: Icon(
                 icon,
                 size: _resolveIconSize(),
-                color: iconColor,
+                color: iconColor ?? _resolveDefaultIconColor(),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Color _resolveDefaultIconColor() {
+    switch (buttonStyle) {
+      case WhisprIconButtonStyle.gradient:
+        return Colors.white;
+      case WhisprIconButtonStyle.solid:
+        return WhisprColors.cornflowerBlue;
+    }
   }
 
   double _resolveCardElevation() {
