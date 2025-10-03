@@ -154,6 +154,9 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
       'Audio recording successfully deleted!';
 
   @override
+  String get today => 'Today';
+
+  @override
   String get showAllTagOptionsHint => 'Type \'#\' to show all options.';
 
   @override

@@ -54,6 +54,7 @@
     }
   },
   "audioRecordingSuccessfullyDeleted": "Audio recording successfully deleted!",
+  "today": "Today",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

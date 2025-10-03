@@ -376,6 +376,12 @@ abstract class WhisprLocalizations {
   /// **'Audio recording successfully deleted!'**
   String get audioRecordingSuccessfullyDeleted;
 
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
   /// No description provided for @showAllTagOptionsHint.
   ///
   /// In en, this message translates to:
