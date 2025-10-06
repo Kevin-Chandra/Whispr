@@ -55,6 +55,7 @@
   },
   "audioRecordingSuccessfullyDeleted": "Audio recording successfully deleted!",
   "today": "Today",
+  "journalEmptyPlaceholder": "Looks like this space is still quiet. When you’re ready, I’m here to listen.",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

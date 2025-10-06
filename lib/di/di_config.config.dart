@@ -171,30 +171,30 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i147.GetAudioPlayerStateStreamUseCase>(() =>
         _i147.GetAudioPlayerStateStreamUseCase(
             gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i163.GetCurrentPlayingFileUseCase>(() =>
+        _i163.GetCurrentPlayingFileUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i342.PrepareAudioUseCase>(
         () => _i342.PrepareAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i667.GetAudioWaveFormUseCase>(
         () => _i667.GetAudioWaveFormUseCase(gh<_i480.AudioPlayerRepository>()));
-    gh.factory<_i163.GetCurrentPlayingFileUseCase>(() =>
-        _i163.GetCurrentPlayingFileUseCase(gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
+        _i825.GetAudioRecordingByIdUseCase(
+            gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i319.SaveAudioRecordingUseCase>(() =>
         _i319.SaveAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i648.GetAudioRecordingsByDateUseCase>(() =>
+        _i648.GetAudioRecordingsByDateUseCase(
+            gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i489.GetAllAudioRecordingsUseCase>(() =>
         _i489.GetAllAudioRecordingsUseCase(
             gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i30.DeleteAudioRecordingUseCase>(() =>
+        _i30.DeleteAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i428.DeleteAudioRecordingFileUseCase>(() =>
         _i428.DeleteAudioRecordingFileUseCase(
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i185.UpdateAudioRecordingUseCase>(() =>
         _i185.UpdateAudioRecordingUseCase(
-            gh<_i383.AudioRecordingRepository>()));
-    gh.factory<_i30.DeleteAudioRecordingUseCase>(() =>
-        _i30.DeleteAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
-    gh.factory<_i648.GetAudioRecordingsByDateUseCase>(() =>
-        _i648.GetAudioRecordingsByDateUseCase(
-            gh<_i383.AudioRecordingRepository>()));
-    gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
-        _i825.GetAudioRecordingByIdUseCase(
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i165.AddOrRemoveAudioRecordingFavouriteUseCase>(
         () => _i165.AddOrRemoveAudioRecordingFavouriteUseCase(

@@ -157,6 +157,10 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get today => 'Today';
 
   @override
+  String get journalEmptyPlaceholder =>
+      'Looks like this space is still quiet. When you’re ready, I’m here to listen.';
+
+  @override
   String get showAllTagOptionsHint => 'Type \'#\' to show all options.';
 
   @override

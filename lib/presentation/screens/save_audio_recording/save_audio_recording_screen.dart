@@ -79,10 +79,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
     _saveAudioRecordingCubit = context.read<SaveAudioRecordingCubit>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _waveformWidth = MediaQuery
-          .of(context)
-          .size
-          .width * 0.8;
+      _waveformWidth = MediaQuery.of(context).size.width * 0.8;
       final samples = _playerWaveStyle.getSamplesForWidth(_waveformWidth);
       _samples = samples;
       _audioPlayerCubit.prepareAudio(
@@ -170,25 +167,24 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
                   current is! SaveAudioRecordingCancelledState &&
                   current is! SaveAudioRecordingSuccessState;
             },
-            builder: (ctx, state) =>
-                AnimatedSwitcher(
-                  duration: const Duration(
-                    milliseconds: WhisprDuration.stateFadeTransitionMillis,
-                  ),
-                  transitionBuilder: (child, animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
-                  },
-                  child: switch (state) {
-                    SaveAudioRecordingInitialState() =>
-                        _buildSaveAudioRecordingBody(),
-                    SaveAudioRecordingLoadingState() =>
-                        SaveAudioRecordingSkeletonLoading(),
-                    _ => throw Exception("Invalid state $state"),
-                  },
-                ),
+            builder: (ctx, state) => AnimatedSwitcher(
+              duration: const Duration(
+                milliseconds: WhisprDuration.stateFadeTransitionMillis,
+              ),
+              transitionBuilder: (child, animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+              child: switch (state) {
+                SaveAudioRecordingInitialState() =>
+                  _buildSaveAudioRecordingBody(),
+                SaveAudioRecordingLoadingState() =>
+                  SaveAudioRecordingSkeletonLoading(),
+                _ => throw Exception("Invalid state $state"),
+              },
+            ),
           ),
         ),
       ),
@@ -199,77 +195,70 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
     return BlocBuilder<AudioPlayerCubit, AudioPlayerScreenState>(
       builder: (context, audioPlayerState) {
         Widget audioPlayerControlWidget = switch (audioPlayerState.state) {
-          AudioPlayerState.idle =>
-              AudioPlayerControl(
-                isPlaying: false,
-                onPlayClick: () {
-                  _audioPlayerCubit.play();
-                },
-                onPauseClick: () {
-                  _audioPlayerCubit.pause();
-                },
-              ),
-          AudioPlayerState.playing =>
-              AudioPlayerControl(
-                isPlaying: true,
-                onPlayClick: () {
-                  _audioPlayerCubit.play();
-                },
-                onPauseClick: () {
-                  _audioPlayerCubit.pause();
-                },
-              ),
-          AudioPlayerState.paused =>
-              AudioPlayerControl(
-                isPlaying: false,
-                onPlayClick: () {
-                  _audioPlayerCubit.play();
-                },
-                onPauseClick: () {
-                  _audioPlayerCubit.pause();
-                },
-              ),
-          AudioPlayerState.stopped =>
-              AudioPlayerControl(
-                isPlaying: false,
-                onPlayClick: () {
-                  _audioPlayerCubit.play();
-                },
-                onPauseClick: () {
-                  _audioPlayerCubit.pause();
-                },
-              ),
+          AudioPlayerState.idle => AudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: () {
+                _audioPlayerCubit.play();
+              },
+              onPauseClick: () {
+                _audioPlayerCubit.pause();
+              },
+            ),
+          AudioPlayerState.playing => AudioPlayerControl(
+              isPlaying: true,
+              onPlayClick: () {
+                _audioPlayerCubit.play();
+              },
+              onPauseClick: () {
+                _audioPlayerCubit.pause();
+              },
+            ),
+          AudioPlayerState.paused => AudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: () {
+                _audioPlayerCubit.play();
+              },
+              onPauseClick: () {
+                _audioPlayerCubit.pause();
+              },
+            ),
+          AudioPlayerState.stopped => AudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: () {
+                _audioPlayerCubit.play();
+              },
+              onPauseClick: () {
+                _audioPlayerCubit.pause();
+              },
+            ),
         };
 
         Widget waveformWidget = switch (audioPlayerState) {
           AudioPlayerInitialState() => SizedBox(),
-          AudioPlayerLoadingState() =>
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: CircularProgressIndicator(),
-              ),
-          AudioPlayerLoadedState() =>
-              AudioPlayerBody(
-                waveformWidth: _waveformWidth,
-                playerControllerWidget: audioPlayerControlWidget,
-                waveformData: audioPlayerState.waveform,
-                playerController: audioPlayerState.controller,
-                playerWaveStyle: _playerWaveStyle,
-              ),
-          AudioPlayerScreenError() =>
-              AudioPlayerErrorBody(
-                icon: Icons.warning_amber_rounded,
-                errorTitle: context.strings.loadingAudioPlaybackError,
-                errorMessage: audioPlayerState.error.error,
-                onRetryClicked: () {
-                  _audioPlayerCubit.prepareAudio(
-                    widget.audioRecordingPath,
-                    playImmediately: true,
-                    extractWaveForm: true,
-                    noOfSamples: _samples,
-                  );
-                },
-              ),
+          AudioPlayerLoadingState() => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          AudioPlayerLoadedState() => AudioPlayerBody(
+              waveformWidth: _waveformWidth,
+              playerControllerWidget: audioPlayerControlWidget,
+              waveformData: audioPlayerState.waveform,
+              playerController: audioPlayerState.controller,
+              playerWaveStyle: _playerWaveStyle,
+            ),
+          AudioPlayerScreenError() => AudioPlayerErrorBody(
+              icon: Icons.warning_amber_rounded,
+              errorTitle: context.strings.loadingAudioPlaybackError,
+              errorMessage: audioPlayerState.error.error,
+              onRetryClicked: () {
+                _audioPlayerCubit.prepareAudio(
+                  widget.audioRecordingPath,
+                  playImmediately: true,
+                  extractWaveForm: true,
+                  noOfSamples: _samples,
+                );
+              },
+            ),
         };
 
         return SaveAudioRecordingBody(
@@ -281,20 +270,20 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
           },
           onSaveClick: audioPlayerState is AudioPlayerLoadedState
               ? () {
-            if (!_formKey.currentState!.validate()) {
-              return;
-            }
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
 
-            final durationInt = audioPlayerState.controller.maxDuration;
-            final waveformData = audioPlayerState.waveform;
+                  final durationInt = audioPlayerState.controller.maxDuration;
+                  final waveformData = audioPlayerState.waveform;
 
-            _saveAudioRecordingCubit.saveAudioRecording(
-              name: _titleController.text,
-              tags: [],
-              duration: Duration(milliseconds: durationInt),
-              waveformData: waveformData,
-            );
-          }
+                  _saveAudioRecordingCubit.saveAudioRecording(
+                    name: _titleController.text,
+                    tags: [],
+                    duration: Duration(milliseconds: durationInt),
+                    waveformData: waveformData,
+                  );
+                }
               : null,
           onMoodSelected: _saveAudioRecordingCubit.moodSelected,
           onRecordingTagChanged: _saveAudioRecordingCubit.tagChanged,

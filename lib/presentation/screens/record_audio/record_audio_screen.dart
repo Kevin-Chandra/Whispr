@@ -12,10 +12,10 @@ import 'package:whispr/presentation/screens/record_audio/record_audio_state_text
 import 'package:whispr/presentation/screens/record_audio/record_audio_timer_text.dart';
 import 'package:whispr/presentation/screens/record_audio/record_audio_timer_text_skeleton_loading.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
-import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_dialog.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
 import 'package:whispr/presentation/widgets/whispr_record_button.dart';
+import 'package:whispr/presentation/widgets/whispr_sliver_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/extensions.dart';
 import 'package:whispr/util/record_audio_exception_util.dart';
@@ -85,7 +85,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              WhisprAppBar(
+              WhisprSliverAppBar(
                 title: context.strings.voice_record,
                 enableBackButton: false,
               )

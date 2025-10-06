@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 
-class WhisprAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const WhisprAppBar({
+class WhisprSliverAppBar extends StatelessWidget {
+  const WhisprSliverAppBar({
     super.key,
     required this.title,
     this.enableBackButton = true,
@@ -19,7 +19,7 @@ class WhisprAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return SliverAppBar(
       title: Text(title),
       automaticallyImplyLeading: false,
       titleTextStyle: WhisprTextStyles.heading4.copyWith(
@@ -27,6 +27,7 @@ class WhisprAppBar extends StatelessWidget implements PreferredSizeWidget {
         fontWeight: FontWeight.bold,
         fontSize: 24,
       ),
+      pinned: pinned,
       leading: enableBackButton
           ? context.router.canNavigateBack
               ? IconButton(
@@ -47,7 +48,4 @@ class WhisprAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

@@ -382,6 +382,12 @@ abstract class WhisprLocalizations {
   /// **'Today'**
   String get today;
 
+  /// No description provided for @journalEmptyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like this space is still quiet. When you’re ready, I’m here to listen.'**
+  String get journalEmptyPlaceholder;
+
   /// No description provided for @showAllTagOptionsHint.
   ///
   /// In en, this message translates to:
