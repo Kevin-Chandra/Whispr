@@ -17,7 +17,8 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
 
   @override
   Future<Either<bool, FailureEntity>> saveAudioRecording(
-      AudioRecording audioRecording,) async {
+    AudioRecording audioRecording,
+  ) async {
     try {
       final response = await database.createRecord(audioRecording.mapToModel());
       return left(response);
@@ -46,7 +47,7 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
       if (audioRecording == null) {
         return right(FailureEntity(
             error: "Delete Error!",
-            errorDescription: "Audio recording not found"));
+            errorDescription: "Audio recording with id $id not found"));
       }
 
       final response = await database.deleteRecord(audioRecording.id);
@@ -56,8 +57,12 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
             errorDescription: "Audio recording not found"));
       }
 
+      if (!(await _fileService.isFileExist(audioRecording.filePath))) {
+        return left(true);
+      }
+
       final deleteFileResponse =
-      await deleteAudioRecordingFile(audioRecording.filePath);
+          await deleteAudioRecordingFile(audioRecording.filePath);
       return deleteFileResponse;
     } catch (e) {
       Constants.logger.e(e);
