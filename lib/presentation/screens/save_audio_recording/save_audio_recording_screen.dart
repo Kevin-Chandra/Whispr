@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/data/models/audio_player_state.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
+import 'package:whispr/presentation/bloc/recording_tag/recording_tag_cubit.dart';
 import 'package:whispr/presentation/bloc/save_audio_recording/save_audio_recording_cubit.dart';
 import 'package:whispr/presentation/router/navigation_coordinator.dart';
 import 'package:whispr/presentation/screens/save_audio_recording/audio_player_body.dart';
@@ -36,6 +37,8 @@ class SaveAudioRecordingScreen extends StatefulWidget
   Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<RecordingTagCubit>(
+            create: (context) => RecordingTagCubit()),
         BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
         BlocProvider<SaveAudioRecordingCubit>(
             create: (context) => SaveAudioRecordingCubit(audioRecordingPath)),
@@ -169,6 +172,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
                       );
                     },
                     onMoodSelected: _saveAudioRecordingCubit.moodSelected,
+                    onRecordingTagChanged: _saveAudioRecordingCubit.tagChanged,
                   ),
                 SaveAudioRecordingLoadingState() =>
                   SaveAudioRecordingSkeletonLoading(),

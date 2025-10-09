@@ -14,6 +14,7 @@ class SaveAudioRecordingSkeletonLoading extends StatelessWidget {
       onCancelClick: () {},
       onSaveClick: () {},
       onMoodSelected: (_) {},
+      onRecordingTagChanged: (_) {},
       titleFormKey: GlobalKey(),
     ));
   }
