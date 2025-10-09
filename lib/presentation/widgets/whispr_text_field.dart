@@ -49,6 +49,7 @@ class WhisprTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.done,
     this.textInputType,
     this.inputFormatters,
+    this.focusNode,
   });
 
   final String? title;
@@ -78,6 +79,7 @@ class WhisprTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
+  final FocusNode? focusNode;
   final WhisprTextFieldStyle whisprTextFieldStyle;
 
   @override
@@ -85,7 +87,7 @@ class WhisprTextField extends StatefulWidget {
 }
 
 class _WhisprTextFieldState extends State<WhisprTextField> {
-  final FocusNode _focusNode = FocusNode();
+  late final FocusNode _focusNode;
   late final TextEditingController _controller =
       widget.controller ?? TextEditingController();
 
@@ -95,6 +97,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
   @override
   void initState() {
     super.initState();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(() => setState(() {}));
     _controller.addListener(() => setState(() {
           _validate();

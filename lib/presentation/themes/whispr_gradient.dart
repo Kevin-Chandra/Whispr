@@ -59,4 +59,13 @@ abstract class WhisprGradient {
       Colors.white,
     ],
   );
+
+  static const LinearGradient magnoliaSoapGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[
+      WhisprColors.magnolia,
+      WhisprColors.soap,
+    ],
+  );
 }
