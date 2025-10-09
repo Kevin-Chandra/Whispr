@@ -42,6 +42,8 @@
   "recorderError": "Recorder error!",
   "loadingAudioPlaybackError": "Loading audio playback error!",
   "recordingSavedSuccessfully": "Recording saved successfully!",
+  "showAllTagOptionsHint": "Type '#' to show all options.",
+  "createNewTag": "Create new tag",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

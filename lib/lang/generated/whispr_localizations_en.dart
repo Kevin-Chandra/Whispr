@@ -136,6 +136,12 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get recordingSavedSuccessfully => 'Recording saved successfully!';
 
   @override
+  String get showAllTagOptionsHint => 'Type \'#\' to show all options.';
+
+  @override
+  String get createNewTag => 'Create new tag';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 
