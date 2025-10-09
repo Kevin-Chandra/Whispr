@@ -43,7 +43,7 @@ abstract class WhisprThemes {
   );
 
   static final progressIndicatorTheme = ProgressIndicatorThemeData(
-    color: WhisprColors.spanishViolet,
+    color: WhisprColors.royalPurple,
     strokeCap: StrokeCap.round,
   );
 }

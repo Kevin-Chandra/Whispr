@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:whispr/domain/entities/audio_recording.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/entities/mood.dart';
+import 'package:whispr/domain/entities/recording_tag.dart';
 import 'package:whispr/domain/repository/audio_recording_repository.dart';
 import 'package:whispr/util/uuid_util.dart';
 
@@ -16,14 +17,14 @@ class SaveAudioRecordingUseCase {
     required String name,
     required String filePath,
     required Mood mood,
-    required List<String> tags,
+    required List<RecordingTag> tags,
   }) {
     final audioRecording = AudioRecording(
       id: UuidUtil.getRandomUuid(),
       name: name,
       filePath: filePath,
       mood: mood,
-      tags: [],
+      tags: tags,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

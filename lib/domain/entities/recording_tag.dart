@@ -19,6 +19,8 @@ class RecordingTag extends Equatable {
   factory RecordingTag.mock3() =>
       RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Mock 3');
 
+  factory RecordingTag.placeholder() => RecordingTag(id: '', label: '');
+
   @override
   List<Object?> get props => [id, label];
 }

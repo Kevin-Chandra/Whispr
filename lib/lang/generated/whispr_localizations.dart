@@ -346,6 +346,18 @@ abstract class WhisprLocalizations {
   /// **'Recording saved successfully!'**
   String get recordingSavedSuccessfully;
 
+  /// No description provided for @showAllTagOptionsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type \'#\' to show all options.'**
+  String get showAllTagOptionsHint;
+
+  /// No description provided for @createNewTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Create new tag'**
+  String get createNewTag;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:

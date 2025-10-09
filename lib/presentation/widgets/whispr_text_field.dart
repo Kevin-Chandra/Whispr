@@ -308,7 +308,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
   }
 
   Color _resolveFillColor() => switch (widget.whisprTextFieldStyle) {
-        WhisprTextFieldStyle.outlined => WhisprColors.antiFlashWhite,
+        WhisprTextFieldStyle.outlined => Colors.white,
         WhisprTextFieldStyle.underlined => Colors.transparent,
       };
 
