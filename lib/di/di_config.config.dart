@@ -116,6 +116,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i954.AudioPlayerWaveformService(gh<_i13.FileService>()));
     gh.singleton<_i392.AudioPlayerService>(
         () => _i392.AudioPlayerService(gh<_i13.FileService>()));
+    gh.factory<_i878.RecordingTagRepository>(() =>
+        _i597.RecordingTagRepositoryImpl(gh<_i170.Box<_i337.RecordingTagModel>>(
+            instanceName: 'RECORDING_TAG_BOX_KEY')));
     gh.factory<_i711.StopAudioRecorderUseCase>(() =>
         _i711.StopAudioRecorderUseCase(gh<_i241.RecordAudioRepository>()));
     gh.factory<_i72.StartAudioRecorderUseCase>(() =>
@@ -135,9 +138,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i874.GetAudioRecorderAmplitudeUseCase>(() =>
         _i874.GetAudioRecorderAmplitudeUseCase(
             gh<_i241.RecordAudioRepository>()));
-    gh.factory<_i878.RecordingTagRepository>(() =>
-        _i597.RecordingTagRepositoryImpl(
-            gh<_i170.Box<_i337.RecordingTagModel>>()));
     gh.singleton<_i1032.HiveLocalStorage>(() => _i1032.HiveLocalStorage(
           gh<_i558.FlutterSecureStorage>(),
           gh<_i13.FileService>(),

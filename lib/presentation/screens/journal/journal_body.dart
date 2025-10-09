@@ -10,13 +10,12 @@ import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.da
 import 'package:whispr/presentation/widgets/whispr_button/whispr_gradient_button.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_icon_button.dart';
 import 'package:whispr/presentation/widgets/whispr_journal_item.dart';
-import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
 
 import 'journal_item_audio_player_body.dart';
 import 'journal_item_audio_player_control.dart';
 
-class JournalBody extends StatefulWidget {
+class JournalBody extends StatelessWidget {
   const JournalBody({
     super.key,
     required this.audioRecordings,
@@ -35,11 +34,44 @@ class JournalBody extends StatefulWidget {
   final Function(AudioRecording) onDeletePressed;
 
   @override
-  State<JournalBody> createState() => _JournalBodyState();
+  Widget build(BuildContext context) {
+    return audioRecordings.isEmpty
+        ? JournalEmptyBody(onAddNewRecording: onAddNewRecording)
+        : _JournalList(
+            audioRecordings: audioRecordings,
+            onAddNewRecording: onAddNewRecording,
+            onRefresh: onRefresh,
+            onFavouritePressed: onFavouritePressed,
+            onEditPressed: onEditPressed,
+            onDeletePressed: onDeletePressed,
+          );
+  }
 }
 
-class _JournalBodyState extends State<JournalBody> {
-  late AudioPlayerCubit _audioPlayerCubit;
+class _JournalList extends StatefulWidget {
+  const _JournalList({
+    super.key,
+    required this.audioRecordings,
+    required this.onAddNewRecording,
+    required this.onRefresh,
+    required this.onFavouritePressed,
+    required this.onEditPressed,
+    required this.onDeletePressed,
+  });
+
+  final List<AudioRecording> audioRecordings;
+  final VoidCallback onAddNewRecording;
+  final VoidCallback onRefresh;
+  final Function(AudioRecording) onFavouritePressed;
+  final Function(AudioRecording) onEditPressed;
+  final Function(AudioRecording) onDeletePressed;
+
+  @override
+  State<_JournalList> createState() => _JournalListState();
+}
+
+class _JournalListState extends State<_JournalList> {
+  late final AudioPlayerCubit _audioPlayerCubit;
   String? currentSelectedRecordingId;
 
   @override
@@ -51,164 +83,235 @@ class _JournalBodyState extends State<JournalBody> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AudioPlayerCubit, AudioPlayerScreenState>(
-      builder: (context, state) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            widget.onRefresh();
-          },
-          child: widget.audioRecordings.isEmpty
-              ? JournalEmptyBody(onAddNewRecording: widget.onAddNewRecording)
-              : ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 16),
-                  itemCount: widget.audioRecordings.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < widget.audioRecordings.length) {
-                      final currentAudioRecording =
-                          widget.audioRecordings[index];
-                      return AnimatedSize(
-                        duration: const Duration(
-                            milliseconds:
-                                WhisprDuration.animatedContainerMillis),
-                        alignment: Alignment.topCenter,
-                        curve: Curves.easeIn,
-                        clipBehavior: Clip.antiAlias,
-                        child: WhisprJournalItem(
-                          isSelected: currentSelectedRecordingId ==
-                              currentAudioRecording.id,
-                          audioRecording: currentAudioRecording,
-                          onFavouritePressed: () {
-                            widget.onFavouritePressed(currentAudioRecording);
-                          },
-                          isLastItem:
-                              index == widget.audioRecordings.length - 1,
-                          expandedWidget: SizedBox(
-                            height: 60,
-                            child: state.currentPlayingFile ==
-                                    currentAudioRecording.filePath
-                                ? _buildExpandedWidget(
-                                    currentAudioRecording, state)
-                                : _buildRowWithEditAndDeleteButton(
-                                    startWidget: WhisprIconButton(
-                                      icon: Icons.play_arrow_rounded,
-                                      buttonSize: ButtonSize.medium,
-                                      onClick: () {
-                                        _audioPlayerCubit.prepareAudio(
-                                          currentAudioRecording.filePath,
-                                          playImmediately: true,
-                                        );
-                                      },
-                                      buttonStyle:
-                                          WhisprIconButtonStyle.gradient,
-                                    ),
-                                    audioRecording: currentAudioRecording,
-                                  ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              currentSelectedRecordingId ==
-                                      currentAudioRecording.id
-                                  ? currentSelectedRecordingId = null
-                                  : currentSelectedRecordingId =
-                                      currentAudioRecording.id;
-                            });
-                          },
-                          isPlayingAudio: state.currentPlayingFile ==
-                                  currentAudioRecording.filePath &&
-                              state.state == AudioPlayerState.playing,
-                        ),
-                      );
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                          children: [
-                            WhisprGradientButton(
-                              text: context.strings.addNewRecording,
-                              buttonStyle: WhisprGradientButtonStyle.filled,
-                              buttonSize: WhisprButtonSizes.small,
-                              icon: Icons.add_rounded,
-                              onPressed: widget.onAddNewRecording,
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+        builder: (context, state) {
+      return RefreshIndicator(
+        onRefresh: () async {
+          widget.onRefresh();
+        },
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+          itemCount: widget.audioRecordings.length + 1,
+          itemBuilder: (context, index) {
+            if (index < widget.audioRecordings.length) {
+              final currentAudioRecording = widget.audioRecordings[index];
+              return WhisprJournalItem(
+                isSelected:
+                    currentSelectedRecordingId == currentAudioRecording.id,
+                audioRecording: currentAudioRecording,
+                onFavouritePressed: () {
+                  widget.onFavouritePressed(currentAudioRecording);
+                },
+                isLastItem: index == widget.audioRecordings.length - 1,
+                expandedWidget: _JournalItemExpandedContent(
+                  state: state,
+                  audioRecording: currentAudioRecording,
+                  onEditPressed: () {
+                    widget.onEditPressed(currentAudioRecording);
                   },
-                  separatorBuilder: (context, index) => SizedBox(height: 8),
+                  onDeletePressed: () {
+                    widget.onDeletePressed(currentAudioRecording);
+                  },
+                  onPrepare: () {
+                    _audioPlayerCubit.prepareAudio(
+                      currentAudioRecording.filePath,
+                      playImmediately: true,
+                    );
+                  },
+                  onPlay: _audioPlayerCubit.play,
+                  onPause: _audioPlayerCubit.pause,
                 ),
-        );
+                onPressed: () {
+                  setState(() {
+                    currentSelectedRecordingId == currentAudioRecording.id
+                        ? currentSelectedRecordingId = null
+                        : currentSelectedRecordingId = currentAudioRecording.id;
+                  });
+                },
+                isPlayingAudio: state.currentPlayingFile ==
+                        currentAudioRecording.filePath &&
+                    state.state == AudioPlayerState.playing,
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    WhisprGradientButton(
+                      text: context.strings.addNewRecording,
+                      buttonStyle: WhisprGradientButtonStyle.filled,
+                      buttonSize: WhisprButtonSizes.small,
+                      icon: Icons.add_rounded,
+                      onPressed: widget.onAddNewRecording,
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+          separatorBuilder: (context, index) => SizedBox(height: 8),
+        ),
+      );
+    });
+  }
+}
+
+class _JournalItemExpandedContent extends StatelessWidget {
+  const _JournalItemExpandedContent({
+    super.key,
+    required this.state,
+    required this.audioRecording,
+    required this.onEditPressed,
+    required this.onDeletePressed,
+    required this.onPrepare,
+    required this.onPlay,
+    required this.onPause,
+  });
+
+  final AudioPlayerScreenState state;
+  final AudioRecording audioRecording;
+  final VoidCallback onEditPressed;
+  final VoidCallback onDeletePressed;
+  final VoidCallback onPrepare;
+  final VoidCallback onPlay;
+  final VoidCallback onPause;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      child: state.currentPlayingFile != audioRecording.filePath
+          ? _RowWithEditAndDeleteButton(
+              startWidget: WhisprIconButton(
+                icon: Icons.play_arrow_rounded,
+                buttonSize: ButtonSize.medium,
+                onClick: onPrepare,
+                buttonStyle: WhisprIconButtonStyle.gradient,
+              ),
+              onEditPressed: onEditPressed,
+              onDeletePressed: onDeletePressed,
+            )
+          : switch (state) {
+              AudioPlayerInitialState() => _RowWithEditAndDeleteButton(
+                  startWidget: WhisprIconButton(
+                    icon: Icons.play_arrow_rounded,
+                    buttonSize: ButtonSize.medium,
+                    onClick: onPrepare,
+                    buttonStyle: WhisprIconButtonStyle.gradient,
+                  ),
+                  onEditPressed: onEditPressed,
+                  onDeletePressed: onDeletePressed,
+                ),
+              AudioPlayerLoadingState() => _RowWithEditAndDeleteButton(
+                  startWidget: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: const SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  onEditPressed: onEditPressed,
+                  onDeletePressed: onDeletePressed,
+                ),
+              AudioPlayerLoadedState() =>
+                state.state == AudioPlayerState.playing
+                    ? JournalItemAudioPlayerBody(
+                        playerControllerWidget:
+                            _JournalItemAudioPlayerControlWrapper(
+                          onPlayClick: onPlay,
+                          onPauseClick: onPause,
+                        ),
+                        waveformData: audioRecording.waveformData ?? [],
+                        // TODO: Improve handling for null.
+                        playerController:
+                            (state as AudioPlayerLoadedState).controller,
+                      )
+                    : _RowWithEditAndDeleteButton(
+                        startWidget: _JournalItemAudioPlayerControlWrapper(
+                          onPlayClick: onPlay,
+                          onPauseClick: onPause,
+                        ),
+                        onEditPressed: onEditPressed,
+                        onDeletePressed: onDeletePressed,
+                      ),
+              AudioPlayerScreenError() => _RowWithEditAndDeleteButton(
+                  startWidget: WhisprIconButton(
+                    icon: Icons.play_arrow_rounded,
+                    buttonSize: ButtonSize.medium,
+                    onClick: onPrepare,
+                    buttonStyle: WhisprIconButtonStyle.gradient,
+                  ),
+                  middleWidget: Text(
+                    (state as AudioPlayerScreenError).error.error,
+                    style: WhisprTextStyles.bodyS.copyWith(
+                      color: WhisprColors.crayola,
+                    ),
+                  ),
+                  onEditPressed: onEditPressed,
+                  onDeletePressed: onDeletePressed,
+                ),
+            },
+    );
+  }
+}
+
+class _JournalItemAudioPlayerControlWrapper extends StatelessWidget {
+  const _JournalItemAudioPlayerControlWrapper({
+    required this.onPlayClick,
+    required this.onPauseClick,
+  });
+
+  final VoidCallback onPlayClick;
+  final VoidCallback onPauseClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<AudioPlayerCubit, AudioPlayerScreenState,
+        AudioPlayerState>(
+      selector: (state) => state.state,
+      builder: (context, state) {
+        return switch (state) {
+          AudioPlayerState.idle => JournalItemAudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: onPlayClick,
+              onPauseClick: onPauseClick,
+            ),
+          AudioPlayerState.playing => JournalItemAudioPlayerControl(
+              isPlaying: true,
+              onPlayClick: onPlayClick,
+              onPauseClick: onPauseClick,
+            ),
+          AudioPlayerState.paused => JournalItemAudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: onPlayClick,
+              onPauseClick: onPauseClick,
+            ),
+          AudioPlayerState.stopped => JournalItemAudioPlayerControl(
+              isPlaying: false,
+              onPlayClick: onPlayClick,
+              onPauseClick: onPauseClick,
+            ),
+        };
       },
     );
   }
+}
 
-  Widget _buildExpandedWidget(
-      AudioRecording audioRecording, AudioPlayerScreenState state) {
-    return switch (state) {
-      AudioPlayerInitialState() => _buildRowWithEditAndDeleteButton(
-          startWidget: WhisprIconButton(
-            icon: Icons.play_arrow_rounded,
-            buttonSize: ButtonSize.medium,
-            onClick: () {
-              _audioPlayerCubit.prepareAudio(
-                audioRecording.filePath,
-                playImmediately: false,
-              );
-            },
-            buttonStyle: WhisprIconButtonStyle.gradient,
-          ),
-          audioRecording: audioRecording,
-        ),
-      AudioPlayerLoadingState() => _buildRowWithEditAndDeleteButton(
-          startWidget: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: const SizedBox(
-              width: 28,
-              height: 28,
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          audioRecording: audioRecording,
-        ),
-      AudioPlayerLoadedState() => state.state == AudioPlayerState.playing
-          ? JournalItemAudioPlayerBody(
-              playerControllerWidget: _buildAudioPlayerControl(),
-              waveformData: audioRecording.waveformData ?? [],
-              // TODO: Improve handling for null.
-              playerController: state.controller,
-            )
-          : _buildRowWithEditAndDeleteButton(
-              startWidget: _buildAudioPlayerControl(),
-              audioRecording: audioRecording,
-            ),
-      AudioPlayerScreenError() => _buildRowWithEditAndDeleteButton(
-          startWidget: WhisprIconButton(
-            icon: Icons.play_arrow_rounded,
-            buttonSize: ButtonSize.medium,
-            onClick: () {
-              _audioPlayerCubit.prepareAudio(
-                audioRecording.filePath,
-                playImmediately: false,
-              );
-            },
-            buttonStyle: WhisprIconButtonStyle.gradient,
-          ),
-          middleWidget: Text(
-            state.error.error,
-            style: WhisprTextStyles.bodyS.copyWith(
-              color: WhisprColors.crayola,
-            ),
-          ),
-          audioRecording: audioRecording,
-        ),
-    };
-  }
+class _RowWithEditAndDeleteButton extends StatelessWidget {
+  const _RowWithEditAndDeleteButton({
+    required this.startWidget,
+    required this.onEditPressed,
+    required this.onDeletePressed,
+    this.middleWidget,
+  });
 
-  Widget _buildRowWithEditAndDeleteButton({
-    required Widget startWidget,
-    required AudioRecording audioRecording,
-    Widget? middleWidget,
-  }) {
+  final Widget startWidget;
+  final Widget? middleWidget;
+  final VoidCallback onEditPressed;
+  final VoidCallback onDeletePressed;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,65 +323,18 @@ class _JournalBodyState extends State<JournalBody> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              onPressed: () => widget.onEditPressed(audioRecording),
+              onPressed: onEditPressed,
               icon: const Icon(Icons.edit_rounded),
               color: WhisprColors.lavenderBlue,
             ),
             IconButton(
-              onPressed: () => widget.onDeletePressed(audioRecording),
+              onPressed: onDeletePressed,
               icon: const Icon(Icons.delete_rounded),
               color: WhisprColors.crayola,
             ),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _buildAudioPlayerControl() {
-    return BlocSelector<AudioPlayerCubit, AudioPlayerScreenState,
-        AudioPlayerState>(
-      selector: (state) => state.state,
-      builder: (context, state) {
-        return switch (state) {
-          AudioPlayerState.idle => JournalItemAudioPlayerControl(
-              isPlaying: false,
-              onPlayClick: () {
-                _audioPlayerCubit.play();
-              },
-              onPauseClick: () {
-                _audioPlayerCubit.pause();
-              },
-            ),
-          AudioPlayerState.playing => JournalItemAudioPlayerControl(
-              isPlaying: true,
-              onPlayClick: () {
-                _audioPlayerCubit.play();
-              },
-              onPauseClick: () {
-                _audioPlayerCubit.pause();
-              },
-            ),
-          AudioPlayerState.paused => JournalItemAudioPlayerControl(
-              isPlaying: false,
-              onPlayClick: () {
-                _audioPlayerCubit.play();
-              },
-              onPauseClick: () {
-                _audioPlayerCubit.pause();
-              },
-            ),
-          AudioPlayerState.stopped => JournalItemAudioPlayerControl(
-              isPlaying: false,
-              onPlayClick: () {
-                _audioPlayerCubit.play();
-              },
-              onPauseClick: () {
-                _audioPlayerCubit.pause();
-              },
-            ),
-        };
-      },
     );
   }
 }

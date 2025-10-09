@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:injectable/injectable.dart';
 import 'package:listenable_stream/listenable_stream.dart';
+import 'package:whispr/data/local/hive/whispr_hive_db_keys.dart';
 import 'package:whispr/data/mappers/recording_tag_mapper.dart';
 import 'package:whispr/data/models/recording_tag_model.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
@@ -11,7 +12,9 @@ import 'package:whispr/util/extensions.dart';
 
 @Injectable(as: RecordingTagRepository)
 class RecordingTagRepositoryImpl implements RecordingTagRepository {
-  RecordingTagRepositoryImpl(this._box);
+  RecordingTagRepositoryImpl(
+    @Named(WhisprHiveDbKeys.recordingTagBoxKey) this._box,
+  );
 
   final Box<RecordingTagModel> _box;
 

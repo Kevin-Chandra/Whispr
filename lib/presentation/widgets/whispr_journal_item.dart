@@ -4,6 +4,7 @@ import 'package:whispr/domain/entities/mood.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/animation/whispr_playing_audio_indicator_animation.dart';
+import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/date_time_util.dart';
 
 class WhisprJournalItem extends StatelessWidget {
@@ -28,46 +29,76 @@ class WhisprJournalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _DotAndLine(
-            isSelected: isSelected,
-            shouldDrawLine: !isLastItem,
-          ),
-          Expanded(
-            flex: 1,
-            child: DecoratedBox(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: WhisprColors.lavenderWeb,
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
-                )
-              ], borderRadius: BorderRadius.circular(15)),
-              child: Card.filled(
-                elevation: 0,
-                color: isSelected ? Colors.white : WhisprColors.ghostWhite,
-                surfaceTintColor: Colors.transparent,
-                margin: EdgeInsets.zero,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  highlightColor:
-                      WhisprColors.lavenderBlue.withValues(alpha: 0.2),
-                  splashColor: WhisprColors.lavenderBlue.withValues(alpha: 0.1),
-                  onTap: onPressed,
-                  child: _buildCardBody(),
+    return AnimatedSize(
+      duration:
+          const Duration(milliseconds: WhisprDuration.animatedContainerMillis),
+      alignment: Alignment.topCenter,
+      curve: Curves.easeInOut,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _DotAndLine(
+              isSelected: isSelected,
+              shouldDrawLine: !isLastItem,
+            ),
+            Expanded(
+              flex: 1,
+              child: DecoratedBox(
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: WhisprColors.lavenderWeb,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  )
+                ], borderRadius: BorderRadius.circular(15)),
+                child: Card.filled(
+                  elevation: 0,
+                  color: isSelected ? Colors.white : WhisprColors.ghostWhite,
+                  surfaceTintColor: Colors.transparent,
+                  margin: EdgeInsets.zero,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    highlightColor:
+                        WhisprColors.lavenderBlue.withValues(alpha: 0.2),
+                    splashColor:
+                        WhisprColors.lavenderBlue.withValues(alpha: 0.1),
+                    onTap: onPressed,
+                    child: _JournalItemCardContent(
+                      isSelected: isSelected,
+                      isPlayingAudio: isPlayingAudio,
+                      audioRecording: audioRecording,
+                      onFavouritePressed: onFavouritePressed,
+                      expandedWidget: expandedWidget,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildCardBody() {
+class _JournalItemCardContent extends StatelessWidget {
+  const _JournalItemCardContent({
+    required this.isSelected,
+    required this.isPlayingAudio,
+    required this.audioRecording,
+    required this.onFavouritePressed,
+    required this.expandedWidget,
+  });
+
+  final bool isSelected;
+  final bool isPlayingAudio;
+  final AudioRecording audioRecording;
+  final VoidCallback onFavouritePressed;
+  final Widget expandedWidget;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: Column(

@@ -14,9 +14,9 @@ import 'package:whispr/presentation/screens/save_audio_recording/save_audio_reco
 import 'package:whispr/presentation/screens/save_audio_recording/save_audio_recording_skeleton_loading.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
-import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_dialog.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
+import 'package:whispr/presentation/widgets/whispr_sliver_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
@@ -126,7 +126,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
           physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              WhisprAppBar(
+              WhisprSliverAppBar(
                 title: context.strings.voice_record,
                 isDarkBackground: false,
                 enableBackButton: false,

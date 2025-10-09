@@ -17,16 +17,12 @@ class UpdateAudioRecordingUseCase {
     String? name,
     Mood? mood,
     bool? isFavourite,
-    List<String>? tags,
+    List<RecordingTag>? tags,
   }) {
     final audioRecording = currentAudioRecording.copyWith(
       name: name,
       mood: mood,
-      tags: [
-        RecordingTag.mock1(),
-        RecordingTag.mock2(),
-        RecordingTag.mock3(),
-      ],
+      tags: tags,
       isFavourite: isFavourite,
       updatedAt: DateTime.now(),
     );

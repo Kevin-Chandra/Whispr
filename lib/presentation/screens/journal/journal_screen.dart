@@ -33,7 +33,7 @@ class JournalScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _JournalScreenState extends State<JournalScreen> {
-  late JournalCubit _journalCubit;
+  late final JournalCubit _journalCubit;
 
   @override
   void initState() {
@@ -57,12 +57,30 @@ class _JournalScreenState extends State<JournalScreen> {
             },
           ),
         ),
-        Expanded(flex: 1, child: _buildJournalList()),
+        Expanded(flex: 1, child: _JournalList()),
       ],
     );
   }
+}
 
-  Widget _buildJournalList() {
+class _JournalList extends StatefulWidget {
+  const _JournalList();
+
+  @override
+  State<_JournalList> createState() => _JournalListState();
+}
+
+class _JournalListState extends State<_JournalList> {
+  late final JournalCubit _journalCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _journalCubit = context.read<JournalCubit>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocConsumer<JournalCubit, JournalState>(
       listener: (context, state) {
         if (state is JournalErrorState) {
