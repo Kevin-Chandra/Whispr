@@ -16,6 +16,7 @@ abstract class WhisprColors {
   static const cornflowerBlue = Color(0xFF6A86E9);
   static const brightLavender = Color(0xFFAC92EE);
   static const mediumPurple = Color(0xFF9A76EE);
+  static const royalPurple = Color(0xFF6750A4);
   static const blueMagentaViolet = Color(0xFF5D3C8F);
   static const spanishViolet = Color(0xFF452B88);
   static const interdimensionalBlue = Color(0xFF501BD4);
