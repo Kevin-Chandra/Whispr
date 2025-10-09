@@ -20,6 +20,9 @@ class WhisprChipsAutocomplete<T extends Object> extends StatefulWidget {
     required this.defaultPlaceholderValue,
     this.showAllKey = '#',
     this.placeholder,
+    this.errorMessage,
+    this.isLoading = false,
+    this.enabled = true,
   });
 
   final String title;
@@ -29,6 +32,7 @@ class WhisprChipsAutocomplete<T extends Object> extends StatefulWidget {
   /// Key to show all available options.
   /// Default to `#`
   final String? showAllKey;
+  final String? errorMessage;
   final List<T> availableOptions;
   final List<T> selectedOptions;
 
@@ -44,6 +48,9 @@ class WhisprChipsAutocomplete<T extends Object> extends StatefulWidget {
 
   /// Value to be compared for filtering tags.
   final String Function(T) optionValue;
+
+  final bool isLoading;
+  final bool enabled;
 
   @override
   State<WhisprChipsAutocomplete<T>> createState() =>
@@ -69,10 +76,7 @@ class _WhisprChipsAutocompleteState<T extends Object>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        border: GradientBoxBorder(
-          gradient: WhisprGradient.mediumPurplePaleVioletGradient,
-          width: 2,
-        ),
+        border: _resolverBoxBorder(),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +85,7 @@ class _WhisprChipsAutocompleteState<T extends Object>
           Text(
             widget.title,
             style: WhisprTextStyles.bodyM.copyWith(
-                color: WhisprColors.spanishViolet, fontWeight: FontWeight.bold),
+                color: _resolveTextColor(), fontWeight: FontWeight.bold),
           ),
           SizedBox(height: widget.selectedOptions.isNotEmpty ? 4 : 0),
           Wrap(
@@ -143,30 +147,48 @@ class _WhisprChipsAutocompleteState<T extends Object>
             onSelected: _onChipSelected,
             fieldViewBuilder:
                 (context, textEditingController, focusNode, onFieldSubmitted) {
-              return TextFormField(
-                controller: textEditingController,
-                focusNode: focusNode,
-                enableSuggestions: false,
-                autocorrect: false,
-                onFieldSubmitted: (value) {
-                  // Handle manually if the current options
-                  // is create new chip.
-                  if (_currentIsPlaceholder) {
-                    _onCreateNewChip(value);
-                    return;
-                  }
+              return Stack(
+                children: [
+                  TextFormField(
+                    controller: textEditingController,
+                    focusNode: focusNode,
+                    enabled: widget.enabled,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    onFieldSubmitted: (value) {
+                      // Handle manually if the current options
+                      // is create new chip.
+                      if (_currentIsPlaceholder) {
+                        _onCreateNewChip(value);
+                        return;
+                      }
 
-                  onFieldSubmitted();
-                },
-                style: WhisprTextStyles.subtitle1
-                    .copyWith(color: WhisprColors.spanishViolet),
-                decoration: InputDecoration(
-                  isDense: true,
-                  border: InputBorder.none,
-                  hintText: widget.placeholder,
-                  hintStyle: WhisprTextStyles.subtitle1.copyWith(
-                      color: WhisprColors.spanishViolet.withValues(alpha: 0.5)),
-                ),
+                      onFieldSubmitted();
+                    },
+                    style: WhisprTextStyles.subtitle1
+                        .copyWith(color: WhisprColors.spanishViolet),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      errorText: widget.errorMessage,
+                      hintText: widget.placeholder,
+                      hintStyle: WhisprTextStyles.subtitle1.copyWith(
+                          color: WhisprColors.spanishViolet
+                              .withValues(alpha: 0.5)),
+                    ),
+                  ),
+                  widget.isLoading
+                      ? Align(
+                          alignment: Alignment.bottomRight,
+                          child: SizedBox.square(
+                            dimension: 16,
+                            child: CircularProgressIndicator(
+                              backgroundColor: WhisprColors.lavenderWeb,
+                            ),
+                          ),
+                        )
+                      : SizedBox()
+                ],
               );
             },
             displayStringForOption: widget.displayText,
@@ -235,6 +257,21 @@ class _WhisprChipsAutocompleteState<T extends Object>
         ],
       ),
     );
+  }
+
+  Color _resolveTextColor() {
+    return widget.enabled
+        ? WhisprColors.spanishViolet
+        : WhisprColors.silverChalice;
+  }
+
+  BoxBorder _resolverBoxBorder() {
+    return widget.enabled
+        ? GradientBoxBorder(
+            gradient: WhisprGradient.mediumPurplePaleVioletGradient,
+            width: 2,
+          )
+        : Border.all(width: 2, color: WhisprColors.silverChalice);
   }
 
   void _onCreateNewChip(String value) {
