@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:whispr/util/uuid_util.dart';
 
-class RecordingTag {
+class RecordingTag extends Equatable {
   final String id;
   final String label;
 
-  RecordingTag({
+  const RecordingTag({
     required this.id,
     required this.label,
   });
@@ -17,4 +18,7 @@ class RecordingTag {
 
   factory RecordingTag.mock3() =>
       RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Mock 3');
+
+  @override
+  List<Object?> get props => [id, label];
 }
