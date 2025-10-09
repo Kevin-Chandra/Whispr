@@ -11,6 +11,7 @@ abstract class WhisprColors {
   static const paleMagnolia = Color(0xFFFCF1FF);
   static const lavenderWeb = Color(0xFFDEE5FF);
   static const paleLavenderWeb = Color(0xFFE8E8FF);
+  static const soap = Color(0xFFDFC9EC);
   static const vistaBlue = Color(0xFF8E90E4);
   static const cornflowerBlue = Color(0xFF6A86E9);
   static const brightLavender = Color(0xFFAC92EE);
