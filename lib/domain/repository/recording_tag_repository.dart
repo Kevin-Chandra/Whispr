@@ -8,5 +8,10 @@ abstract class RecordingTagRepository {
 
   Future<Either<bool, FailureEntity>> deleteRecordingTag(String id);
 
-  Stream<List<RecordingTag>> getAllRecordingTags();
+  Stream<List<RecordingTag>> getRecordingTagStream();
+
+  Future<Either<List<RecordingTag>, FailureEntity>> getAllRecordingTag(
+      {String? label});
+
+  Future<Either<RecordingTag?, FailureEntity>> getTagByLabel(String label);
 }

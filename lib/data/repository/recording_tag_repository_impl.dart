@@ -7,6 +7,7 @@ import 'package:whispr/data/models/recording_tag_model.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/entities/recording_tag.dart';
 import 'package:whispr/domain/repository/recording_tag_repository.dart';
+import 'package:whispr/util/extensions.dart';
 
 @Injectable(as: RecordingTagRepository)
 class RecordingTagRepositoryImpl implements RecordingTagRepository {
@@ -21,7 +22,7 @@ class RecordingTagRepositoryImpl implements RecordingTagRepository {
   }
 
   @override
-  Stream<List<RecordingTag>> getAllRecordingTags() {
+  Stream<List<RecordingTag>> getRecordingTagStream() {
     return _box
         .listenable()
         .toValueStream(replayValue: true)
@@ -34,5 +35,22 @@ class RecordingTagRepositoryImpl implements RecordingTagRepository {
       RecordingTag recordingTag) async {
     await _box.put(recordingTag.id, recordingTag.mapToModel());
     return left(true);
+  }
+
+  @override
+  Future<Either<List<RecordingTag>, FailureEntity>> getAllRecordingTag(
+      {String? label}) async {
+    final tags = _box.values.where(
+        (tag) => label.isNullOrEmpty ? true : tag.label.contains(label!));
+
+    return left(tags.map((tag) => tag.mapToDomain()).toList());
+  }
+
+  @override
+  Future<Either<RecordingTag?, FailureEntity>> getTagByLabel(
+      String label) async {
+    final tag = _box.values
+        .firstWhereOrNull((tag) => tag.label.equalsIgnoreCase(label));
+    return left(tag?.mapToDomain());
   }
 }

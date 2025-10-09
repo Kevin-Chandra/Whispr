@@ -29,4 +29,14 @@ extension StringExtension on String {
   bool isDigit() {
     return RegExp(r'^\d+$').hasMatch(this);
   }
+
+  bool equalsIgnoreCase(String other) {
+    return toLowerCase() == other.toLowerCase();
+  }
+}
+
+extension IterableExtension<E> on Iterable<E> {
+  E? firstWhereOrNull(bool Function(E element) getFirst) {
+    return where(getFirst).firstOrNull;
+  }
 }

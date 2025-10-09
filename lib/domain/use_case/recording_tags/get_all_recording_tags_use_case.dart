@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/entities/recording_tag.dart';
 import 'package:whispr/domain/repository/recording_tag_repository.dart';
 
@@ -8,7 +10,7 @@ class GetAllRecordingTagsUseCase {
 
   final RecordingTagRepository _recordingTagRepository;
 
-  Stream<List<RecordingTag>> call() {
-    return _recordingTagRepository.getAllRecordingTags();
+  Future<Either<List<RecordingTag>, FailureEntity>> call({String? label}) {
+    return _recordingTagRepository.getAllRecordingTag(label: label);
   }
 }
