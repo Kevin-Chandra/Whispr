@@ -4,6 +4,10 @@ abstract class Constants {
   static Logger logger = Logger();
 }
 
+abstract class ImageConstants {
+  static String emptyJournalImage = 'assets/images/img_empty_journal.png';
+}
+
 abstract class WhisprDuration {
   static const int navigationTransitionDuration = 400;
   static const int stateFadeTransitionMillis = 400;

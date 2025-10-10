@@ -3,6 +3,7 @@ import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_button.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.dart';
+import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
 
 class JournalEmptyBody extends StatelessWidget {
@@ -22,6 +23,8 @@ class JournalEmptyBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset(ImageConstants.emptyJournalImage, height: 125),
+          const SizedBox(height: 32),
           Text(
             context.strings.journalEmptyPlaceholder,
             style: WhisprTextStyles.heading5
