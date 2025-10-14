@@ -159,10 +159,16 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                     }
 
                     if (state is RecordAudioSaveSuccessState) {
-                      NavigationCoordinator.navigateToSaveRecording(
+                      final result =
+                          await NavigationCoordinator.navigateToSaveRecording(
                         context: context,
                         audioRecordingPath: state.audioPath,
                       );
+                      // Always pop this page after navigating to other screen.
+                      if (context.mounted) {
+                        context.router.pop(result);
+                      }
+
                       return;
                     }
                   },

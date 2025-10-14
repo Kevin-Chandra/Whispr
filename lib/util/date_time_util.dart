@@ -14,6 +14,11 @@ extension DateTimeUtils on DateTime {
     return now.day == day && now.month == month && now.year == year;
   }
 
+  bool get isWithinThisMonth {
+    final now = DateTime.now();
+    return now.month == month && now.year == year;
+  }
+
   bool get isTomorrow {
     final now = DateTime.now();
     final tomorrow = DateTime(now.year, now.month, now.day + 1);

@@ -47,13 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
       listener: (ctx, state) {
-        print("Home state : $state");
         if (state is OnAudioRecordingSaved) {
           _journalCubit.refresh();
           return;
         }
       },
       child: AutoTabsRouter.tabBar(
+        physics: NeverScrollableScrollPhysics(),
         routes: const [
           VoiceRecordHomeRoute(),
           FavouriteRoute(),

@@ -13,36 +13,32 @@ abstract class NavigationCoordinator {
   static void navigatorPop({required BuildContext context}) =>
       Navigator.pop(context);
 
-  static Future<void> navigateToRecordAudio({
+  static void navigatorPopWithRefreshResult({required BuildContext context}) =>
+      Navigator.pop(context, true);
+
+  static Future<bool?> navigateToRecordAudio({
     required BuildContext context,
     required bool startImmediately,
   }) async {
-    await context.pushRoute(
+    return await context.pushRoute<bool?>(
       RecordAudioRoute(startImmediately: startImmediately),
     );
-    return;
   }
 
-  static Future<void> navigateToSaveRecording({
+  static Future<bool?> navigateToSaveRecording({
     required BuildContext context,
     required String audioRecordingPath,
   }) async {
-    navigatorPop(context: context);
-
-    if (!context.mounted) return;
-
-    await context.pushRoute(
+    return context.router.push<bool?>(
       SaveAudioRecordingRoute(
         audioRecordingPath: audioRecordingPath,
       ),
     );
-    return;
   }
 
   static Future<void> navigateToJournalTab({
     required BuildContext context,
   }) async {
-    context.router.popUntilRoot();
     await context.router.navigate(
       const HomeRoute(children: [JournalRoute()]),
     );

@@ -100,7 +100,9 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
           return;
         }
 
-        if ((_isSaveSuccess || _isSaveCancelled) && context.mounted) {
+        if (_isSaveSuccess && context.mounted) {
+          NavigationCoordinator.navigatorPopWithRefreshResult(context: context);
+        } else if (_isSaveCancelled && context.mounted) {
           NavigationCoordinator.navigatorPop(context: context);
         } else {
           await WhisprDialog(
@@ -142,7 +144,8 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
                   title: context.strings.recordingSavedSuccessfully,
                 ).show(context);
 
-                NavigationCoordinator.navigateToJournalTab(context: context);
+                NavigationCoordinator.navigatorPopWithRefreshResult(
+                    context: context);
                 return;
               }
 
