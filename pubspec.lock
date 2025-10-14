@@ -249,6 +249,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
+  easy_date_timeline:
+    dependency: "direct main"
+    description:
+      name: easy_date_timeline
+      sha256: "0fb8fe360d78b7ccb409da9de0e8a71e8e06f0e8a60ea6c54dabf830479309b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.9"
   equatable:
     dependency: "direct main"
     description:
@@ -425,10 +433,10 @@ packages:
     dependency: "direct main"
     description:
       name: hive_ce
-      sha256: "708bb39050998707c5d422752159f91944d3c81ab42d80e1bd0ee37d8e130658"
+      sha256: "89746b555109029a30780e0a601978460b8065643592667f6e43a238faccb8a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.3"
+    version: "2.13.2"
   hive_ce_flutter:
     dependency: "direct main"
     description:
@@ -909,6 +917,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.28.0"
+  scrollview_observer:
+    dependency: "direct main"
+    description:
+      name: scrollview_observer
+      sha256: c2f713509f18f88f637b2084b47a90c91fb1ef066d5d82d2cf3194d8509dc6ab
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.26.2"
   shelf:
     dependency: transitive
     description:

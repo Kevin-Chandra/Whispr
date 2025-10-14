@@ -8,9 +8,12 @@ extension AudioRecordingModelMapper on AudioRecordingModel {
         name: name,
         filePath: filePath,
         mood: mood,
+        isFavourite: isFavourite,
         tags: tags.map((x) => x.mapToDomain()).toList(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        waveformData: waveformData,
+        duration: duration,
       );
 }
 
@@ -20,8 +23,11 @@ extension AudioRecordingMapper on AudioRecording {
         name: name,
         filePath: filePath,
         mood: mood,
+        isFavourite: isFavourite,
         tags: tags.map((x) => x.mapToModel()).toList(),
         createdAt: createdAt,
         updatedAt: updatedAt,
+        waveformData: waveformData,
+        duration: duration,
       );
 }

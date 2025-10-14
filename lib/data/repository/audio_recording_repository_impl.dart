@@ -1,42 +1,84 @@
 import 'package:dartz/dartz.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:injectable/injectable.dart';
-import 'package:listenable_stream/listenable_stream.dart';
+import 'package:whispr/data/local/database/audio_recording_local_indexable_database.dart';
 import 'package:whispr/data/local/file_service.dart';
 import 'package:whispr/data/mappers/audio_recording_mapper.dart';
-import 'package:whispr/data/models/audio_recording_model.dart';
 import 'package:whispr/domain/entities/audio_recording.dart';
 import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/repository/audio_recording_repository.dart';
+import 'package:whispr/util/constants.dart';
 
 @Injectable(as: AudioRecordingRepository)
 class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
-  AudioRecordingRepositoryImpl(this._box, this._fileService);
+  AudioRecordingRepositoryImpl(this.database, this._fileService);
 
-  final Box<AudioRecordingModel> _box;
+  final AudioRecordingLocalIndexableDatabase database;
   final FileService _fileService;
 
   @override
   Future<Either<bool, FailureEntity>> saveAudioRecording(
     AudioRecording audioRecording,
   ) async {
-    await _box.put(audioRecording.id, audioRecording.mapToModel());
-    return left(true);
+    try {
+      final response = await database.createRecord(audioRecording.mapToModel());
+      return left(response);
+    } catch (e) {
+      Constants.logger.e(e);
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<bool, FailureEntity>> updateAudioRecording(
+      AudioRecording audioRecording) async {
+    try {
+      final response = await database.updateRecord(audioRecording.mapToModel());
+      return left(response);
+    } catch (e) {
+      Constants.logger.e(e);
+      return right(FailureEntity(error: e.toString()));
+    }
   }
 
   @override
   Future<Either<bool, FailureEntity>> deleteAudioRecording(String id) async {
-    await _box.delete(id);
-    return left(true);
+    try {
+      final audioRecording = await database.getAudioRecording(id);
+      if (audioRecording == null) {
+        return right(FailureEntity(
+            error: "Delete Error!",
+            errorDescription: "Audio recording with id $id not found"));
+      }
+
+      final response = await database.deleteRecord(audioRecording.id);
+      if (response == false) {
+        return right(FailureEntity(
+            error: "Delete Error!",
+            errorDescription: "Audio recording not found"));
+      }
+
+      if (!(await _fileService.isFileExist(audioRecording.filePath))) {
+        return left(true);
+      }
+
+      final deleteFileResponse =
+          await deleteAudioRecordingFile(audioRecording.filePath);
+      return deleteFileResponse;
+    } catch (e) {
+      Constants.logger.e(e);
+      return right(FailureEntity(
+          error: "Delete Error!", errorDescription: e.toString()));
+    }
   }
 
   @override
   Stream<List<AudioRecording>> getAllRecordings() {
-    return _box
-        .listenable()
-        .toValueStream(replayValue: true)
-        .map((box) => box.values.toList())
-        .map((list) => list.map((model) => model.mapToDomain()).toList());
+    return database.watchRecordings().map((i) {
+      final list = i.map((recording) => recording.mapToDomain()).toList();
+      list.sort((recording1, recording2) =>
+          recording1.createdAt.compareTo(recording2.createdAt));
+      return list;
+    });
   }
 
   @override
@@ -46,7 +88,53 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
       final response = await _fileService.deleteFile(filePath);
       return left(response);
     } on Exception catch (e) {
+      Constants.logger.e(e);
       return right(FailureEntity(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<List<AudioRecording>, FailureEntity>> getRecordingsByDate(
+      DateTime date) async {
+    try {
+      final response = database
+          .getRecordByDate(date)
+          .map((recording) => recording.mapToDomain())
+          .toList();
+      response.sort((recording1, recording2) =>
+          recording1.createdAt.compareTo(recording2.createdAt));
+      return left(response);
+    } catch (e) {
+      Constants.logger.e(e);
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<List<AudioRecording>, FailureEntity>> getRecordingsByFavourite(
+      bool isFavourite) async {
+    try {
+      final response = database
+          .getRecordByBoolean(isFavourite)
+          .map((recording) => recording.mapToDomain())
+          .toList();
+      response.sort((recording1, recording2) =>
+          recording1.createdAt.compareTo(recording2.createdAt));
+      return left(response);
+    } catch (e) {
+      Constants.logger.e(e);
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AudioRecording, FailureEntity>> getAudioRecordingById(
+      String id) async {
+    final response = await database.getAudioRecording(id);
+    if (response == null) {
+      return right(FailureEntity(error: "Audio recording not found"));
+    } else {
+      return left(response.mapToDomain());
     }
   }
 }

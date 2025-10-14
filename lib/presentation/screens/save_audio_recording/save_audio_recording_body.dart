@@ -26,7 +26,7 @@ class SaveAudioRecordingBody extends StatelessWidget {
   final GlobalKey<FormState> titleFormKey;
   final TextEditingController titleController;
   final VoidCallback onCancelClick;
-  final VoidCallback onSaveClick;
+  final VoidCallback? onSaveClick;
   final Function(Mood) onMoodSelected;
   final Function(List<RecordingTag>) onRecordingTagChanged;
 

@@ -346,6 +346,48 @@ abstract class WhisprLocalizations {
   /// **'Recording saved successfully!'**
   String get recordingSavedSuccessfully;
 
+  /// No description provided for @addNewRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new recording'**
+  String get addNewRecording;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @deleteFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete File?'**
+  String get deleteFile;
+
+  /// No description provided for @areYouSureYouWantToDeleteFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{file_name}\"? This action cannot be undone.'**
+  String areYouSureYouWantToDeleteFile(String file_name);
+
+  /// No description provided for @audioRecordingSuccessfullyDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio recording successfully deleted!'**
+  String get audioRecordingSuccessfullyDeleted;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @journalEmptyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like this space is still quiet. When you’re ready, I’m here to listen.'**
+  String get journalEmptyPlaceholder;
+
   /// No description provided for @showAllTagOptionsHint.
   ///
   /// In en, this message translates to:

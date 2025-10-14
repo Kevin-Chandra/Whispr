@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
+import 'package:whispr/presentation/bloc/home/home_cubit.dart';
+import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
 import 'package:whispr/presentation/router/router_config.gr.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
@@ -21,6 +23,8 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
+        BlocProvider<JournalCubit>(create: (context) => JournalCubit()),
         BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
         BlocProvider<AudioRecordingsCubit>(
             create: (context) => AudioRecordingsCubit()),
@@ -31,38 +35,48 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late JournalCubit _journalCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _journalCubit = context.read<JournalCubit>();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.tabBar(
-      routes: const [
-        VoiceRecordHomeRoute(),
-        FavouriteRoute(),
-        JournalRoute(),
-        SettingsRoute(),
-      ],
-      builder: (context, child, controller) {
-        final activeIndex = AutoTabsRouter.of(context).activeIndex;
-        return WhisprGradientScaffold(
-          gradient: _resolveScaffoldGradient(index: activeIndex),
-          bottomNavigationBar: WhisprBottomNavigationBar(
-            controller: controller,
-          ),
-          body: NestedScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                WhisprAppBar(
-                  title: _resolveAppBarTitle(index: activeIndex),
-                  enableBackButton: false,
-                  isDarkBackground: activeIndex != 3,
-                )
-              ];
-            },
-            body: child,
-          ),
-        );
+    return BlocListener<HomeCubit, HomeState>(
+      listener: (ctx, state) {
+        if (state is OnAudioRecordingSaved) {
+          _journalCubit.refresh();
+          return;
+        }
       },
+      child: AutoTabsRouter.tabBar(
+        physics: NeverScrollableScrollPhysics(),
+        routes: const [
+          VoiceRecordHomeRoute(),
+          FavouriteRoute(),
+          JournalRoute(),
+          SettingsRoute(),
+        ],
+        builder: (context, child, controller) {
+          final tabsRouter = AutoTabsRouter.of(context);
+          final activeIndex = tabsRouter.activeIndex;
+          return WhisprGradientScaffold(
+            gradient: _resolveScaffoldGradient(index: activeIndex),
+            bottomNavigationBar: WhisprBottomNavigationBar(
+              controller: controller,
+            ),
+            body: child,
+            appBar: WhisprAppBar(
+              title: _resolveAppBarTitle(index: activeIndex),
+              enableBackButton: false,
+              isDarkBackground: activeIndex == 0 || activeIndex == 1,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -70,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (index) {
       case 0:
       case 1:
-      case 2:
         return WhisprGradient.purpleGradient;
       default:
         return WhisprGradient.whiteBlueWhiteGradient;

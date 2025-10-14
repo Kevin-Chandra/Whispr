@@ -17,6 +17,9 @@ class SaveAudioRecordingUseCase {
     required String name,
     required String filePath,
     required Mood mood,
+    required bool isFavourite,
+    required Duration duration,
+    List<double>? waveformData,
     required List<RecordingTag> tags,
   }) {
     final audioRecording = AudioRecording(
@@ -25,8 +28,11 @@ class SaveAudioRecordingUseCase {
       filePath: filePath,
       mood: mood,
       tags: tags,
+      isFavourite: isFavourite,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      waveformData: waveformData,
+      duration: duration,
     );
 
     return _audioRecordingRepository.saveAudioRecording(audioRecording);

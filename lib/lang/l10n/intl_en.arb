@@ -42,6 +42,20 @@
   "recorderError": "Recorder error!",
   "loadingAudioPlaybackError": "Loading audio playback error!",
   "recordingSavedSuccessfully": "Recording saved successfully!",
+  "addNewRecording": "Add new recording",
+  "delete": "Delete",
+  "deleteFile": "Delete File?",
+  "areYouSureYouWantToDeleteFile": "Are you sure you want to delete \"{file_name}\"? This action cannot be undone.",
+  "@areYouSureYouWantToDeleteFile": {
+    "placeholders": {
+      "file_name": {
+        "type": "String"
+      }
+    }
+  },
+  "audioRecordingSuccessfullyDeleted": "Audio recording successfully deleted!",
+  "today": "Today",
+  "journalEmptyPlaceholder": "Looks like this space is still quiet. When you’re ready, I’m here to listen.",
   "showAllTagOptionsHint": "Type '#' to show all options.",
   "createNewTag": "Create new tag",
   "microphonePermissionDeniedTitle": "Please allow us to record audio",

@@ -56,10 +56,19 @@ class HiveLocalStorage {
     return this;
   }
 
-  /// Method to open all encrypted HIVE boxes using encryption key [key].
+  /// Method to open all encrypted HIVE boxes using encryption key [key]
+  /// and register it in dependency injection.
   Future<void> _openHiveDbBox(Uint8List key) async {
     await _openAndRegisterBox<AudioRecordingModel>(
       WhisprHiveDbKeys.audioRecordingBoxKey,
+      key,
+    );
+    await _openAndRegisterBox<Set<String>>(
+      WhisprHiveDbKeys.audioRecordingDateIndexBoxKey,
+      key,
+    );
+    await _openAndRegisterBox<Set<String>>(
+      WhisprHiveDbKeys.audioRecordingIsFavouriteIndexBoxKey,
       key,
     );
     await _openAndRegisterBox<RecordingTagModel>(
@@ -71,6 +80,10 @@ class HiveLocalStorage {
   /// Method to remove all boxes registered in hive database.
   Future<void> _nukeDatabase() async {
     await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.audioRecordingBoxKey);
+    await Hive.deleteBoxFromDisk(
+        WhisprHiveDbKeys.audioRecordingDateIndexBoxKey);
+    await Hive.deleteBoxFromDisk(
+        WhisprHiveDbKeys.audioRecordingIsFavouriteIndexBoxKey);
     await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.recordingTagBoxKey);
   }
 
@@ -82,6 +95,6 @@ class HiveLocalStorage {
       boxKey,
       encryptionCipher: HiveAesCipher(encryptionKey),
     );
-    di.registerLazySingleton<Box<T>>(() => box);
+    di.registerLazySingleton<Box<T>>(() => box, instanceName: boxKey);
   }
 }

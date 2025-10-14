@@ -22,16 +22,18 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
       filePath: fields[2] as String,
       mood: fields[4] as Mood,
       tags: (fields[5] as List).cast<RecordingTagModel>(),
+      isFavourite: fields[3] as bool,
+      waveformData: (fields[9] as List?)?.cast<double>(),
+      duration: fields[10] as Duration,
       createdAt: fields[6] as DateTime,
       updatedAt: fields[7] as DateTime,
-      isFavourite: fields[3] == null ? false : fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AudioRecordingModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(2)
@@ -47,7 +49,11 @@ class AudioRecordingModelAdapter extends TypeAdapter<AudioRecordingModel> {
       ..writeByte(7)
       ..write(obj.updatedAt)
       ..writeByte(8)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(9)
+      ..write(obj.waveformData)
+      ..writeByte(10)
+      ..write(obj.duration);
   }
 
   @override

@@ -16,5 +16,8 @@ abstract class AudioPlayerRepository {
 
   Stream<AudioPlayerState>? getPlayerStateStream();
 
-  Future<Either<List<double>, FailureEntity>> getAudioWaveform(String filePath);
+  Future<Either<List<double>, FailureEntity>> getAudioWaveform(String filePath,
+      {int? noOfSamples});
+
+  String? getCurrentPlayingFile();
 }

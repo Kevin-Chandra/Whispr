@@ -1,3 +1,4 @@
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +12,11 @@ import 'package:whispr/presentation/screens/save_audio_recording/audio_player_co
 import 'package:whispr/presentation/screens/save_audio_recording/audio_player_error_body.dart';
 import 'package:whispr/presentation/screens/save_audio_recording/save_audio_recording_body.dart';
 import 'package:whispr/presentation/screens/save_audio_recording/save_audio_recording_skeleton_loading.dart';
+import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
-import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_dialog.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
+import 'package:whispr/presentation/widgets/whispr_sliver_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
@@ -53,18 +55,40 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
   late SaveAudioRecordingCubit _saveAudioRecordingCubit;
   final TextEditingController _titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late final double _waveformWidth;
   bool _isSaveSuccess = false;
   bool _isSaveCancelled = false;
+  int? _samples;
+
+  final _playerWaveStyle = PlayerWaveStyle(
+    fixedWaveColor: WhisprColors.lavenderWeb,
+    liveWaveColor: WhisprColors.maximumBluePurple,
+    seekLineThickness: 0,
+    waveCap: StrokeCap.round,
+    showTop: true,
+    showBottom: true,
+    spacing: 4,
+    scaleFactor: 200,
+    waveThickness: 2,
+  );
 
   @override
   void initState() {
     super.initState();
     _audioPlayerCubit = context.read<AudioPlayerCubit>();
     _saveAudioRecordingCubit = context.read<SaveAudioRecordingCubit>();
-    _audioPlayerCubit.prepareAudio(
-      widget.audioRecordingPath,
-      playImmediately: true,
-    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _waveformWidth = MediaQuery.of(context).size.width * 0.8;
+      final samples = _playerWaveStyle.getSamplesForWidth(_waveformWidth);
+      _samples = samples;
+      _audioPlayerCubit.prepareAudio(
+        widget.audioRecordingPath,
+        playImmediately: false,
+        extractWaveForm: true,
+        noOfSamples: _samples,
+      );
+    });
   }
 
   @override
@@ -76,7 +100,9 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
           return;
         }
 
-        if ((_isSaveSuccess || _isSaveCancelled) && context.mounted) {
+        if (_isSaveSuccess && context.mounted) {
+          NavigationCoordinator.navigatorPopWithRefreshResult(context: context);
+        } else if (_isSaveCancelled && context.mounted) {
           NavigationCoordinator.navigatorPop(context: context);
         } else {
           await WhisprDialog(
@@ -102,7 +128,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
           physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
-              WhisprAppBar(
+              WhisprSliverAppBar(
                 title: context.strings.voice_record,
                 isDarkBackground: false,
                 enableBackButton: false,
@@ -118,7 +144,8 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
                   title: context.strings.recordingSavedSuccessfully,
                 ).show(context);
 
-                NavigationCoordinator.navigateToJournalTab(context: context);
+                NavigationCoordinator.navigatorPopWithRefreshResult(
+                    context: context);
                 return;
               }
 
@@ -154,26 +181,8 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
                 );
               },
               child: switch (state) {
-                SaveAudioRecordingInitialState() => SaveAudioRecordingBody(
-                    waveformWidget: _buildAudioWaveform(),
-                    titleController: _titleController,
-                    titleFormKey: _formKey,
-                    onCancelClick: () {
-                      context.router.maybePop();
-                    },
-                    onSaveClick: () {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
-
-                      _saveAudioRecordingCubit.saveAudioRecording(
-                        name: _titleController.text,
-                        tags: [],
-                      );
-                    },
-                    onMoodSelected: _saveAudioRecordingCubit.moodSelected,
-                    onRecordingTagChanged: _saveAudioRecordingCubit.tagChanged,
-                  ),
+                SaveAudioRecordingInitialState() =>
+                  _buildSaveAudioRecordingBody(),
                 SaveAudioRecordingLoadingState() =>
                   SaveAudioRecordingSkeletonLoading(),
                 _ => throw Exception("Invalid state $state"),
@@ -185,42 +194,10 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
     );
   }
 
-  Widget _buildAudioWaveform() {
+  Widget _buildSaveAudioRecordingBody() {
     return BlocBuilder<AudioPlayerCubit, AudioPlayerScreenState>(
-      buildWhen: (old, current) {
-        return old != current;
-      },
-      builder: (context, state) {
-        return switch (state) {
-          AudioPlayerInitialState() => SizedBox(),
-          AudioPlayerLoadingState() => Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
-            ),
-          AudioPlayerLoadedState() => AudioPlayerBody(
-              playerControllerWidget: _buildAudioPlayerControl(),
-              waveformData: state.waveform,
-              playerController: state.controller,
-            ),
-          AudioPlayerScreenError() => AudioPlayerErrorBody(
-              icon: Icons.warning_amber_rounded,
-              errorTitle: context.strings.loadingAudioPlaybackError,
-              errorMessage: state.error.error,
-              onRetryClicked: () {
-                _audioPlayerCubit.prepareAudio(widget.audioRecordingPath);
-              },
-            ),
-        };
-      },
-    );
-  }
-
-  Widget _buildAudioPlayerControl() {
-    return BlocSelector<AudioPlayerCubit, AudioPlayerScreenState,
-        AudioPlayerState>(
-      selector: (state) => state.state,
-      builder: (context, state) {
-        return switch (state) {
+      builder: (context, audioPlayerState) {
+        Widget audioPlayerControlWidget = switch (audioPlayerState.state) {
           AudioPlayerState.idle => AudioPlayerControl(
               isPlaying: false,
               onPlayClick: () {
@@ -258,6 +235,62 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
               },
             ),
         };
+
+        Widget waveformWidget = switch (audioPlayerState) {
+          AudioPlayerInitialState() => SizedBox(),
+          AudioPlayerLoadingState() => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          AudioPlayerLoadedState() => AudioPlayerBody(
+              waveformWidth: _waveformWidth,
+              playerControllerWidget: audioPlayerControlWidget,
+              waveformData: audioPlayerState.waveform,
+              playerController: audioPlayerState.controller,
+              playerWaveStyle: _playerWaveStyle,
+            ),
+          AudioPlayerScreenError() => AudioPlayerErrorBody(
+              icon: Icons.warning_amber_rounded,
+              errorTitle: context.strings.loadingAudioPlaybackError,
+              errorMessage: audioPlayerState.error.error,
+              onRetryClicked: () {
+                _audioPlayerCubit.prepareAudio(
+                  widget.audioRecordingPath,
+                  playImmediately: true,
+                  extractWaveForm: true,
+                  noOfSamples: _samples,
+                );
+              },
+            ),
+        };
+
+        return SaveAudioRecordingBody(
+          waveformWidget: waveformWidget,
+          titleController: _titleController,
+          titleFormKey: _formKey,
+          onCancelClick: () {
+            context.router.maybePop();
+          },
+          onSaveClick: audioPlayerState is AudioPlayerLoadedState
+              ? () {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+
+                  final durationInt = audioPlayerState.controller.maxDuration;
+                  final waveformData = audioPlayerState.waveform;
+
+                  _saveAudioRecordingCubit.saveAudioRecording(
+                    name: _titleController.text,
+                    tags: [],
+                    duration: Duration(milliseconds: durationInt),
+                    waveformData: waveformData,
+                  );
+                }
+              : null,
+          onMoodSelected: _saveAudioRecordingCubit.moodSelected,
+          onRecordingTagChanged: _saveAudioRecordingCubit.tagChanged,
+        );
       },
     );
   }

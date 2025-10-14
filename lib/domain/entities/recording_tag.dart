@@ -11,10 +11,10 @@ class RecordingTag extends Equatable {
   });
 
   factory RecordingTag.mock1() =>
-      RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Mock 1');
+      RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Dream');
 
   factory RecordingTag.mock2() =>
-      RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Mock 2');
+      RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Work');
 
   factory RecordingTag.mock3() =>
       RecordingTag(id: UuidUtil.getRandomUuid(), label: 'Mock 3');

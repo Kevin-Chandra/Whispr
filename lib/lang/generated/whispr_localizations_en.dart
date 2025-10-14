@@ -136,6 +136,31 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get recordingSavedSuccessfully => 'Recording saved successfully!';
 
   @override
+  String get addNewRecording => 'Add new recording';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteFile => 'Delete File?';
+
+  @override
+  String areYouSureYouWantToDeleteFile(String file_name) {
+    return 'Are you sure you want to delete \"$file_name\"? This action cannot be undone.';
+  }
+
+  @override
+  String get audioRecordingSuccessfullyDeleted =>
+      'Audio recording successfully deleted!';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get journalEmptyPlaceholder =>
+      'Looks like this space is still quiet. When you’re ready, I’m here to listen.';
+
+  @override
   String get showAllTagOptionsHint => 'Type \'#\' to show all options.';
 
   @override
