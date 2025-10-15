@@ -11,6 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:hive_ce/hive.dart' as _i738;
 import 'package:hive_ce_flutter/adapters.dart' as _i170;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:whispr/data/local/audio_player/audio_player_service.dart'
@@ -33,6 +34,7 @@ import 'package:whispr/data/repository/record_audio_repository_impl.dart'
     as _i962;
 import 'package:whispr/data/repository/recording_tag_repository_impl.dart'
     as _i597;
+import 'package:whispr/data/repository/settings_repository_impl.dart' as _i799;
 import 'package:whispr/di/app_module.dart' as _i96;
 import 'package:whispr/domain/repository/audio_player_repository.dart' as _i480;
 import 'package:whispr/domain/repository/audio_recording_repository.dart'
@@ -40,6 +42,7 @@ import 'package:whispr/domain/repository/audio_recording_repository.dart'
 import 'package:whispr/domain/repository/record_audio_repository.dart' as _i241;
 import 'package:whispr/domain/repository/recording_tag_repository.dart'
     as _i878;
+import 'package:whispr/domain/repository/settings_repository.dart' as _i266;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart'
     as _i120;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart'
@@ -88,6 +91,10 @@ import 'package:whispr/domain/use_case/recording_tags/get_all_recording_tags_use
     as _i166;
 import 'package:whispr/domain/use_case/recording_tags/save_recording_tag_use_case.dart'
     as _i898;
+import 'package:whispr/domain/use_case/settings/complete_onboarding_use_case.dart'
+    as _i823;
+import 'package:whispr/domain/use_case/settings/get_has_completed_onboarding_use_case.dart'
+    as _i523;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -142,6 +149,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i558.FlutterSecureStorage>(),
           gh<_i13.FileService>(),
         ));
+    gh.factory<_i266.SettingsRepository>(() => _i799.SettingsRepositoryImpl(
+        gh<_i738.Box<bool>>(instanceName: 'SETTINGS_BOX_KEY')));
     gh.factory<_i310.AudioRecordingLocalIndexableDatabase>(
         () => _i310.AudioRecordingLocalIndexableDatabase(
               gh<_i170.Box<_i708.AudioRecordingModel>>(
@@ -163,6 +172,10 @@ extension GetItInjectableX on _i174.GetIt {
         _i898.SaveRecordingTagUseCase(gh<_i878.RecordingTagRepository>()));
     gh.factory<_i166.GetAllRecordingTagsUseCase>(() =>
         _i166.GetAllRecordingTagsUseCase(gh<_i878.RecordingTagRepository>()));
+    gh.factory<_i523.GetHasCompletedOnboardingUseCase>(() =>
+        _i523.GetHasCompletedOnboardingUseCase(gh<_i266.SettingsRepository>()));
+    gh.factory<_i823.CompleteOnboardingUseCase>(
+        () => _i823.CompleteOnboardingUseCase(gh<_i266.SettingsRepository>()));
     gh.factory<_i653.SendAudioPlayerCommandUseCase>(() =>
         _i653.SendAudioPlayerCommandUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i120.GetAudioPlayerPositionStreamUseCase>(() =>
