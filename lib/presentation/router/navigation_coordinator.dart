@@ -51,4 +51,12 @@ abstract class NavigationCoordinator {
       const HomeRoute(children: [VoiceRecordHomeRoute()]),
     );
   }
+
+  static Future<void> navigateHomeFromOnboarding({
+    required BuildContext context,
+  }) async {
+    await context.router.popAndPush(
+      const HomeRoute(),
+    );
+  }
 }

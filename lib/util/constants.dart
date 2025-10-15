@@ -6,6 +6,7 @@ abstract class Constants {
 
 abstract class ImageConstants {
   static String emptyJournalImage = 'assets/images/img_empty_journal.png';
+  static String onboardingBgImage = 'assets/images/img_onboarding_bg.png';
 }
 
 abstract class WhisprDuration {

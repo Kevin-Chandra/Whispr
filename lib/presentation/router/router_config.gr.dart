@@ -9,30 +9,32 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:flutter/material.dart' as _i9;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:whispr/presentation/screens/favourite/favourite_screen.dart'
     as _i1;
 import 'package:whispr/presentation/screens/home/home_screen.dart' as _i2;
 import 'package:whispr/presentation/screens/journal/journal_screen.dart' as _i3;
-import 'package:whispr/presentation/screens/record_audio/record_audio_screen.dart'
+import 'package:whispr/presentation/screens/onboarding/onboarding_screen.dart'
     as _i4;
-import 'package:whispr/presentation/screens/save_audio_recording/save_audio_recording_screen.dart'
+import 'package:whispr/presentation/screens/record_audio/record_audio_screen.dart'
     as _i5;
-import 'package:whispr/presentation/screens/settings/settings_screen.dart'
+import 'package:whispr/presentation/screens/save_audio_recording/save_audio_recording_screen.dart'
     as _i6;
-import 'package:whispr/presentation/screens/voice_record_home/voice_record_home_screen.dart'
+import 'package:whispr/presentation/screens/settings/settings_screen.dart'
     as _i7;
+import 'package:whispr/presentation/screens/voice_record_home/voice_record_home_screen.dart'
+    as _i8;
 
 /// generated route for
 /// [_i1.FavouriteScreen]
-class FavouriteRoute extends _i8.PageRouteInfo<void> {
-  const FavouriteRoute({List<_i8.PageRouteInfo>? children})
+class FavouriteRoute extends _i9.PageRouteInfo<void> {
+  const FavouriteRoute({List<_i9.PageRouteInfo>? children})
       : super(FavouriteRoute.name, initialChildren: children);
 
   static const String name = 'FavouriteRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       return const _i1.FavouriteScreen();
@@ -42,43 +44,59 @@ class FavouriteRoute extends _i8.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.HomeScreen]
-class HomeRoute extends _i8.PageRouteInfo<void> {
-  const HomeRoute({List<_i8.PageRouteInfo>? children})
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return _i8.WrappedRoute(child: const _i2.HomeScreen());
+      return _i9.WrappedRoute(child: const _i2.HomeScreen());
     },
   );
 }
 
 /// generated route for
 /// [_i3.JournalScreen]
-class JournalRoute extends _i8.PageRouteInfo<void> {
-  const JournalRoute({List<_i8.PageRouteInfo>? children})
+class JournalRoute extends _i9.PageRouteInfo<void> {
+  const JournalRoute({List<_i9.PageRouteInfo>? children})
       : super(JournalRoute.name, initialChildren: children);
 
   static const String name = 'JournalRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return _i8.WrappedRoute(child: const _i3.JournalScreen());
+      return _i9.WrappedRoute(child: const _i3.JournalScreen());
     },
   );
 }
 
 /// generated route for
-/// [_i4.RecordAudioScreen]
-class RecordAudioRoute extends _i8.PageRouteInfo<RecordAudioRouteArgs> {
+/// [_i4.OnboardingScreen]
+class OnboardingRoute extends _i9.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i9.PageRouteInfo>? children})
+      : super(OnboardingRoute.name, initialChildren: children);
+
+  static const String name = 'OnboardingRoute';
+
+  static _i9.PageInfo page = _i9.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.OnboardingScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i5.RecordAudioScreen]
+class RecordAudioRoute extends _i9.PageRouteInfo<RecordAudioRouteArgs> {
   RecordAudioRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     required bool startImmediately,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           RecordAudioRoute.name,
           args: RecordAudioRouteArgs(
@@ -91,7 +109,7 @@ class RecordAudioRoute extends _i8.PageRouteInfo<RecordAudioRouteArgs> {
 
   static const String name = 'RecordAudioRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -100,8 +118,8 @@ class RecordAudioRoute extends _i8.PageRouteInfo<RecordAudioRouteArgs> {
           startImmediately: pathParams.getBool('startImmediately'),
         ),
       );
-      return _i8.WrappedRoute(
-        child: _i4.RecordAudioScreen(
+      return _i9.WrappedRoute(
+        child: _i5.RecordAudioScreen(
           key: args.key,
           startImmediately: args.startImmediately,
         ),
@@ -113,7 +131,7 @@ class RecordAudioRoute extends _i8.PageRouteInfo<RecordAudioRouteArgs> {
 class RecordAudioRouteArgs {
   const RecordAudioRouteArgs({this.key, required this.startImmediately});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final bool startImmediately;
 
@@ -134,13 +152,13 @@ class RecordAudioRouteArgs {
 }
 
 /// generated route for
-/// [_i5.SaveAudioRecordingScreen]
+/// [_i6.SaveAudioRecordingScreen]
 class SaveAudioRecordingRoute
-    extends _i8.PageRouteInfo<SaveAudioRecordingRouteArgs> {
+    extends _i9.PageRouteInfo<SaveAudioRecordingRouteArgs> {
   SaveAudioRecordingRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     required String audioRecordingPath,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           SaveAudioRecordingRoute.name,
           args: SaveAudioRecordingRouteArgs(
@@ -153,7 +171,7 @@ class SaveAudioRecordingRoute
 
   static const String name = 'SaveAudioRecordingRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -162,8 +180,8 @@ class SaveAudioRecordingRoute
           audioRecordingPath: pathParams.getString('audioRecordingPath'),
         ),
       );
-      return _i8.WrappedRoute(
-        child: _i5.SaveAudioRecordingScreen(
+      return _i9.WrappedRoute(
+        child: _i6.SaveAudioRecordingScreen(
           key: args.key,
           audioRecordingPath: args.audioRecordingPath,
         ),
@@ -178,7 +196,7 @@ class SaveAudioRecordingRouteArgs {
     required this.audioRecordingPath,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final String audioRecordingPath;
 
@@ -199,33 +217,33 @@ class SaveAudioRecordingRouteArgs {
 }
 
 /// generated route for
-/// [_i6.SettingsScreen]
-class SettingsRoute extends _i8.PageRouteInfo<void> {
-  const SettingsRoute({List<_i8.PageRouteInfo>? children})
+/// [_i7.SettingsScreen]
+class SettingsRoute extends _i9.PageRouteInfo<void> {
+  const SettingsRoute({List<_i9.PageRouteInfo>? children})
       : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i6.SettingsScreen();
+      return const _i7.SettingsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i7.VoiceRecordHomeScreen]
-class VoiceRecordHomeRoute extends _i8.PageRouteInfo<void> {
-  const VoiceRecordHomeRoute({List<_i8.PageRouteInfo>? children})
+/// [_i8.VoiceRecordHomeScreen]
+class VoiceRecordHomeRoute extends _i9.PageRouteInfo<void> {
+  const VoiceRecordHomeRoute({List<_i9.PageRouteInfo>? children})
       : super(VoiceRecordHomeRoute.name, initialChildren: children);
 
   static const String name = 'VoiceRecordHomeRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i7.VoiceRecordHomeScreen();
+      return const _i8.VoiceRecordHomeScreen();
     },
   );
 }

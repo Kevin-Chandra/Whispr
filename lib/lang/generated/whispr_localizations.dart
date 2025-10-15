@@ -400,6 +400,30 @@ abstract class WhisprLocalizations {
   /// **'Create new tag'**
   String get createNewTag;
 
+  /// No description provided for @whispr.
+  ///
+  /// In en, this message translates to:
+  /// **'Whispr'**
+  String get whispr;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Voice, Your Story.'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.'**
+  String get onboardingMessage;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started.'**
+  String get getStarted;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:

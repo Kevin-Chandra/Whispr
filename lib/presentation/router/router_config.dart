@@ -10,8 +10,12 @@ class WhisprRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
+          initial: true,
+          page: OnboardingRoute.page,
+          path: WhisprNavigationPaths.onboardingPath,
+        ),
+        CustomRoute(
             page: HomeRoute.page,
-            initial: true,
             path: WhisprNavigationPaths.homePath,
             children: [
               RedirectRoute(
