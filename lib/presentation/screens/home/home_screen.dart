@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_bottom_navigation_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
+import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
@@ -41,6 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _journalCubit = context.read<JournalCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(
+        Duration(
+            milliseconds:
+                WhisprDuration.onboardingNavigationTransitionDuration),
+        () => FlutterNativeSplash.remove(),
+      );
+    });
   }
 
   @override

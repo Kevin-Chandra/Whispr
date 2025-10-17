@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/lang/generated/whispr_localizations.dart';
 import 'package:whispr/presentation/router/router_config.dart';
 import 'package:whispr/presentation/themes/themes.dart';
@@ -8,7 +9,8 @@ import 'data/local/hive/hive_db.dart';
 import 'di/di_config.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await configureDependencies();
   await di.get<HiveLocalStorage>().init();
 

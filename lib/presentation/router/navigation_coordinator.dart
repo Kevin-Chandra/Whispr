@@ -55,7 +55,7 @@ abstract class NavigationCoordinator {
   static Future<void> navigateHomeFromOnboarding({
     required BuildContext context,
   }) async {
-    await context.router.popAndPush(
+    await context.router.replace(
       const HomeRoute(),
     );
   }

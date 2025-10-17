@@ -85,7 +85,7 @@ class OnboardingRoute extends _i9.PageRouteInfo<void> {
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i4.OnboardingScreen();
+      return _i9.WrappedRoute(child: const _i4.OnboardingScreen());
     },
   );
 }

@@ -8,7 +8,7 @@ import 'package:whispr/util/extensions.dart';
 part 'onboarding_state.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
-  OnboardingCubit() : super(OnboardingInitialState()) {
+  OnboardingCubit() : super(OnboardingLoadingState()) {
     checkHasCompletedOnboarding();
   }
 

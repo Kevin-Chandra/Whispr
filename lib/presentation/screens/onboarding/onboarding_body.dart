@@ -13,7 +13,7 @@ class OnboardingBody extends StatelessWidget {
     required this.onGetStartedClick,
   });
 
-  final VoidCallback onGetStartedClick;
+  final VoidCallback? onGetStartedClick;
 
   @override
   Widget build(BuildContext context) {
