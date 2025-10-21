@@ -6,9 +6,11 @@ abstract class Constants {
 
 abstract class ImageConstants {
   static String emptyJournalImage = 'assets/images/img_empty_journal.png';
+  static String onboardingBgImage = 'assets/images/img_onboarding_bg.png';
 }
 
 abstract class WhisprDuration {
+  static const int onboardingNavigationTransitionDuration = 700;
   static const int navigationTransitionDuration = 400;
   static const int stateFadeTransitionMillis = 400;
   static const int animatedContainerMillis = 250;

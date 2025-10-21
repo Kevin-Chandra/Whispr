@@ -7,4 +7,8 @@ abstract class WhisprHiveDbKeys {
   static const audioRecordingIsFavouriteIndexBoxKey =
       'AUDIO_RECORDING_IS_FAVOURITE_INDEX_BOX_KEY';
   static const recordingTagBoxKey = 'RECORDING_TAG_BOX_KEY';
+  static const settingsBoxKey = 'SETTINGS_BOX_KEY';
+
+  // Settings.
+  static const hasCompletedOnboarding = 'HAS_COMPLETED_ONBOARDING';
 }

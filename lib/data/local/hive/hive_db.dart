@@ -75,6 +75,10 @@ class HiveLocalStorage {
       WhisprHiveDbKeys.recordingTagBoxKey,
       key,
     );
+    await _openAndRegisterBox<bool>(
+      WhisprHiveDbKeys.settingsBoxKey,
+      key,
+    );
   }
 
   /// Method to remove all boxes registered in hive database.
@@ -85,6 +89,7 @@ class HiveLocalStorage {
     await Hive.deleteBoxFromDisk(
         WhisprHiveDbKeys.audioRecordingIsFavouriteIndexBoxKey);
     await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.recordingTagBoxKey);
+    await Hive.deleteBoxFromDisk(WhisprHiveDbKeys.settingsBoxKey);
   }
 
   Future<void> _openAndRegisterBox<T>(

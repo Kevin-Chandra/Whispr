@@ -167,6 +167,19 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get createNewTag => 'Create new tag';
 
   @override
+  String get whispr => 'Whispr';
+
+  @override
+  String get onboardingTitle => 'Your Voice, Your Story.';
+
+  @override
+  String get onboardingMessage =>
+      'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.';
+
+  @override
+  String get getStarted => 'Get Started.';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 
