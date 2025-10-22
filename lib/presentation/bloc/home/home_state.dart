@@ -9,4 +9,4 @@ sealed class HomeState extends Equatable {
 
 final class IdleState extends HomeState {}
 
-final class OnAudioRecordingSaved extends HomeState {}
+final class RefreshAudioRecordings extends HomeState {}

@@ -67,6 +67,8 @@ import 'package:whispr/domain/use_case/audio_recordings/get_audio_recording_by_i
     as _i825;
 import 'package:whispr/domain/use_case/audio_recordings/get_audio_recordings_by_date_use_case.dart'
     as _i648;
+import 'package:whispr/domain/use_case/audio_recordings/get_favourite_audio_recordings_use_case.dart'
+    as _i209;
 import 'package:whispr/domain/use_case/audio_recordings/save_audio_recording_use_case.dart'
     as _i319;
 import 'package:whispr/domain/use_case/audio_recordings/update_audio_recording_use_case.dart'
@@ -195,6 +197,9 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i319.SaveAudioRecordingUseCase>(() =>
         _i319.SaveAudioRecordingUseCase(gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i209.GetFavouriteAudioRecordingsUseCase>(() =>
+        _i209.GetFavouriteAudioRecordingsUseCase(
+            gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i648.GetAudioRecordingsByDateUseCase>(() =>
         _i648.GetAudioRecordingsByDateUseCase(
             gh<_i383.AudioRecordingRepository>()));
