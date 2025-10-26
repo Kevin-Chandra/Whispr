@@ -400,29 +400,35 @@ abstract class WhisprLocalizations {
   /// **'Create new tag'**
   String get createNewTag;
 
-  /// No description provided for @whispr.
+  /// No description provided for @error.
   ///
   /// In en, this message translates to:
-  /// **'Whispr'**
-  String get whispr;
+  /// **'Error!'**
+  String get error;
 
-  /// No description provided for @onboardingTitle.
+  /// No description provided for @lockScreenNotSetUpMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your Voice, Your Story.'**
-  String get onboardingTitle;
+  /// **'Please set up a device lock screen before continuing'**
+  String get lockScreenNotSetUpMessage;
 
-  /// No description provided for @onboardingMessage.
+  /// No description provided for @biometricHardwareNotAvailableMessage.
   ///
   /// In en, this message translates to:
-  /// **'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.'**
-  String get onboardingMessage;
+  /// **'Looks like your device doesn’t support biometric authentication'**
+  String get biometricHardwareNotAvailableMessage;
 
-  /// No description provided for @getStarted.
+  /// No description provided for @temporaryLockoutMessage.
   ///
   /// In en, this message translates to:
-  /// **'Get Started.'**
-  String get getStarted;
+  /// **'Too many attempts! Take a short break and try again in a bit'**
+  String get temporaryLockoutMessage;
+
+  /// No description provided for @unknownErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error happened.'**
+  String get unknownErrorMessage;
 
   /// No description provided for @addFavourites.
   ///

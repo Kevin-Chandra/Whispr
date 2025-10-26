@@ -167,17 +167,22 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get createNewTag => 'Create new tag';
 
   @override
-  String get whispr => 'Whispr';
+  String get error => 'Error!';
 
   @override
-  String get onboardingTitle => 'Your Voice, Your Story.';
+  String get lockScreenNotSetUpMessage =>
+      'Please set up a device lock screen before continuing';
 
   @override
-  String get onboardingMessage =>
-      'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.';
+  String get biometricHardwareNotAvailableMessage =>
+      'Looks like your device doesn’t support biometric authentication';
 
   @override
-  String get getStarted => 'Get Started.';
+  String get temporaryLockoutMessage =>
+      'Too many attempts! Take a short break and try again in a bit';
+
+  @override
+  String get unknownErrorMessage => 'An unexpected error happened.';
 
   @override
   String get addFavourites => 'Add Favourites';
