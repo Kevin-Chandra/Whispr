@@ -59,6 +59,10 @@ class HiveLocalStorage {
   /// Method to open all encrypted HIVE boxes using encryption key [key]
   /// and register it in dependency injection.
   Future<void> _openHiveDbBox(Uint8List key) async {
+    await _openAndRegisterBox<String>(
+      WhisprHiveDbKeys.settingsBoxKey,
+      key,
+    );
     await _openAndRegisterBox<AudioRecordingModel>(
       WhisprHiveDbKeys.audioRecordingBoxKey,
       key,
@@ -73,10 +77,6 @@ class HiveLocalStorage {
     );
     await _openAndRegisterBox<RecordingTagModel>(
       WhisprHiveDbKeys.recordingTagBoxKey,
-      key,
-    );
-    await _openAndRegisterBox<bool>(
-      WhisprHiveDbKeys.settingsBoxKey,
       key,
     );
   }
