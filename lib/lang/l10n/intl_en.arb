@@ -67,6 +67,19 @@
   "biometricHardwareNotAvailableMessage": "Looks like your device doesn’t support biometric authentication",
   "temporaryLockoutMessage": "Too many attempts! Take a short break and try again in a bit",
   "unknownErrorMessage": "An unexpected error happened.",
+  "privacyAndSecurity": "Privacy & Security",
+  "appLock": "App Lock",
+  "appVersion": "App version: {version} ({build_number})",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build_number": {
+        "type": "String"
+      }
+    }
+  },
   "addFavourites": "Add Favourites",
   "noFavouritesYet": "No favourites yet!",
   "noFavouritesMessage": "Mark the moments that matter — tap the heart button ❤ to save them here.",

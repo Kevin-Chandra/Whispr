@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart' hide AppLockState;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/data/local/local_auth/local_authentication_exception.dart';
 import 'package:whispr/presentation/bloc/app_lock/app_lock_cubit.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
@@ -14,10 +15,20 @@ class AppLockedScreen extends StatefulWidget {
 }
 
 class _AppLockedScreenState extends State<AppLockedScreen> {
+  late final AppLockCubit _appLockCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+    _appLockCubit = AppLockCubit();
+    _appLockCubit.authenticate();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppLockCubit>(
-      create: (BuildContext context) => AppLockCubit(),
+      create: (BuildContext context) => _appLockCubit,
       child: BlocConsumer<AppLockCubit, AppLockState>(
         listener: (context, state) {
           if (state is AuthenticatedState) {
@@ -45,14 +56,14 @@ class _AppLockedScreenState extends State<AppLockedScreen> {
                 isError: true,
               ).show(context);
 
-              context.read<AppLockCubit>().resetState();
+              _appLockCubit.resetState();
               return;
             } else {
               WhisprSnackBar(
                       title: context.strings.unknownErrorMessage, isError: true)
                   .show(context);
 
-              context.read<AppLockCubit>().resetState();
+              _appLockCubit.resetState();
               return;
             }
           }
@@ -63,7 +74,7 @@ class _AppLockedScreenState extends State<AppLockedScreen> {
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
-                  context.read<AppLockCubit>().authenticate();
+                  _appLockCubit.authenticate();
                 },
                 child: Text("Locked"),
               ),

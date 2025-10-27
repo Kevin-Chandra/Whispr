@@ -400,6 +400,30 @@ abstract class WhisprLocalizations {
   /// **'Create new tag'**
   String get createNewTag;
 
+  /// No description provided for @whispr.
+  ///
+  /// In en, this message translates to:
+  /// **'Whispr'**
+  String get whispr;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Voice, Your Story.'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.'**
+  String get onboardingMessage;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started.'**
+  String get getStarted;
+
   /// No description provided for @error.
   ///
   /// In en, this message translates to:
@@ -430,23 +454,23 @@ abstract class WhisprLocalizations {
   /// **'An unexpected error happened.'**
   String get unknownErrorMessage;
 
-  /// No description provided for @addFavourites.
+  /// No description provided for @privacyAndSecurity.
   ///
   /// In en, this message translates to:
-  /// **'Add Favourites'**
-  String get addFavourites;
+  /// **'Privacy & Security'**
+  String get privacyAndSecurity;
 
-  /// No description provided for @noFavouritesYet.
+  /// No description provided for @appLock.
   ///
   /// In en, this message translates to:
-  /// **'No favourites yet!'**
-  String get noFavouritesYet;
+  /// **'App Lock'**
+  String get appLock;
 
-  /// No description provided for @noFavouritesMessage.
+  /// No description provided for @appVersion.
   ///
   /// In en, this message translates to:
-  /// **'Mark the moments that matter — tap the heart button ❤ to save them here.'**
-  String get noFavouritesMessage;
+  /// **'App version: {version} ({build_number})'**
+  String appVersion(String version, String build_number);
 
   /// No description provided for @microphonePermissionDeniedTitle.
   ///

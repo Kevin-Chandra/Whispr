@@ -13,6 +13,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:hive_ce_flutter/adapters.dart' as _i170;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:package_info_plus/package_info_plus.dart' as _i655;
 import 'package:whispr/data/local/audio_player/audio_player_service.dart'
     as _i392;
 import 'package:whispr/data/local/audio_player/audio_player_waveform_service.dart'
@@ -36,6 +37,7 @@ import 'package:whispr/data/repository/record_audio_repository_impl.dart'
     as _i962;
 import 'package:whispr/data/repository/recording_tag_repository_impl.dart'
     as _i597;
+import 'package:whispr/data/repository/settings_repository_impl.dart' as _i799;
 import 'package:whispr/di/app_module.dart' as _i96;
 import 'package:whispr/domain/repository/audio_player_repository.dart' as _i480;
 import 'package:whispr/domain/repository/audio_recording_repository.dart'
@@ -45,6 +47,7 @@ import 'package:whispr/domain/repository/local_authentication_repository.dart'
 import 'package:whispr/domain/repository/record_audio_repository.dart' as _i241;
 import 'package:whispr/domain/repository/recording_tag_repository.dart'
     as _i878;
+import 'package:whispr/domain/repository/settings_repository.dart' as _i266;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart'
     as _i120;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart'
@@ -101,6 +104,16 @@ import 'package:whispr/domain/use_case/recording_tags/get_all_recording_tags_use
     as _i166;
 import 'package:whispr/domain/use_case/recording_tags/save_recording_tag_use_case.dart'
     as _i898;
+import 'package:whispr/domain/use_case/settings/complete_onboarding_use_case.dart'
+    as _i823;
+import 'package:whispr/domain/use_case/settings/get_has_completed_onboarding_use_case.dart'
+    as _i523;
+import 'package:whispr/domain/use_case/settings/get_is_app_lock_enabled_use_case.dart'
+    as _i1022;
+import 'package:whispr/domain/use_case/settings/get_settings_value_use_case.dart'
+    as _i1049;
+import 'package:whispr/domain/use_case/settings/set_app_lock_use_case.dart'
+    as _i405;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -118,6 +131,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.secureStorage,
       preResolve: true,
     );
+    await gh.factoryAsync<_i655.PackageInfo>(
+      () => appModule.packageInfo,
+      preResolve: true,
+    );
     gh.factory<_i737.LocalAuth>(() => _i737.LocalAuth());
     gh.factory<_i13.FileService>(() => _i13.FileService());
     gh.factory<_i900.OpenLockScreenSettingsUseCase>(
@@ -132,6 +149,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i954.AudioPlayerWaveformService(gh<_i13.FileService>()));
     gh.singleton<_i392.AudioPlayerService>(
         () => _i392.AudioPlayerService(gh<_i13.FileService>()));
+    gh.factory<_i266.SettingsRepository>(() => _i799.SettingsRepositoryImpl(
+        gh<_i170.Box<String>>(instanceName: 'SETTINGS_BOX_KEY')));
+    gh.factory<_i1049.GetSettingsValueUseCase>(
+        () => _i1049.GetSettingsValueUseCase(gh<_i266.SettingsRepository>()));
+    gh.factory<_i523.GetHasCompletedOnboardingUseCase>(() =>
+        _i523.GetHasCompletedOnboardingUseCase(gh<_i266.SettingsRepository>()));
+    gh.factory<_i823.CompleteOnboardingUseCase>(
+        () => _i823.CompleteOnboardingUseCase(gh<_i266.SettingsRepository>()));
+    gh.factory<_i1022.GetIsAppLockEnabledUseCase>(() =>
+        _i1022.GetIsAppLockEnabledUseCase(gh<_i266.SettingsRepository>()));
     gh.factory<_i878.RecordingTagRepository>(() =>
         _i597.RecordingTagRepositoryImpl(gh<_i170.Box<_i337.RecordingTagModel>>(
             instanceName: 'RECORDING_TAG_BOX_KEY')));
@@ -223,6 +250,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i612.CheckDeviceSupportLocalAuthUseCase>(() =>
         _i612.CheckDeviceSupportLocalAuthUseCase(
             gh<_i221.LocalAuthenticationRepository>()));
+    gh.factory<_i405.SetAppLockUseCase>(() => _i405.SetAppLockUseCase(
+          gh<_i266.SettingsRepository>(),
+          gh<_i720.AuthenticateLocalAuthUseCase>(),
+        ));
     gh.factory<_i165.AddOrRemoveAudioRecordingFavouriteUseCase>(
         () => _i165.AddOrRemoveAudioRecordingFavouriteUseCase(
               gh<_i185.UpdateAudioRecordingUseCase>(),

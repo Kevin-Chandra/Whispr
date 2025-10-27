@@ -167,6 +167,19 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get createNewTag => 'Create new tag';
 
   @override
+  String get whispr => 'Whispr';
+
+  @override
+  String get onboardingTitle => 'Your Voice, Your Story.';
+
+  @override
+  String get onboardingMessage =>
+      'Capture and share your thoughts effortlessly. Whispr helps you record, save, and revisit what matters most.';
+
+  @override
+  String get getStarted => 'Get Started.';
+
+  @override
   String get error => 'Error!';
 
   @override
@@ -185,14 +198,15 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get unknownErrorMessage => 'An unexpected error happened.';
 
   @override
-  String get addFavourites => 'Add Favourites';
+  String get privacyAndSecurity => 'Privacy & Security';
 
   @override
-  String get noFavouritesYet => 'No favourites yet!';
+  String get appLock => 'App Lock';
 
   @override
-  String get noFavouritesMessage =>
-      'Mark the moments that matter — tap the heart button ❤ to save them here.';
+  String appVersion(String version, String build_number) {
+    return 'App version: $version ($build_number)';
+  }
 
   @override
   String get microphonePermissionDeniedTitle =>

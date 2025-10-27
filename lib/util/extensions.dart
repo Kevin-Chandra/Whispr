@@ -23,6 +23,14 @@ extension NullableStringExtension on String? {
   bool get isNullOrEmpty => this == null || this!.isEmpty;
 
   bool get isNotNullOrEmpty => !isNullOrEmpty;
+
+  bool safeParseBool({required bool defaultValue}) {
+    try {
+      return bool.parse(this!, caseSensitive: false);
+    } catch (e) {
+      return defaultValue;
+    }
+  }
 }
 
 extension StringExtension on String {
