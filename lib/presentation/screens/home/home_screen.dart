@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
 import 'package:whispr/presentation/bloc/favourite/favourite_cubit.dart';
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _journalCubit = context.read<JournalCubit>();
     _favouriteCubit = context.read<FavouriteCubit>();
+    FlutterNativeSplash.remove();
   }
 
   @override

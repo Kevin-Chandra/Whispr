@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
+import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
 import 'package:whispr/presentation/router/navigation_coordinator.dart';
 import 'package:whispr/presentation/screens/journal/journal_body.dart';
@@ -23,10 +24,8 @@ class JournalScreen extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
-      ],
+    return BlocProvider<AudioPlayerCubit>(
+      create: (context) => AudioPlayerCubit(),
       child: this,
     );
   }
@@ -72,11 +71,13 @@ class _JournalList extends StatefulWidget {
 
 class _JournalListState extends State<_JournalList> {
   late final JournalCubit _journalCubit;
+  late final HomeCubit _homeCubit;
 
   @override
   void initState() {
     super.initState();
     _journalCubit = context.read<JournalCubit>();
+    _homeCubit = context.read<HomeCubit>();
   }
 
   @override
@@ -97,6 +98,12 @@ class _JournalListState extends State<_JournalList> {
             title: context.strings.audioRecordingSuccessfullyDeleted,
           ).show(context);
           _journalCubit.refresh();
+          return;
+        }
+
+        if (state is JournalAddToFavouriteSuccessState) {
+          _journalCubit.refresh();
+          _homeCubit.refreshAudioRecordings();
           return;
         }
       },
