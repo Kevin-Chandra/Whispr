@@ -16,6 +16,7 @@ class LocalAuth {
 
   Future<Either<bool, ServiceFailureModel>> authenticate() async {
     try {
+      await auth.stopAuthentication();
       final response = await auth.authenticate(
         localizedReason:
             'Let’s keep your recordings private — go ahead and verify with your fingerprint or face.',

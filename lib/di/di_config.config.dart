@@ -155,10 +155,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1049.GetSettingsValueUseCase(gh<_i266.SettingsRepository>()));
     gh.factory<_i523.GetHasCompletedOnboardingUseCase>(() =>
         _i523.GetHasCompletedOnboardingUseCase(gh<_i266.SettingsRepository>()));
-    gh.factory<_i823.CompleteOnboardingUseCase>(
-        () => _i823.CompleteOnboardingUseCase(gh<_i266.SettingsRepository>()));
     gh.factory<_i1022.GetIsAppLockEnabledUseCase>(() =>
         _i1022.GetIsAppLockEnabledUseCase(gh<_i266.SettingsRepository>()));
+    gh.factory<_i823.CompleteOnboardingUseCase>(
+        () => _i823.CompleteOnboardingUseCase(gh<_i266.SettingsRepository>()));
     gh.factory<_i878.RecordingTagRepository>(() =>
         _i597.RecordingTagRepositoryImpl(gh<_i170.Box<_i337.RecordingTagModel>>(
             instanceName: 'RECORDING_TAG_BOX_KEY')));
