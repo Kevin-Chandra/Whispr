@@ -180,6 +180,35 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get getStarted => 'Get Started.';
 
   @override
+  String get error => 'Error!';
+
+  @override
+  String get lockScreenNotSetUpMessage =>
+      'Please set up a device lock screen before continuing';
+
+  @override
+  String get biometricHardwareNotAvailableMessage =>
+      'Looks like your device doesn’t support biometric authentication';
+
+  @override
+  String get temporaryLockoutMessage =>
+      'Too many attempts! Take a short break and try again in a bit';
+
+  @override
+  String get unknownErrorMessage => 'An unexpected error happened.';
+
+  @override
+  String get privacyAndSecurity => 'Privacy & Security';
+
+  @override
+  String get appLock => 'App Lock';
+
+  @override
+  String appVersion(String version, String build_number) {
+    return 'App version: $version ($build_number)';
+  }
+
+  @override
   String get addFavourites => 'Add Favourites';
 
   @override

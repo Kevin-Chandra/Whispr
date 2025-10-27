@@ -424,6 +424,54 @@ abstract class WhisprLocalizations {
   /// **'Get Started.'**
   String get getStarted;
 
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error!'**
+  String get error;
+
+  /// No description provided for @lockScreenNotSetUpMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please set up a device lock screen before continuing'**
+  String get lockScreenNotSetUpMessage;
+
+  /// No description provided for @biometricHardwareNotAvailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like your device doesn’t support biometric authentication'**
+  String get biometricHardwareNotAvailableMessage;
+
+  /// No description provided for @temporaryLockoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts! Take a short break and try again in a bit'**
+  String get temporaryLockoutMessage;
+
+  /// No description provided for @unknownErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error happened.'**
+  String get unknownErrorMessage;
+
+  /// No description provided for @privacyAndSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Security'**
+  String get privacyAndSecurity;
+
+  /// No description provided for @appLock.
+  ///
+  /// In en, this message translates to:
+  /// **'App Lock'**
+  String get appLock;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App version: {version} ({build_number})'**
+  String appVersion(String version, String build_number);
+
   /// No description provided for @addFavourites.
   ///
   /// In en, this message translates to:

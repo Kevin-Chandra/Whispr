@@ -59,6 +59,10 @@ dependencies:
   scrollview_observer: 1.26.2
   sliver_tools: 0.2.12
   flutter_native_splash: 2.4.7
+  flutter_app_lock: 4.3.0
+  local_auth: 3.0.0
+  open_settings_plus: 0.4.0
+  package_info_plus: 9.0.0
 
 dev_dependencies:
   flutter_test:

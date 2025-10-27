@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:whispr/domain/use_case/settings/get_has_completed_onboarding_use_case.dart';
 import 'package:whispr/lang/generated/whispr_localizations.dart';
 import 'package:whispr/presentation/router/router_config.dart';
+import 'package:whispr/presentation/screens/app_lock/app_locked_screen.dart';
 import 'package:whispr/presentation/themes/themes.dart';
 
 import 'data/local/hive/hive_db.dart';
 import 'di/di_config.dart';
+import 'domain/use_case/settings/get_is_app_lock_enabled_use_case.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -14,16 +18,26 @@ void main() async {
   await configureDependencies();
   await di.get<HiveLocalStorage>().init();
 
-  final appRouter = WhisprRouter();
+  final shouldLockApp = await di.get<GetIsAppLockEnabledUseCase>().call();
+  final hasCompletedOnboarding =
+      await di.get<GetHasCompletedOnboardingUseCase>().call();
+
+  final appRouter = WhisprRouter(shouldShowOnboarding: !hasCompletedOnboarding);
   runApp(MyApp(
     appRouter: appRouter,
+    shouldLockApp: shouldLockApp,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.appRouter});
+  const MyApp({
+    super.key,
+    required this.appRouter,
+    required this.shouldLockApp,
+  });
 
   final WhisprRouter appRouter;
+  final bool shouldLockApp;
 
   // This widget is the root of your application.
   @override
@@ -52,12 +66,18 @@ class MyApp extends StatelessWidget {
 
         // For now we do not allow any scaling.
 
-        return MediaQuery(
-          data: mediaQueryData.copyWith(
-            textScaler: scale,
-            alwaysUse24HourFormat: true,
+        return AppLock(
+          initiallyEnabled: shouldLockApp,
+          initialBackgroundLockLatency: Duration.zero,
+          inactiveBehavior: InactiveBehavior.showWhenEnabled,
+          lockScreenBuilder: (context) => AppLockedScreen(),
+          builder: (context, arg) => MediaQuery(
+            data: mediaQueryData.copyWith(
+              textScaler: scale,
+              alwaysUse24HourFormat: true,
+            ),
+            child: widget ?? const SizedBox(),
           ),
-          child: widget ?? const SizedBox(),
         );
       },
     );

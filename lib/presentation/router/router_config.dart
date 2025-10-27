@@ -6,13 +6,17 @@ import 'package:whispr/util/navigation_transitions.dart';
 
 @AutoRouterConfig()
 class WhisprRouter extends RootStackRouter {
+  WhisprRouter({required this.shouldShowOnboarding}) : super();
+
+  final bool shouldShowOnboarding;
+
   @override
   RouteType get defaultRouteType => const RouteType.material();
 
   @override
   List<AutoRoute> get routes => [
         CustomRoute(
-          initial: true,
+          initial: shouldShowOnboarding,
           page: OnboardingRoute.page,
           path: WhisprNavigationPaths.onboardingPath,
           transitionsBuilder: NavigationTransitions.slideUpWithExit,
@@ -21,6 +25,7 @@ class WhisprRouter extends RootStackRouter {
           ),
         ),
         CustomRoute(
+          initial: !shouldShowOnboarding,
           page: HomeRoute.page,
           path: WhisprNavigationPaths.homePath,
           children: [
