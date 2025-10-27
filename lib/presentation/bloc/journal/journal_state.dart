@@ -11,6 +11,8 @@ final class JournalLoadingState extends JournalState {}
 
 final class JournalDeleteSuccessState extends JournalState {}
 
+final class JournalAddToFavouriteSuccessState extends JournalState {}
+
 final class JournalLoadedState extends JournalState {
   const JournalLoadedState(this.audioRecordings);
 

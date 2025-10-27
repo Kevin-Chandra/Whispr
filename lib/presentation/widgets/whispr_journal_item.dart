@@ -17,11 +17,18 @@ class WhisprJournalItem extends StatelessWidget {
     required this.expandedWidget,
     required this.onPressed,
     required this.isPlayingAudio,
+    this.useDotAndLine = true,
+    this.cardPadding = EdgeInsets.zero,
   });
 
   final bool isSelected;
   final bool isLastItem;
   final bool isPlayingAudio;
+
+  /// This will show dot and line, if this is `false`, then
+  /// it will show full line instead.
+  final bool useDotAndLine;
+  final EdgeInsets cardPadding;
   final VoidCallback onFavouritePressed;
   final VoidCallback onPressed;
   final AudioRecording audioRecording;
@@ -38,38 +45,49 @@ class WhisprJournalItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _DotAndLine(
-              isSelected: isSelected,
-              shouldDrawLine: !isLastItem,
-            ),
+            useDotAndLine
+                ? _DotAndLine(
+                    isSelected: isSelected,
+                    shouldDrawLine: !isLastItem,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                    child: Container(
+                      color: WhisprColors.vistaBlue.withValues(alpha: 0.5),
+                      width: 2,
+                    ),
+                  ),
             Expanded(
               flex: 1,
-              child: DecoratedBox(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: WhisprColors.lavenderWeb,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  )
-                ], borderRadius: BorderRadius.circular(15)),
-                child: Card.filled(
-                  elevation: 0,
-                  color: isSelected ? Colors.white : WhisprColors.ghostWhite,
-                  surfaceTintColor: Colors.transparent,
-                  margin: EdgeInsets.zero,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    highlightColor:
-                        WhisprColors.lavenderBlue.withValues(alpha: 0.2),
-                    splashColor:
-                        WhisprColors.lavenderBlue.withValues(alpha: 0.1),
-                    onTap: onPressed,
-                    child: _JournalItemCardContent(
-                      isSelected: isSelected,
-                      isPlayingAudio: isPlayingAudio,
-                      audioRecording: audioRecording,
-                      onFavouritePressed: onFavouritePressed,
-                      expandedWidget: expandedWidget,
+              child: Padding(
+                padding: cardPadding,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: WhisprColors.lavenderWeb,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    )
+                  ], borderRadius: BorderRadius.circular(15)),
+                  child: Card.filled(
+                    elevation: 0,
+                    color: isSelected ? Colors.white : WhisprColors.ghostWhite,
+                    surfaceTintColor: Colors.transparent,
+                    margin: EdgeInsets.zero,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      highlightColor:
+                          WhisprColors.lavenderBlue.withValues(alpha: 0.2),
+                      splashColor:
+                          WhisprColors.lavenderBlue.withValues(alpha: 0.1),
+                      onTap: onPressed,
+                      child: _JournalItemCardContent(
+                        isSelected: isSelected,
+                        isPlayingAudio: isPlayingAudio,
+                        audioRecording: audioRecording,
+                        onFavouritePressed: onFavouritePressed,
+                        expandedWidget: expandedWidget,
+                      ),
                     ),
                   ),
                 ),

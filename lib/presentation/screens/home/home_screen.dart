@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
+import 'package:whispr/presentation/bloc/favourite/favourite_cubit.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
 import 'package:whispr/presentation/router/router_config.gr.dart';
@@ -11,7 +12,6 @@ import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_bottom_navigation_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
-import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
@@ -27,6 +27,7 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
       providers: [
         BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
         BlocProvider<JournalCubit>(create: (context) => JournalCubit()),
+        BlocProvider<FavouriteCubit>(create: (context) => FavouriteCubit()),
         BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
         BlocProvider<AudioRecordingsCubit>(
             create: (context) => AudioRecordingsCubit()),
@@ -37,28 +38,24 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late JournalCubit _journalCubit;
+  late final JournalCubit _journalCubit;
+  late final FavouriteCubit _favouriteCubit;
 
   @override
   void initState() {
     super.initState();
     _journalCubit = context.read<JournalCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(
-        Duration(
-            milliseconds:
-                WhisprDuration.onboardingNavigationTransitionDuration),
-        () => FlutterNativeSplash.remove(),
-      );
-    });
+    _favouriteCubit = context.read<FavouriteCubit>();
+    FlutterNativeSplash.remove();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
       listener: (ctx, state) {
-        if (state is OnAudioRecordingSaved) {
+        if (state is RefreshAudioRecordings) {
           _journalCubit.refresh();
+          _favouriteCubit.refresh();
           return;
         }
       },
@@ -82,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: WhisprAppBar(
               title: _resolveAppBarTitle(index: activeIndex),
               enableBackButton: false,
-              isDarkBackground: activeIndex == 0 || activeIndex == 1,
+              isDarkBackground: activeIndex == 0,
             ),
           );
         },
@@ -91,12 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Gradient _resolveScaffoldGradient({required int index}) {
-    switch (index) {
-      case 0:
-      case 1:
-        return WhisprGradient.purpleGradient;
-      default:
-        return WhisprGradient.whiteBlueWhiteGradient;
+    if (index == 0) {
+      return WhisprGradient.purpleGradient;
+    } else {
+      return WhisprGradient.whiteBlueWhiteGradient;
     }
   }
 

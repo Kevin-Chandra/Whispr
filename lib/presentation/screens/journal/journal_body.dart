@@ -102,7 +102,7 @@ class _JournalListState extends State<_JournalList> {
                   widget.onFavouritePressed(currentAudioRecording);
                 },
                 isLastItem: index == widget.audioRecordings.length - 1,
-                expandedWidget: _JournalItemExpandedContent(
+                expandedWidget: RecordingCardExpandedContent(
                   state: state,
                   audioRecording: currentAudioRecording,
                   onEditPressed: () {
@@ -155,8 +155,8 @@ class _JournalListState extends State<_JournalList> {
   }
 }
 
-class _JournalItemExpandedContent extends StatelessWidget {
-  const _JournalItemExpandedContent({
+class RecordingCardExpandedContent extends StatelessWidget {
+  const RecordingCardExpandedContent({
     super.key,
     required this.state,
     required this.audioRecording,

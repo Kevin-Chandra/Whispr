@@ -424,6 +424,24 @@ abstract class WhisprLocalizations {
   /// **'Get Started.'**
   String get getStarted;
 
+  /// No description provided for @addFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Favourites'**
+  String get addFavourites;
+
+  /// No description provided for @noFavouritesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No favourites yet!'**
+  String get noFavouritesYet;
+
+  /// No description provided for @noFavouritesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the moments that matter — tap the heart button ❤ to save them here.'**
+  String get noFavouritesMessage;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:

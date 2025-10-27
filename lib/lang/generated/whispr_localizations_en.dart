@@ -180,6 +180,16 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get getStarted => 'Get Started.';
 
   @override
+  String get addFavourites => 'Add Favourites';
+
+  @override
+  String get noFavouritesYet => 'No favourites yet!';
+
+  @override
+  String get noFavouritesMessage =>
+      'Mark the moments that matter — tap the heart button ❤ to save them here.';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

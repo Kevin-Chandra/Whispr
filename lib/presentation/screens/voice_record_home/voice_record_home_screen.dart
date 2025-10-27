@@ -63,7 +63,7 @@ class _VoiceRecordHomeScreenState extends State<VoiceRecordHomeScreen> {
                 );
 
                 if (context.mounted && result == true) {
-                  _homeCubit.refreshJournal();
+                  _homeCubit.refreshAudioRecordings();
                   NavigationCoordinator.navigateToJournalTab(context: context);
                 }
               },

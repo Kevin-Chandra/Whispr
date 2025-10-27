@@ -76,7 +76,7 @@ class AudioRecordingLocalIndexableDatabase {
   }
 
   List<AudioRecordingModel> getRecordByBoolean(bool booleanObject) {
-    final indexKey = booleanObject;
+    final indexKey = booleanObject.toString();
     final ids = isFavouriteIndexBox.get(indexKey);
     if (ids == null || ids.isEmpty) {
       return [];

@@ -57,6 +57,7 @@ dependencies:
   gradient_icon: 2.0.9
   easy_date_timeline: 2.0.9
   scrollview_observer: 1.26.2
+  sliver_tools: 0.2.12
   flutter_native_splash: 2.4.7
 
 dev_dependencies:

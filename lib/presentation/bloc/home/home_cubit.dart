@@ -7,8 +7,8 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(IdleState());
 
-  void refreshJournal() {
-    safeEmit(OnAudioRecordingSaved());
+  void refreshAudioRecordings() {
+    safeEmit(RefreshAudioRecordings());
 
     // Reset the state.
     safeEmit(IdleState());

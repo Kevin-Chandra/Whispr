@@ -9,6 +9,9 @@ extension DateTimeUtils on DateTime {
   String get formattedTime =>
       DateFormat(DateFormatConstants.timeFormat).format(this);
 
+  String get formattedDate =>
+      DateFormat(DateFormatConstants.dateFormat).format(this);
+
   bool get isToday {
     final now = DateTime.now();
     return now.day == day && now.month == month && now.year == year;
@@ -25,6 +28,10 @@ extension DateTimeUtils on DateTime {
     return day == tomorrow.day &&
         month == tomorrow.month &&
         year == tomorrow.year;
+  }
+
+  DateTime get extractDate {
+    return DateTime(year, month, day);
   }
 }
 

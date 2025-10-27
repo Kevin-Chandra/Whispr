@@ -44,7 +44,7 @@ class JournalCubit extends Cubit<JournalState> {
         .get<AddOrRemoveAudioRecordingFavouriteUseCase>()
         .call(audioRecordingId);
     response.fold((success) {
-      refresh();
+      safeEmit(JournalAddToFavouriteSuccessState());
     }, (error) {
       safeEmit(JournalErrorState(error));
     });
