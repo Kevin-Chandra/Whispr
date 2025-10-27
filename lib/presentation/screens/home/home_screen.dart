@@ -37,13 +37,16 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late final JournalCubit _journalCubit;
   late final FavouriteCubit _favouriteCubit;
+  late final AudioPlayerCubit _audioPlayerCubit;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _audioPlayerCubit = context.read<AudioPlayerCubit>();
     _journalCubit = context.read<JournalCubit>();
     _favouriteCubit = context.read<FavouriteCubit>();
     FlutterNativeSplash.remove();
@@ -85,6 +88,30 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _audioPlayerCubit.stop();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.detached:
+        {
+          _audioPlayerCubit.close();
+        }
+      case AppLifecycleState.paused:
+        {
+          _audioPlayerCubit.pause();
+        }
+      default:
+        {}
+    }
   }
 
   Gradient _resolveScaffoldGradient({required int index}) {

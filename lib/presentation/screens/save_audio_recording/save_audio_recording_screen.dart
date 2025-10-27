@@ -194,6 +194,12 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    _audioPlayerCubit.close();
+    super.dispose();
+  }
+
   Widget _buildSaveAudioRecordingBody() {
     return BlocBuilder<AudioPlayerCubit, AudioPlayerScreenState>(
       builder: (context, audioPlayerState) {
