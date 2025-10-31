@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
 import 'package:whispr/presentation/router/navigation_coordinator.dart';
@@ -14,21 +13,13 @@ import 'package:whispr/util/constants.dart';
 import 'package:whispr/util/extensions.dart';
 
 @RoutePage()
-class JournalScreen extends StatefulWidget implements AutoRouteWrapper {
+class JournalScreen extends StatefulWidget {
   const JournalScreen({
     super.key,
   });
 
   @override
   State<JournalScreen> createState() => _JournalScreenState();
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider<AudioPlayerCubit>(
-      create: (context) => AudioPlayerCubit(),
-      child: this,
-    );
-  }
 }
 
 class _JournalScreenState extends State<JournalScreen> {
@@ -102,7 +93,6 @@ class _JournalListState extends State<_JournalList> {
         }
 
         if (state is JournalAddToFavouriteSuccessState) {
-          _journalCubit.refresh();
           _homeCubit.refreshAudioRecordings();
           return;
         }

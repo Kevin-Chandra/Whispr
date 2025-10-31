@@ -6,6 +6,7 @@ import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/router/navigation_coordinator.dart';
 import 'package:whispr/presentation/screens/favourite/favourite_body.dart';
 import 'package:whispr/presentation/screens/favourite/favourite_skeleton_loading.dart';
+import 'package:whispr/presentation/widgets/whispr_dialog.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/extensions.dart';
 
@@ -63,7 +64,22 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               audioRecordings: state.audioRecordings,
               onEditPressed: (_) {},
               onDeletePressed: (audioRecording) {
-                _favouriteCubit.deleteAudioRecording(audioRecording);
+                WhisprDialog(
+                  icon: Icons.delete_rounded,
+                  title: context.strings.deleteFile,
+                  message: context.strings
+                      .areYouSureYouWantToDeleteFile(audioRecording.name),
+                  confirmText: context.strings.delete,
+                  onConfirmPressed: () {
+                    _favouriteCubit.deleteAudioRecording(audioRecording);
+                    context.router.maybePop();
+                  },
+                  dismissText: context.strings.cancel,
+                  onDismissPressed: () {
+                    context.router.maybePop();
+                  },
+                  isNegativeAction: true,
+                ).show(context: context);
               },
               onRefreshPressed: _favouriteCubit.refresh,
               onFavouritePressed: (audioRecording) {
