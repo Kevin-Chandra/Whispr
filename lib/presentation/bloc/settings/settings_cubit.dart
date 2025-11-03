@@ -24,7 +24,9 @@ class SettingsCubit extends Cubit<SettingsState> {
   void setAppLock(bool enableAppLock) async {
     final response =
         await di.get<SetAppLockUseCase>().call(enableAppLock: enableAppLock);
-    response.fold((success) {}, (error) {
+    response.fold((success) {
+      safeEmit(SettingsChangedState());
+    }, (error) {
       safeEmit(SettingsErrorState(error: error));
     });
   }

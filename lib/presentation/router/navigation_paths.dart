@@ -7,4 +7,6 @@ abstract class WhisprNavigationPaths {
   static const String favouritePath = 'home/favourite';
   static const String recordAudioPath = '/record_audio';
   static const String saveAudioRecordingPath = '/save_audio_recording';
+  static const String lockedPath = '/locked_screen';
+  static const String inactivePath = '/inactive_screen';
 }

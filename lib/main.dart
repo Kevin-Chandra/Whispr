@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/domain/use_case/settings/get_has_completed_onboarding_use_case.dart';
 import 'package:whispr/lang/generated/whispr_localizations.dart';
+import 'package:whispr/presentation/bloc/app_lock/app_lock_cubit.dart';
 import 'package:whispr/presentation/router/router_config.dart';
-import 'package:whispr/presentation/screens/app_lock/app_locked_screen.dart';
 import 'package:whispr/presentation/themes/themes.dart';
 
 import 'data/local/hive/hive_db.dart';
@@ -42,44 +42,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Whispr',
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter.config(),
-      theme: WhisprThemes.lightTheme,
-      themeMode: ThemeMode.light,
-      supportedLocales: WhisprLocalizations.supportedLocales,
-      localizationsDelegates: const [
-        WhisprLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      builder: (context, widget) {
-        final mediaQueryData = MediaQuery.of(context);
+    return BlocProvider<AppLockCubit>(
+      create: (context) => AppLockCubit(),
+      child: MaterialApp.router(
+        title: 'Whispr',
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter.config(),
+        theme: WhisprThemes.lightTheme,
+        themeMode: ThemeMode.light,
+        supportedLocales: WhisprLocalizations.supportedLocales,
+        localizationsDelegates: const [
+          WhisprLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        builder: (context, widget) {
+          final mediaQueryData = MediaQuery.of(context);
 
-        // Ensure the text scale stays within a specified range.
-        final scale = mediaQueryData.textScaler.clamp(
-          minScaleFactor: 1.0, // Minimum scale factor allowed.
-          maxScaleFactor: 1.0, // Maximum scale factor allowed.
-        );
+          // Ensure the text scale stays within a specified range.
+          final scale = mediaQueryData.textScaler.clamp(
+            minScaleFactor: 1.0, // Minimum scale factor allowed.
+            maxScaleFactor: 1.0, // Maximum scale factor allowed.
+          );
 
-        // For now we do not allow any scaling.
-
-        return AppLock(
-          initiallyEnabled: shouldLockApp,
-          initialBackgroundLockLatency: Duration.zero,
-          inactiveBehavior: InactiveBehavior.showWhenEnabled,
-          lockScreenBuilder: (context) => AppLockedScreen(),
-          builder: (context, arg) => MediaQuery(
+          // For now we do not allow any scaling.
+          return MediaQuery(
             data: mediaQueryData.copyWith(
               textScaler: scale,
               alwaysUse24HourFormat: true,
             ),
             child: widget ?? const SizedBox(),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

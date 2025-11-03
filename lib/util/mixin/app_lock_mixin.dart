@@ -11,8 +11,8 @@ mixin AppLockMixin<T extends StatefulWidget> on LifeCycleStateAwareMixin<T> {
   bool _locked = false;
 
   @override
-  void onInactive() {
-    super.onInactive();
+  void onHide() {
+    super.onHide();
 
     if (!shouldShowLockScreen) {
       return;
