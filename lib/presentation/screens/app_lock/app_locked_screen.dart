@@ -1,5 +1,6 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart' hide AppLockState;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/data/local/local_auth/local_authentication_exception.dart';
@@ -7,6 +8,7 @@ import 'package:whispr/presentation/bloc/app_lock/app_lock_cubit.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/extensions.dart';
 
+@RoutePage()
 class AppLockedScreen extends StatefulWidget {
   const AppLockedScreen({super.key});
 
@@ -21,21 +23,16 @@ class _AppLockedScreenState extends State<AppLockedScreen> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    _appLockCubit = AppLockCubit();
+    _appLockCubit = context.read<AppLockCubit>();
     _appLockCubit.authenticate();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppLockCubit>(
-      create: (BuildContext context) => _appLockCubit,
+    return PopScope(
+      canPop: false,
       child: BlocConsumer<AppLockCubit, AppLockState>(
         listener: (context, state) {
-          if (state is AuthenticatedState) {
-            AppLock.of(context)?.didUnlock();
-            return;
-          }
-
           if (state is ErrorState) {
             if (state.error.exception != null &&
                 state.error.exception is LocalAuthenticationException) {

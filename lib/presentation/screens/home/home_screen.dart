@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:whispr/presentation/bloc/app_lock/app_lock_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit.dart';
 import 'package:whispr/presentation/bloc/favourite/favourite_cubit.dart';
@@ -13,6 +14,8 @@ import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_bottom_navigation_bar.dart';
 import 'package:whispr/presentation/widgets/whispr_gradient_scaffold.dart';
 import 'package:whispr/util/extensions.dart';
+import 'package:whispr/util/mixin/app_lock_mixin.dart';
+import 'package:whispr/util/mixin/lifecycle_state_aware_mixin.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
@@ -37,31 +40,49 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen>
+    with LifeCycleStateAwareMixin<HomeScreen>, AppLockMixin<HomeScreen> {
+  late final HomeCubit _homeCubit;
   late final JournalCubit _journalCubit;
   late final FavouriteCubit _favouriteCubit;
   late final AudioPlayerCubit _audioPlayerCubit;
+  late final AppLockCubit _appLockCubit;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    _homeCubit = context.read<HomeCubit>();
     _audioPlayerCubit = context.read<AudioPlayerCubit>();
     _journalCubit = context.read<JournalCubit>();
     _favouriteCubit = context.read<FavouriteCubit>();
-    FlutterNativeSplash.remove();
+    _appLockCubit = context.read<AppLockCubit>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeCubit, HomeState>(
-      listener: (ctx, state) {
-        if (state is RefreshAudioRecordings) {
-          _journalCubit.refresh();
-          _favouriteCubit.refresh();
-          return;
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeCubit, HomeState>(listener: (ctx, state) {
+          if (state is RefreshAudioRecordings) {
+            _journalCubit.refresh();
+            _favouriteCubit.refresh();
+            return;
+          }
+
+          if (state is AppLockConfigLoadedState) {
+            showLockedScreenForAppLaunch();
+            FlutterNativeSplash.remove();
+            return;
+          }
+        }),
+        BlocListener<AppLockCubit, AppLockState>(listener: (ctx, state) {
+          if (state is AuthenticatedState) {
+            didUnlock();
+            _appLockCubit.resetState();
+            return;
+          }
+        }),
+      ],
       child: AutoTabsRouter.tabBar(
         physics: NeverScrollableScrollPhysics(),
         routes: const [
@@ -91,27 +112,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void dispose() {
-    _audioPlayerCubit.stop();
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
+  void onDetached() {
+    super.onDetached();
+    _audioPlayerCubit.close();
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.detached:
-        {
-          _audioPlayerCubit.close();
-        }
-      case AppLifecycleState.paused:
-        {
-          _audioPlayerCubit.pause();
-        }
-      default:
-        {}
-    }
+  void onPause() {
+    super.onPause();
+    _audioPlayerCubit.pause();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayerCubit.stop();
+    super.dispose();
   }
 
   Gradient _resolveScaffoldGradient({required int index}) {
@@ -134,4 +149,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         return context.strings.settings;
     }
   }
+
+  @override
+  bool get shouldShowLockScreen => _homeCubit.appLockedEnabled;
 }

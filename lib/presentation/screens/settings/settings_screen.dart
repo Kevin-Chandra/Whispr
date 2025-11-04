@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:whispr/di/di_config.dart';
+import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/settings/settings_cubit.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
@@ -30,14 +30,16 @@ class SettingsScreen extends StatefulWidget implements AutoRouteWrapper {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late final SettingsCubit _settingsCubit;
+  late final HomeCubit _homeCubit;
   StreamSubscription<bool>? _settingsValueSubscription;
 
   @override
   void initState() {
     super.initState();
     _settingsCubit = context.read<SettingsCubit>();
+    _homeCubit = context.read<HomeCubit>();
     _settingsValueSubscription = _settingsCubit.appLockStream.listen((enabled) {
-      AppLock.of(context)!.setEnabled(enabled);
+      _homeCubit.refreshAppLockEnabled();
     });
   }
 

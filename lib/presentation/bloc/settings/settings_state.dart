@@ -9,6 +9,8 @@ sealed class SettingsState extends Equatable {
 
 final class IdleState extends SettingsState {}
 
+final class SettingsChangedState extends SettingsState {}
+
 final class SettingsErrorState extends SettingsState {
   const SettingsErrorState({required this.error});
 
