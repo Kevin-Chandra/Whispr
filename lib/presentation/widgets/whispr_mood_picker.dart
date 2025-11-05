@@ -10,6 +10,7 @@ class WhisprMoodPicker extends StatelessWidget {
   const WhisprMoodPicker({
     super.key,
     required this.onMoodSelected,
+    this.selectedMood,
     this.maxDistanceToFade = 2,
     this.maxBlur = 3.0,
     this.minOpacity = 0.5,
@@ -20,6 +21,7 @@ class WhisprMoodPicker extends StatelessWidget {
   final double maxBlur;
   final double minOpacity;
   final double minScale;
+  final Mood? selectedMood;
   final Function(Mood) onMoodSelected;
 
   static const _selectedImageSize = 80.0;
@@ -28,6 +30,8 @@ class WhisprMoodPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhisprWheelScroll(
+      initialIndex:
+          selectedMood != null ? Mood.values.indexOf(selectedMood!) : 0,
       items: Mood.values,
       itemSize: _selectedImageSize,
       squeeze: 1,

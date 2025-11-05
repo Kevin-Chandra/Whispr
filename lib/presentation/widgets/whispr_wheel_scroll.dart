@@ -40,7 +40,13 @@ class WhisprWheelScroll<T> extends StatefulWidget {
 }
 
 class _WhisprWheelScrollState<T> extends State<WhisprWheelScroll<T>> {
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex ?? 0;
+  }
 
   @override
   Widget build(BuildContext context) {
