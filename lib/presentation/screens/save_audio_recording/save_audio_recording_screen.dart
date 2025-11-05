@@ -237,7 +237,6 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
 
                   _saveAudioRecordingCubit.saveAudioRecording(
                     name: _titleController.text,
-                    tags: [],
                     duration: Duration(milliseconds: durationInt),
                     waveformData: waveformData,
                   );

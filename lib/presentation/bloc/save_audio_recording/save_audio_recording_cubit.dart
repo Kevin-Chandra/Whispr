@@ -41,7 +41,6 @@ class SaveAudioRecordingCubit extends Cubit<SaveAudioRecordingState> {
 
   void saveAudioRecording({
     required String name,
-    required List<String> tags,
     required Duration duration,
     List<double>? waveformData,
   }) async {

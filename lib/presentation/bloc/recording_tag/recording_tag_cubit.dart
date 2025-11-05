@@ -67,4 +67,11 @@ class RecordingTagCubit extends Cubit<RecordingTagScreenState> {
     safeEmit(
         RecordingTagLoadedState(_availableTagOptions, _selectedTag.toList()));
   }
+
+  void setSelectedTags(List<RecordingTag> tags) {
+    _selectedTag.clear();
+    _selectedTag.addAll(tags);
+    safeEmit(
+        RecordingTagLoadedState(_availableTagOptions, _selectedTag.toList()));
+  }
 }
