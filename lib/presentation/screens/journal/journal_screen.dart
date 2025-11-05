@@ -121,7 +121,16 @@ class _JournalListState extends State<_JournalList> {
                 onAddNewRecording: () {
                   NavigationCoordinator.navigateToHomeTab(context: context);
                 },
-                onEditPressed: (_) {},
+                onEditPressed: (audioRecording) async {
+                  final shouldRefresh =
+                      await NavigationCoordinator.navigateToEditScreen(
+                    context: context,
+                    audioRecordingId: audioRecording.id,
+                  );
+                  if (shouldRefresh == true) {
+                    _homeCubit.refreshAudioRecordings();
+                  }
+                },
                 onDeletePressed: (audioRecording) {
                   WhisprDialog(
                     icon: Icons.delete_rounded,
