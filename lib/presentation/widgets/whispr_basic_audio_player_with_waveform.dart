@@ -1,6 +1,7 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
+import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_control.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_error.dart';
 import 'package:whispr/util/extensions.dart';
@@ -9,19 +10,21 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
   const WhisprBasicAudioPlayerWithWaveform({
     super.key,
     required this.audioPlayerScreenState,
-    required this.waveformWidth,
     required this.onPlayClick,
     required this.onPauseClick,
     required this.onErrorRetryClick,
-    required this.playerWaveStyle,
+    required this.waveformWidth,
+    this.playerWaveStyle,
+    this.waveformData,
   });
 
-  final AudioPlayerScreenState audioPlayerScreenState;
   final double waveformWidth;
+  final AudioPlayerScreenState audioPlayerScreenState;
   final VoidCallback onPlayClick;
   final VoidCallback onPauseClick;
   final VoidCallback onErrorRetryClick;
-  final PlayerWaveStyle playerWaveStyle;
+  final PlayerWaveStyle? playerWaveStyle;
+  final List<double>? waveformData;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
             onPlayClick: onPlayClick,
             onPauseClick: onPauseClick,
           ),
-          waveformData:
+          waveformData: waveformData ??
               (audioPlayerScreenState as AudioPlayerLoadedState).waveform,
           playerController:
               (audioPlayerScreenState as AudioPlayerLoadedState).controller,
@@ -62,14 +65,14 @@ class _AudioPlayerAndWaveform extends StatelessWidget {
     required this.playerControllerWidget,
     required this.waveformData,
     required this.playerController,
-    required this.playerWaveStyle,
+    this.playerWaveStyle,
   });
 
   final double waveformWidth;
   final Widget playerControllerWidget;
   final List<double> waveformData;
   final PlayerController playerController;
-  final PlayerWaveStyle playerWaveStyle;
+  final PlayerWaveStyle? playerWaveStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +87,18 @@ class _AudioPlayerAndWaveform extends StatelessWidget {
           playerController: playerController,
           waveformData: waveformData,
           waveformType: WaveformType.fitWidth,
-          playerWaveStyle: playerWaveStyle,
+          playerWaveStyle: playerWaveStyle ??
+              PlayerWaveStyle(
+                fixedWaveColor: WhisprColors.lavenderWeb,
+                liveWaveColor: WhisprColors.maximumBluePurple,
+                seekLineThickness: 0,
+                waveCap: StrokeCap.round,
+                showTop: true,
+                showBottom: true,
+                spacing: 4,
+                scaleFactor: 200,
+                waveThickness: 2,
+              ),
         )
       ],
     );
