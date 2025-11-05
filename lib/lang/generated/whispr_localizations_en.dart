@@ -114,7 +114,13 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get discardRecording => 'Discard recording?';
 
   @override
+  String get discardChanges => 'Discard changes?';
+
+  @override
   String get discard => 'Discard';
+
+  @override
+  String get changesWillBeLost => 'Changes will be lost';
 
   @override
   String get recordingWillNotBeSaved => 'Your recording will not be saved';

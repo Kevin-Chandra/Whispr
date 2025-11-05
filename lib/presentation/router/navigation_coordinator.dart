@@ -59,4 +59,12 @@ abstract class NavigationCoordinator {
       const HomeRoute(),
     );
   }
+
+  static Future<bool?> navigateToEditScreen({
+    required BuildContext context,
+    required String audioRecordingId,
+  }) async {
+    return await context.router
+        .push<bool?>(EditRecordingRoute(audioRecordingId: audioRecordingId));
+  }
 }

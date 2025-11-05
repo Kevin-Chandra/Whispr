@@ -48,6 +48,8 @@ class WhisprTextField extends StatefulWidget {
     this.validator,
     this.textInputAction = TextInputAction.done,
     this.textInputType,
+    this.textAlign = TextAlign.start,
+    this.textStyle,
     this.inputFormatters,
     this.focusNode,
   });
@@ -78,6 +80,8 @@ class WhisprTextField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
+  final TextAlign textAlign;
+  final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final WhisprTextFieldStyle whisprTextFieldStyle;
@@ -150,6 +154,8 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
             keyboardType: widget.textInputType,
             inputFormatters: widget.inputFormatters,
+            textAlign: widget.textAlign,
+            style: widget.textStyle,
             validator: (value) {
               final err = widget.validator?.call(value);
               setState(() => _validatorErrorText = err);
