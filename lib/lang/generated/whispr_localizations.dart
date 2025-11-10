@@ -304,11 +304,23 @@ abstract class WhisprLocalizations {
   /// **'Discard recording?'**
   String get discardRecording;
 
+  /// No description provided for @discardChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChanges;
+
   /// No description provided for @discard.
   ///
   /// In en, this message translates to:
   /// **'Discard'**
   String get discard;
+
+  /// No description provided for @changesWillBeLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes will be lost'**
+  String get changesWillBeLost;
 
   /// No description provided for @recordingWillNotBeSaved.
   ///

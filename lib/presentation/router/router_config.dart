@@ -65,6 +65,10 @@ class WhisprRouter extends RootStackRouter {
           path: WhisprNavigationPaths.saveAudioRecordingPath,
         ),
         CustomRoute(
+          page: EditRecordingRoute.page,
+          path: WhisprNavigationPaths.saveAudioRecordingPath,
+        ),
+        CustomRoute(
           page: AppLockedRoute.page,
           path: WhisprNavigationPaths.lockedPath,
         ),

@@ -5,26 +5,32 @@ import 'package:whispr/presentation/bloc/recording_tag/recording_tag_cubit.dart'
 import 'package:whispr/presentation/widgets/whispr_chips_autocomplete.dart';
 import 'package:whispr/util/extensions.dart';
 
-class RecordingTagAutocomplete extends StatefulWidget {
-  const RecordingTagAutocomplete({
+class WhisprRecordingTagAutocomplete extends StatefulWidget {
+  const WhisprRecordingTagAutocomplete({
     super.key,
     required this.onSelectedTagChanged,
+    this.selectedTags,
   });
 
+  final List<RecordingTag>? selectedTags;
   final Function(List<RecordingTag>) onSelectedTagChanged;
 
   @override
-  State<RecordingTagAutocomplete> createState() =>
-      _RecordingTagAutocompleteState();
+  State<WhisprRecordingTagAutocomplete> createState() =>
+      _WhisprRecordingTagAutocompleteState();
 }
 
-class _RecordingTagAutocompleteState extends State<RecordingTagAutocomplete> {
+class _WhisprRecordingTagAutocompleteState
+    extends State<WhisprRecordingTagAutocomplete> {
   late final RecordingTagCubit _recordingTagCubit;
 
   @override
   void initState() {
     super.initState();
     _recordingTagCubit = context.read<RecordingTagCubit>();
+    if (widget.selectedTags != null && widget.selectedTags!.isNotEmpty) {
+      _recordingTagCubit.setSelectedTags(widget.selectedTags!);
+    }
   }
 
   @override

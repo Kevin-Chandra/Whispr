@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:whispr/domain/entities/mood.dart';
 import 'package:whispr/domain/entities/recording_tag.dart';
-import 'package:whispr/presentation/screens/save_audio_recording/recording_tag_autocomplete.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_gradient_button.dart';
 import 'package:whispr/presentation/widgets/whispr_mood_picker.dart';
+import 'package:whispr/presentation/widgets/whispr_recording_tag_autocomplete.dart';
 import 'package:whispr/presentation/widgets/whispr_text_field.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 class SaveAudioRecordingBody extends StatelessWidget {
@@ -20,8 +21,13 @@ class SaveAudioRecordingBody extends StatelessWidget {
     required this.onSaveClick,
     required this.onMoodSelected,
     required this.onRecordingTagChanged,
+    this.selectedMood,
+    this.selectedRecordingTags,
+    this.isEdit = false,
+    this.createdAt,
   });
 
+  final bool isEdit;
   final Widget waveformWidget;
   final GlobalKey<FormState> titleFormKey;
   final TextEditingController titleController;
@@ -29,45 +35,75 @@ class SaveAudioRecordingBody extends StatelessWidget {
   final VoidCallback? onSaveClick;
   final Function(Mood) onMoodSelected;
   final Function(List<RecordingTag>) onRecordingTagChanged;
+  final Mood? selectedMood;
+  final List<RecordingTag>? selectedRecordingTags;
+  final DateTime? createdAt;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverFillRemaining(
-          hasScrollBody: true,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+              16, 0, 16, MediaQuery.of(context).viewInsets.bottom),
+          sliver: SliverFillRemaining(
+            hasScrollBody: true,
             child: Column(
               spacing: 8,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  context.strings.whatWouldYouLikeToNameThis,
-                  style: WhisprTextStyles.heading3
-                      .copyWith(color: WhisprColors.spanishViolet),
-                  textAlign: TextAlign.center,
-                ),
+                isEdit
+                    ? Form(
+                        key: titleFormKey,
+                        child: WhisprTextField(
+                          controller: titleController,
+                          textAlign: TextAlign.center,
+                          textStyle: WhisprTextStyles.heading2
+                              .copyWith(color: WhisprColors.spanishViolet),
+                          whisprTextFieldStyle: WhisprTextFieldStyle.underlined,
+                          validator: (value) {
+                            if (value.isNullOrEmpty) {
+                              return context.strings.titleEmptyErrorMessage;
+                            }
+                            return null;
+                          },
+                        ),
+                      )
+                    : Text(
+                        context.strings.whatWouldYouLikeToNameThis,
+                        style: WhisprTextStyles.heading3
+                            .copyWith(color: WhisprColors.spanishViolet),
+                        textAlign: TextAlign.center,
+                      ),
+                isEdit
+                    ? Text(createdAt!.createdAtFormattedTime,
+                        style: WhisprTextStyles.subtitle2
+                            .copyWith(color: WhisprColors.vistaBlue))
+                    : SizedBox(),
                 const Expanded(flex: 1, child: SizedBox()),
                 waveformWidget,
                 const Expanded(flex: 1, child: SizedBox()),
-                Form(
-                  key: titleFormKey,
-                  child: WhisprTextField(
-                    controller: titleController,
-                    title: context.strings.whatIsThisAbout,
-                    whisprTextFieldStyle: WhisprTextFieldStyle.outlined,
-                    validator: (value) {
-                      if (value.isNullOrEmpty) {
-                        return context.strings.titleEmptyErrorMessage;
-                      }
-                      return null;
-                    },
-                  ),
+                isEdit
+                    ? SizedBox()
+                    : Form(
+                        key: titleFormKey,
+                        child: WhisprTextField(
+                          controller: titleController,
+                          title: context.strings.whatIsThisAbout,
+                          whisprTextFieldStyle: WhisprTextFieldStyle.outlined,
+                          validator: (value) {
+                            if (value.isNullOrEmpty) {
+                              return context.strings.titleEmptyErrorMessage;
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                WhisprRecordingTagAutocomplete(
+                  onSelectedTagChanged: onRecordingTagChanged,
+                  selectedTags: selectedRecordingTags,
                 ),
-                RecordingTagAutocomplete(
-                    onSelectedTagChanged: onRecordingTagChanged),
                 const Expanded(flex: 1, child: SizedBox()),
                 Text(
                   context.strings.selectAMood,
@@ -77,6 +113,7 @@ class SaveAudioRecordingBody extends StatelessWidget {
                   ),
                 ),
                 WhisprMoodPicker(
+                  selectedMood: selectedMood,
                   onMoodSelected: onMoodSelected,
                 ),
                 const Expanded(flex: 1, child: SizedBox()),
@@ -102,7 +139,8 @@ class SaveAudioRecordingBody extends StatelessWidget {
                       ),
                     )
                   ],
-                )
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),

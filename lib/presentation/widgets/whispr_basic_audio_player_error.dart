@@ -3,8 +3,8 @@ import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_icon_button.dart';
 
-class AudioPlayerErrorBody extends StatelessWidget {
-  const AudioPlayerErrorBody({
+class WhisprBasicAudioPlayerError extends StatelessWidget {
+  const WhisprBasicAudioPlayerError({
     super.key,
     required this.errorTitle,
     required this.errorMessage,

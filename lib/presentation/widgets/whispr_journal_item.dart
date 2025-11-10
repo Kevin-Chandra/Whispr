@@ -36,66 +36,59 @@ class WhisprJournalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration:
-          const Duration(milliseconds: WhisprDuration.animatedContainerMillis),
-      alignment: Alignment.topCenter,
-      curve: Curves.easeInOut,
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            useDotAndLine
-                ? _DotAndLine(
-                    isSelected: isSelected,
-                    shouldDrawLine: !isLastItem,
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                    child: Container(
-                      color: WhisprColors.vistaBlue.withValues(alpha: 0.5),
-                      width: 2,
-                    ),
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: 45.0,
+          child: useDotAndLine
+              ? _DotAndLine(
+                  isSelected: isSelected,
+                  shouldDrawLine: !isLastItem,
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 21.5),
+                  child: Container(
+                    color: WhisprColors.vistaBlue.withValues(alpha: 0.5),
+                    width: 2,
                   ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: cardPadding,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: WhisprColors.lavenderWeb,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    )
-                  ], borderRadius: BorderRadius.circular(15)),
-                  child: Card.filled(
-                    elevation: 0,
-                    color: isSelected ? Colors.white : WhisprColors.ghostWhite,
-                    surfaceTintColor: Colors.transparent,
-                    margin: EdgeInsets.zero,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      highlightColor:
-                          WhisprColors.lavenderBlue.withValues(alpha: 0.2),
-                      splashColor:
-                          WhisprColors.lavenderBlue.withValues(alpha: 0.1),
-                      onTap: onPressed,
-                      child: _JournalItemCardContent(
-                        isSelected: isSelected,
-                        isPlayingAudio: isPlayingAudio,
-                        audioRecording: audioRecording,
-                        onFavouritePressed: onFavouritePressed,
-                        expandedWidget: expandedWidget,
-                      ),
-                    ),
-                  ),
+                ),
+        ),
+        Padding(
+          padding: cardPadding + EdgeInsets.only(left: 50.0),
+          child: DecoratedBox(
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: WhisprColors.lavenderWeb,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              )
+            ], borderRadius: BorderRadius.circular(15)),
+            child: Card.filled(
+              elevation: 0,
+              color: isSelected ? Colors.white : WhisprColors.ghostWhite,
+              surfaceTintColor: Colors.transparent,
+              margin: EdgeInsets.zero,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                highlightColor:
+                    WhisprColors.lavenderBlue.withValues(alpha: 0.2),
+                splashColor: WhisprColors.lavenderBlue.withValues(alpha: 0.1),
+                onTap: onPressed,
+                child: _JournalItemCardContent(
+                  isSelected: isSelected,
+                  isPlayingAudio: isPlayingAudio,
+                  audioRecording: audioRecording,
+                  onFavouritePressed: onFavouritePressed,
+                  expandedWidget: expandedWidget,
                 ),
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -135,7 +128,7 @@ class _JournalItemCardContent extends StatelessWidget {
                         height: 50,
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               Expanded(
                 flex: 1,
                 child: Column(
@@ -161,7 +154,7 @@ class _JournalItemCardContent extends StatelessWidget {
                                   gap: 4,
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         SizedBox(
                           height: 32,
                           child: Align(
@@ -201,7 +194,12 @@ class _JournalItemCardContent extends StatelessWidget {
               )
             ],
           ),
-          isSelected ? expandedWidget : const SizedBox(),
+          AnimatedSize(
+            duration:
+                Duration(milliseconds: WhisprDuration.animatedContainerMillis),
+            curve: Curves.easeInOut,
+            child: isSelected ? expandedWidget : const SizedBox(),
+          ),
         ],
       ),
     );
@@ -219,12 +217,9 @@ class _DotAndLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 50,
-      child: CustomPaint(
-        painter: _DotAndLinePainter(
-            isSelected: isSelected, shouldDrawLine: shouldDrawLine),
-      ),
+    return CustomPaint(
+      painter: _DotAndLinePainter(
+          isSelected: isSelected, shouldDrawLine: shouldDrawLine),
     );
   }
 }
