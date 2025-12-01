@@ -54,6 +54,12 @@ class AudioRecordingLocalIndexableDatabase {
     return true;
   }
 
+  Future<void> clearDatabase() async {
+    await audioRecordingBox.clear();
+    await createdDateIndexBox.clear();
+    await isFavouriteIndexBox.clear();
+  }
+
   Future<AudioRecordingModel?> getAudioRecording(String objectId) async {
     return audioRecordingBox.get(objectId);
   }
@@ -75,6 +81,29 @@ class AudioRecordingLocalIndexableDatabase {
         .toList();
   }
 
+  Future<List<AudioRecordingModel>> getRecordByDateRange({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final ids = await _getIdByDateRange(
+      startDate: startDate,
+      endDate: endDate,
+    );
+
+    if (ids.isEmpty) {
+      return [];
+    }
+
+    return ids.map((id) => audioRecordingBox.get(id)).nonNulls.toList();
+  }
+
+  Future<int> getRecordCountByDateRange({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return (await _getIdByDateRange()).length;
+  }
+
   List<AudioRecordingModel> getRecordByBoolean(bool booleanObject) {
     final indexKey = booleanObject.toString();
     final ids = isFavouriteIndexBox.get(indexKey);
@@ -93,6 +122,11 @@ class AudioRecordingLocalIndexableDatabase {
         .listenable()
         .toValueStream(replayValue: true)
         .map((box) => box.values);
+  }
+
+  Future<void> bulkInsert(List<AudioRecordingModel> audioRecordings) async {
+    await Future.wait(
+        audioRecordings.map((recording) => createRecord(recording)));
   }
 
   //region Private methods.
@@ -170,6 +204,59 @@ class AudioRecordingLocalIndexableDatabase {
       dateTime,
       DateFormatConstants.dateIndexFormat,
     );
+  }
+
+  Future<List<String>> _getIdByDateRange({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final dateIndexList =
+        createdDateIndexBox.keys.map((key) => key.toString()).toList();
+    dateIndexList.sort((a, b) => a.compareTo(b));
+    final dateIndexLength = dateIndexList.length;
+
+    final startIndex = startDate == null
+        ? 0
+        : _lowerBound(dateIndexList, _indexKeyOfDateObject(startDate));
+    final endIndex = endDate == null
+        ? dateIndexLength
+        : _upperBound(dateIndexList, _indexKeyOfDateObject(endDate));
+
+    final selectedDates = dateIndexList.sublist(startIndex, endIndex);
+    return selectedDates
+        .map((date) => createdDateIndexBox.get(date))
+        .nonNulls
+        .expand((set) => set)
+        .toSet()
+        .toList();
+  }
+
+  int _lowerBound(List<String> sortedList, String target) {
+    int low = 0;
+    int high = sortedList.length;
+    while (low < high) {
+      int mid = (low + high) ~/ 2;
+      if (sortedList[mid].compareTo(target) < 0) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+    return low;
+  }
+
+  int _upperBound(List<String> sortedList, String target) {
+    int low = 0;
+    int high = sortedList.length;
+    while (low < high) {
+      int mid = (low + high) ~/ 2;
+      if (sortedList[mid].compareTo(target) <= 0) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+    return low;
   }
 
 //endregion

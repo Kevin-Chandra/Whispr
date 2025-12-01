@@ -27,6 +27,7 @@ import 'package:whispr/data/local/hive/hive_db.dart' as _i1032;
 import 'package:whispr/data/local/local_auth/local_auth.dart' as _i737;
 import 'package:whispr/data/models/audio_recording_model.dart' as _i708;
 import 'package:whispr/data/models/recording_tag_model.dart' as _i337;
+import 'package:whispr/data/repository/archive_repository_impl.dart' as _i1063;
 import 'package:whispr/data/repository/audio_player_repository_impl.dart'
     as _i146;
 import 'package:whispr/data/repository/audio_recording_repository_impl.dart'
@@ -39,6 +40,7 @@ import 'package:whispr/data/repository/recording_tag_repository_impl.dart'
     as _i597;
 import 'package:whispr/data/repository/settings_repository_impl.dart' as _i799;
 import 'package:whispr/di/app_module.dart' as _i96;
+import 'package:whispr/domain/repository/archive_repository.dart' as _i331;
 import 'package:whispr/domain/repository/audio_player_repository.dart' as _i480;
 import 'package:whispr/domain/repository/audio_recording_repository.dart'
     as _i383;
@@ -48,6 +50,10 @@ import 'package:whispr/domain/repository/record_audio_repository.dart' as _i241;
 import 'package:whispr/domain/repository/recording_tag_repository.dart'
     as _i878;
 import 'package:whispr/domain/repository/settings_repository.dart' as _i266;
+import 'package:whispr/domain/use_case/archive/backup_recordings_use_case.dart'
+    as _i980;
+import 'package:whispr/domain/use_case/archive/restore_recordings_use_case.dart'
+    as _i837;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart'
     as _i120;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart'
@@ -208,6 +214,12 @@ extension GetItInjectableX on _i174.GetIt {
         _i898.SaveRecordingTagUseCase(gh<_i878.RecordingTagRepository>()));
     gh.factory<_i166.GetAllRecordingTagsUseCase>(() =>
         _i166.GetAllRecordingTagsUseCase(gh<_i878.RecordingTagRepository>()));
+    gh.factory<_i331.ArchiveRepository>(() => _i1063.ArchiveRepositoryImpl(
+          gh<_i170.Box<_i337.RecordingTagModel>>(
+              instanceName: 'RECORDING_TAG_BOX_KEY'),
+          gh<_i310.AudioRecordingLocalIndexableDatabase>(),
+          gh<_i13.FileService>(),
+        ));
     gh.factory<_i653.SendAudioPlayerCommandUseCase>(() =>
         _i653.SendAudioPlayerCommandUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i120.GetAudioPlayerPositionStreamUseCase>(() =>
@@ -222,6 +234,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i342.PrepareAudioUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i667.GetAudioWaveFormUseCase>(
         () => _i667.GetAudioWaveFormUseCase(gh<_i480.AudioPlayerRepository>()));
+    gh.factory<_i980.BackupRecordingsUseCase>(
+        () => _i980.BackupRecordingsUseCase(gh<_i331.ArchiveRepository>()));
+    gh.factory<_i837.RestoreRecordingsUseCase>(
+        () => _i837.RestoreRecordingsUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
         _i825.GetAudioRecordingByIdUseCase(
             gh<_i383.AudioRecordingRepository>()));

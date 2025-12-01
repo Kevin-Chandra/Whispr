@@ -22,4 +22,7 @@ class RecordingTagModel extends HiveObject {
       label: json['label'],
     );
   }
+
+  static List<RecordingTagModel> fromJsonList(List<dynamic> jsonList) =>
+      jsonList.map((json) => RecordingTagModel.fromJson(json)).toList();
 }
