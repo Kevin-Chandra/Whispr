@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:whispr/lang/generated/whispr_localizations.dart';
+import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 
 extension ContextExtensions on BuildContext {
   /// To access localised strings.
@@ -46,5 +50,24 @@ extension StringExtension on String {
 extension IterableExtension<E> on Iterable<E> {
   E? firstWhereOrNull(bool Function(E element) getFirst) {
     return where(getFirst).firstOrNull;
+  }
+}
+
+extension ShareFiles on File {
+  Future<void> share({required BuildContext context}) async {
+    final params = ShareParams(
+      files: [XFile(path)],
+    );
+
+    final result = await SharePlus.instance.share(params);
+    if (result.status == ShareResultStatus.unavailable) {
+      if (context.mounted) {
+        WhisprSnackBar(
+          title: context.strings.somethingWentWrong,
+          isError: true,
+        ).show(context);
+      }
+    }
+    return;
   }
 }
