@@ -250,4 +250,16 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       return right(FailureEntity(error: e.toString()));
     }
   }
+
+  @override
+  Future<int> getRecordCountByDateRange({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final recordings = await database.getRecordByDateRange(
+      startDate: startDate,
+      endDate: endDate,
+    );
+    return recordings.length;
+  }
 }

@@ -137,4 +137,9 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
       return left(response.mapToDomain());
     }
   }
+
+  @override
+  Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate() async {
+    return await database.getRecordingFirstAndLastDate();
+  }
 }

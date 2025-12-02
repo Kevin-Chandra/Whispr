@@ -129,6 +129,22 @@ class AudioRecordingLocalIndexableDatabase {
         audioRecordings.map((recording) => createRecord(recording)));
   }
 
+  Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate() async {
+    final dateIndexList =
+        createdDateIndexBox.keys.map((key) => key.toString()).toList();
+
+    // No recording found, return null.
+    if (dateIndexList.isEmpty) {
+      return null;
+    }
+
+    dateIndexList.sort((a, b) => a.compareTo(b));
+    final firstDate = DateTime.parse(dateIndexList.first.trim());
+    final lastDate = DateTime.parse(dateIndexList.last.trim());
+
+    return (firstDate, lastDate);
+  }
+
   //region Private methods.
 
   // Method to add object to indexes.

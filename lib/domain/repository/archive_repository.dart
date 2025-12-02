@@ -13,4 +13,9 @@ abstract class ArchiveRepository {
   Future<Either<bool, FailureEntity>> restoreRecordings({
     required String filePath,
   });
+
+  Future<int> getRecordCountByDateRange({
+    required DateTime startDate,
+    required DateTime endDate,
+  });
 }

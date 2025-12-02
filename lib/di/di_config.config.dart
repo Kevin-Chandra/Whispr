@@ -52,6 +52,8 @@ import 'package:whispr/domain/repository/recording_tag_repository.dart'
 import 'package:whispr/domain/repository/settings_repository.dart' as _i266;
 import 'package:whispr/domain/use_case/archive/backup_recordings_use_case.dart'
     as _i980;
+import 'package:whispr/domain/use_case/archive/get_recording_count_use_case.dart'
+    as _i97;
 import 'package:whispr/domain/use_case/archive/restore_recordings_use_case.dart'
     as _i837;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart'
@@ -80,6 +82,8 @@ import 'package:whispr/domain/use_case/audio_recordings/get_audio_recordings_by_
     as _i648;
 import 'package:whispr/domain/use_case/audio_recordings/get_favourite_audio_recordings_use_case.dart'
     as _i209;
+import 'package:whispr/domain/use_case/audio_recordings/get_recording_first_and_last_date_use_case.dart'
+    as _i765;
 import 'package:whispr/domain/use_case/audio_recordings/save_audio_recording_use_case.dart'
     as _i319;
 import 'package:whispr/domain/use_case/audio_recordings/update_audio_recording_use_case.dart'
@@ -238,6 +242,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i980.BackupRecordingsUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i837.RestoreRecordingsUseCase>(
         () => _i837.RestoreRecordingsUseCase(gh<_i331.ArchiveRepository>()));
+    gh.factory<_i97.GetRecordingCountUseCase>(
+        () => _i97.GetRecordingCountUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
         _i825.GetAudioRecordingByIdUseCase(
             gh<_i383.AudioRecordingRepository>()));
@@ -259,6 +265,9 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i185.UpdateAudioRecordingUseCase>(() =>
         _i185.UpdateAudioRecordingUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i765.GetRecordingFirstAndLastDateUseCase>(() =>
+        _i765.GetRecordingFirstAndLastDateUseCase(
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i720.AuthenticateLocalAuthUseCase>(() =>
         _i720.AuthenticateLocalAuthUseCase(
