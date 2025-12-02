@@ -225,6 +225,52 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
       'Mark the moments that matter — tap the heart button ❤ to save them here.';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backup => 'Backup';
+
+  @override
+  String get exportData => 'Export Data';
+
+  @override
+  String get exportSubtitle =>
+      'You can export your recordings and notes anytime.';
+
+  @override
+  String get export => 'Export';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get fileName => 'File Name';
+
+  @override
+  String recordingCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Found $count recordings',
+      one: 'Found 1 recording',
+      zero: 'No recording found',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupSuccess => 'Backup Success!';
+
+  @override
+  String get backupFailed => 'Backup Failed!';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

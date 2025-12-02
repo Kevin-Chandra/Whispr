@@ -32,11 +32,15 @@ class WhisprSettingsItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                label,
-                style: WhisprTextStyles.bodyS.copyWith(
-                    color: WhisprColors.spanishViolet,
-                    fontWeight: FontWeight.bold),
+              Container(
+                alignment: Alignment.center,
+                height: 40,
+                child: Text(
+                  label,
+                  style: WhisprTextStyles.bodyM.copyWith(
+                      color: WhisprColors.spanishViolet,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               switch (style) {
                 WhisprSettingsItemStyle.toggleable =>

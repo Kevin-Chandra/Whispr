@@ -7,6 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:whispr/di/di_config.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/settings/settings_cubit.dart';
+import 'package:whispr/presentation/router/router_config.gr.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_settings_item.dart';
@@ -72,6 +73,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
           ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              context.strings.backupAndRestore,
+              style: WhisprTextStyles.heading5
+                  .copyWith(color: WhisprColors.spanishViolet),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          WhisprSettingsItem(
+            label: context.strings.backup,
+            onClick: () {
+              context.router.push(const BackupRoute());
+            },
+            style: WhisprSettingsItemStyle.clickable,
+          ),
           Center(
             child: Text(
               context.strings.appVersion(
@@ -81,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: WhisprTextStyles.subtitle1
                   .copyWith(fontWeight: FontWeight.normal),
             ),
-          )
+          ),
         ],
       ),
     );

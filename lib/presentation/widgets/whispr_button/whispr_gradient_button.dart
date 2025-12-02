@@ -141,7 +141,7 @@ class WhisprGradientButton extends StatelessWidget {
         );
 
   Gradient _resolveGradient() =>
-      onPressed == null ? gradient.withOpacity(0.5) : gradient;
+      onPressed == null ? gradient.withOpacity(0.3) : gradient;
 
   // Gradient for background color.
   Gradient? _resolveBackgroundGradient() => switch (buttonStyle) {

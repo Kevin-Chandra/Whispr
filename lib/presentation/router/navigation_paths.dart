@@ -10,4 +10,5 @@ abstract class WhisprNavigationPaths {
   static const String editAudioRecordingPath = '/edit_audio_recording';
   static const String lockedPath = '/locked_screen';
   static const String inactivePath = '/inactive_screen';
+  static const String backupPath = '/backup';
 }
