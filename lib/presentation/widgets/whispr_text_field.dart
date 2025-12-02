@@ -27,6 +27,7 @@ class WhisprTextField extends StatefulWidget {
     this.helperText,
     this.errorText,
     this.prefixText,
+    this.suffixText,
     this.errorMaxLines = 1,
     this.isEditable = true,
     this.isReadOnly = false,
@@ -59,6 +60,7 @@ class WhisprTextField extends StatefulWidget {
   final String? helperText;
   final String? errorText;
   final String? prefixText;
+  final String? suffixText;
   final int? errorMaxLines;
   final bool isEditable;
   final bool isReadOnly;
@@ -127,62 +129,67 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: _resolveDecoration(),
-          child: TextFormField(
-            focusNode: _focusNode,
-            maxLines: widget.isPassword ? 1 : widget.maxLines,
-            minLines: widget.minLines,
-            maxLength: widget.maxLength,
-            decoration: _buildInputDecoration(context),
-            enabled: widget.isEditable,
-            readOnly: widget.isReadOnly,
-            expands: widget.expands,
-            obscureText: widget.isPassword && !_showPassword,
-            enableSuggestions:
-                widget.isPassword ? false : widget.enableSuggestions,
-            autocorrect: widget.isPassword ? false : widget.autoCorrect,
-            onChanged: widget.onTextChanged,
-            onFieldSubmitted: widget.onSubmitted,
-            onTap: widget.onTap,
-            onSaved: widget.onSaved,
-            controller: _controller,
-            textInputAction: widget.textInputAction,
-            onTapOutside: (event) => FocusScope.of(context).unfocus(),
-            keyboardType: widget.textInputType,
-            inputFormatters: widget.inputFormatters,
-            textAlign: widget.textAlign,
-            style: widget.textStyle,
-            validator: (value) {
-              final err = widget.validator?.call(value);
-              setState(() => _validatorErrorText = err);
-              return err;
-            },
-            // Disable built-in error text.
-            errorBuilder: (_, error) => SizedBox(),
-            // Disable built-in text counter.
-            buildCounter: (BuildContext context,
-                {int? currentLength, int? maxLength, bool? isFocused}) {
-              return null;
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(14, 4, 14, 0),
-          child: Row(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _resolveErrorOrHelperText()),
-              _resolveTextFieldCounter(),
-            ],
-          ),
-        )
-      ],
+    final textFormWidget = TextFormField(
+      focusNode: _focusNode,
+      maxLines: widget.isPassword ? 1 : widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      decoration: _buildInputDecoration(context),
+      enabled: widget.isEditable,
+      readOnly: widget.isReadOnly,
+      expands: widget.expands,
+      obscureText: widget.isPassword && !_showPassword,
+      enableSuggestions: widget.isPassword ? false : widget.enableSuggestions,
+      autocorrect: widget.isPassword ? false : widget.autoCorrect,
+      onChanged: widget.onTextChanged,
+      onFieldSubmitted: widget.onSubmitted,
+      onTap: widget.onTap,
+      onSaved: widget.onSaved,
+      controller: _controller,
+      textInputAction: widget.textInputAction,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      keyboardType: widget.textInputType,
+      inputFormatters: widget.inputFormatters,
+      textAlign: widget.textAlign,
+      style: widget.textStyle,
+      validator: (value) {
+        final err = widget.validator?.call(value);
+        setState(() => _validatorErrorText = err);
+        return err;
+      },
+      // Disable built-in error text.
+      errorBuilder: (_, error) => SizedBox(),
+      // Disable built-in text counter.
+      buildCounter: (BuildContext context,
+          {int? currentLength, int? maxLength, bool? isFocused}) {
+        return null;
+      },
     );
+
+    if (widget.whisprTextFieldStyle == WhisprTextFieldStyle.skeleton) {
+      return textFormWidget;
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: _resolveDecoration(),
+            child: textFormWidget,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 4, 14, 0),
+            child: Row(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _resolveErrorOrHelperText()),
+                _resolveTextFieldCounter(),
+              ],
+            ),
+          )
+        ],
+      );
+    }
   }
 
   void _validate() {
@@ -196,6 +203,11 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
 
   InputDecoration _buildInputDecoration(BuildContext context) {
     return InputDecoration(
+      isDense: widget.whisprTextFieldStyle == WhisprTextFieldStyle.skeleton,
+      contentPadding:
+          widget.whisprTextFieldStyle == WhisprTextFieldStyle.skeleton
+              ? const EdgeInsets.all(0)
+              : null,
       label: widget.title != null
           ? Text(
               widget.title!,
@@ -210,9 +222,9 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
       fillColor: Colors.transparent,
       filled: true,
       prefixText: widget.prefixText,
-      prefixStyle: WhisprTextStyles.bodyL.copyWith(
-        color: widget.isEditable ? null : WhisprColors.spanishGray,
-      ),
+      prefixStyle: widget.textStyle,
+      suffixText: widget.suffixText,
+      suffixStyle: widget.textStyle,
       border: _resolveBorder(),
       // Set to default color for disabled icon color.
       prefixIconColor: widget.isEditable ? WhisprColors.mediumPurple : null,
@@ -223,6 +235,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
 
   InputBorder? _resolveErrorBorder() => switch (widget.whisprTextFieldStyle) {
         WhisprTextFieldStyle.outlined => null,
+        WhisprTextFieldStyle.skeleton => null,
         WhisprTextFieldStyle.underlined => UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
@@ -231,6 +244,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
   InputBorder? _resolveBorder() {
     return switch (widget.whisprTextFieldStyle) {
       WhisprTextFieldStyle.outlined => InputBorder.none,
+      WhisprTextFieldStyle.skeleton => InputBorder.none,
       WhisprTextFieldStyle.underlined =>
         UnderlineInputBorder(borderSide: _resolveUnderlinedBorderSide()),
     };
@@ -316,6 +330,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
   Color _resolveFillColor() => switch (widget.whisprTextFieldStyle) {
         WhisprTextFieldStyle.outlined => Colors.white,
         WhisprTextFieldStyle.underlined => Colors.transparent,
+        WhisprTextFieldStyle.skeleton => Colors.transparent,
       };
 
   Decoration? _resolveDecoration() => switch (widget.whisprTextFieldStyle) {
@@ -340,6 +355,7 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
                 : null,
           ),
         WhisprTextFieldStyle.underlined => null,
+        WhisprTextFieldStyle.skeleton => null,
       };
 
   BoxBorder? _resolveDecorationBorder() {
@@ -358,4 +374,4 @@ class _WhisprTextFieldState extends State<WhisprTextField> {
   }
 }
 
-enum WhisprTextFieldStyle { outlined, underlined }
+enum WhisprTextFieldStyle { outlined, underlined, skeleton }
