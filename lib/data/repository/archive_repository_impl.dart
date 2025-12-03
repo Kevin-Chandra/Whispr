@@ -33,11 +33,14 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
   }) async {
     try {
       final appDirectory = await _fileService.getDefaultDirectory();
-      final isBackupFileExist = await _fileService.isFileExist(
-        "$appDirectory/${FileConstants.backupDirectory}/$fileName${FileConstants.archiveFileExtension}",
-      );
+      final backupFilePath =
+          "$appDirectory/${FileConstants.backupDirectory}/$fileName${FileConstants.archiveFileExtension}";
+      final isBackupFileExist = await _fileService.isFileExist(backupFilePath);
+
       if (isBackupFileExist) {
-        throw Exception("Backup file with name $fileName already exist");
+        Constants.logger
+            .i("Found file with the same name, deleting the file...");
+        await _fileService.deleteFile(backupFilePath);
       }
 
       Constants.logger.i("Starting backup operation");
@@ -118,17 +121,16 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       );
       Constants.logger.i("Backup file created");
 
-      // 8.Delete temporary directory.
+      return left(archivedFile);
+    } on Exception catch (e, s) {
+      Constants.logger.e("Backup operation failed\n$e\n$s");
+      return right(FailureEntity(error: e.toString()));
+    } finally {
       await _fileService.deleteDirectory(
         FileConstants.backupTemporaryDirectory,
         recursive: true,
       );
       Constants.logger.i("Temporary backup directory deleted");
-
-      return left(archivedFile);
-    } on Exception catch (e, s) {
-      Constants.logger.e("Backup operation failed\n$e\n$s");
-      return right(FailureEntity(error: e.toString()));
     }
   }
 
@@ -237,17 +239,16 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       await database.bulkInsert(modifiedAudioRecordings);
       Constants.logger.i("Imported all backup files to database");
 
-      // 9. Delete temporary directory.
+      return left(true);
+    } on Exception catch (e, s) {
+      Constants.logger.e("Restore operation failed\n$e\n$s");
+      return right(FailureEntity(error: e.toString()));
+    } finally {
       await _fileService.deleteDirectory(
         FileConstants.backupTemporaryDirectory,
         recursive: true,
       );
       Constants.logger.i("Temporary backup directory deleted");
-
-      return left(true);
-    } on Exception catch (e, s) {
-      Constants.logger.e("Restore operation failed\n$e\n$s");
-      return right(FailureEntity(error: e.toString()));
     }
   }
 
