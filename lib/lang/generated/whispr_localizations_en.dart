@@ -271,6 +271,32 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get backupFailed => 'Backup Failed!';
 
   @override
+  String get restore => 'Restore';
+
+  @override
+  String get restoreFailed => 'Restore Failed!';
+
+  @override
+  String get restoreSuccess => 'Restore Success';
+
+  @override
+  String get restoreWarning =>
+      'Warning: Importing this file will remove all your current recordings and notes. Do you wish to proceed?';
+
+  @override
+  String get proceed => 'Proceed';
+
+  @override
+  String get import => 'Import';
+
+  @override
+  String get importSubtitle =>
+      'You can import your saved recordings and notes anytime. Importing will remove all your current recording.';
+
+  @override
+  String get selectAFile => 'Select a file';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

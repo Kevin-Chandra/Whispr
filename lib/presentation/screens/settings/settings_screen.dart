@@ -90,6 +90,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
             style: WhisprSettingsItemStyle.clickable,
           ),
+          WhisprSettingsItem(
+            label: context.strings.restore,
+            onClick: () {
+              context.router.push(const RestoreRoute());
+            },
+            style: WhisprSettingsItemStyle.clickable,
+          ),
           Center(
             child: Text(
               context.strings.appVersion(

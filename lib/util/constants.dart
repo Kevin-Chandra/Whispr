@@ -32,6 +32,7 @@ abstract class FileConstants {
   static const audioDirectoryName = 'audio_recordings';
   static const audioFileExtension = '.m4a';
   static const archiveFileExtension = '.zip';
+  static const archiveFileExtensionWithoutDot = 'zip';
   static const audioFileHeaderName = 'audio_recording';
 
   static const backupDirectory = 'backups';

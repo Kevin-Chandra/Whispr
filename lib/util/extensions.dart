@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,5 +70,15 @@ extension ShareFiles on File {
       }
     }
     return;
+  }
+}
+
+extension FileSize on int {
+  String formatBytes([int decimals = 2]) {
+    if (this <= 0) return "0 B";
+    const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+    final i = (log(this) / log(1024)).floor();
+    final value = this / pow(1024, i);
+    return "${value.toStringAsFixed(decimals)} ${sizes[i]}";
   }
 }

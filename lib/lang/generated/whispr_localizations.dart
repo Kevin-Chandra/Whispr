@@ -574,6 +574,54 @@ abstract class WhisprLocalizations {
   /// **'Backup Failed!'**
   String get backupFailed;
 
+  /// No description provided for @restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restore;
+
+  /// No description provided for @restoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Failed!'**
+  String get restoreFailed;
+
+  /// No description provided for @restoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Success'**
+  String get restoreSuccess;
+
+  /// No description provided for @restoreWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Importing this file will remove all your current recordings and notes. Do you wish to proceed?'**
+  String get restoreWarning;
+
+  /// No description provided for @proceed.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed'**
+  String get proceed;
+
+  /// No description provided for @import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get import;
+
+  /// No description provided for @importSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can import your saved recordings and notes anytime. Importing will remove all your current recording.'**
+  String get importSubtitle;
+
+  /// No description provided for @selectAFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a file'**
+  String get selectAFile;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:
