@@ -71,6 +71,8 @@
   "unknownErrorMessage": "An unexpected error happened.",
   "privacyAndSecurity": "Privacy & Security",
   "appLock": "App Lock",
+  "thisAppIsProtected": "This app is protected.",
+  "unlock": "Unlock",
   "appVersion": "App version: {version} ({build_number})",
   "@appVersion": {
     "placeholders": {

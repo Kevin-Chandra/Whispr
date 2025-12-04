@@ -115,6 +115,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: CustomIcon
+      fonts:
+        - asset: assets/fonts/Custom-Icon.ttf
     - family: Nunito
       fonts:
         - asset: assets/fonts/Nunito-Regular.ttf
