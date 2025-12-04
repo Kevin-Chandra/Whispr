@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:whispr/data/local/local_auth/local_authentication_exception.dart';
 import 'package:whispr/presentation/bloc/app_lock/app_lock_cubit.dart';
+import 'package:whispr/presentation/screens/app_lock/app_lock_body.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/extensions.dart';
 
@@ -65,18 +66,8 @@ class _AppLockedScreenState extends State<AppLockedScreen> {
             }
           }
         },
-        builder: (context, state) => Scaffold(
-          body: Container(
-            color: Colors.green,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  _appLockCubit.authenticate();
-                },
-                child: Text("Locked"),
-              ),
-            ),
-          ),
+        builder: (context, state) => AppLockBody(
+          onUnlockPressed: _appLockCubit.authenticate,
         ),
       ),
     );

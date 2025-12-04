@@ -210,6 +210,12 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get appLock => 'App Lock';
 
   @override
+  String get thisAppIsProtected => 'This app is protected.';
+
+  @override
+  String get unlock => 'Unlock';
+
+  @override
   String appVersion(String version, String build_number) {
     return 'App version: $version ($build_number)';
   }

@@ -478,6 +478,18 @@ abstract class WhisprLocalizations {
   /// **'App Lock'**
   String get appLock;
 
+  /// No description provided for @thisAppIsProtected.
+  ///
+  /// In en, this message translates to:
+  /// **'This app is protected.'**
+  String get thisAppIsProtected;
+
+  /// No description provided for @unlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlock;
+
   /// No description provided for @appVersion.
   ///
   /// In en, this message translates to:
