@@ -56,4 +56,14 @@ class RecordingTagRepositoryImpl implements RecordingTagRepository {
         .firstWhereOrNull((tag) => tag.label.equalsIgnoreCase(label));
     return left(tag?.mapToDomain());
   }
+
+  @override
+  Future<Either<bool, FailureEntity>> clearAllTags() async {
+    try {
+      await _box.clear();
+      return left(true);
+    } on Exception catch (e, s) {
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
 }

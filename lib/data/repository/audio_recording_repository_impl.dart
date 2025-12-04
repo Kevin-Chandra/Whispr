@@ -142,4 +142,14 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
   Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate() async {
     return await database.getRecordingFirstAndLastDate();
   }
+
+  @override
+  Future<Either<bool, FailureEntity>> clearAllData() async {
+    try {
+      await database.clearDatabase();
+      return left(true);
+    } on Exception catch (e, s) {
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
 }

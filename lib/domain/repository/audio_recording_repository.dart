@@ -25,4 +25,6 @@ abstract class AudioRecordingRepository {
       String id);
 
   Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate();
+
+  Future<Either<bool, FailureEntity>> clearAllData();
 }

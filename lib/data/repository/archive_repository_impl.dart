@@ -263,4 +263,18 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
     );
     return recordings.length;
   }
+
+  @override
+  Future<Either<bool, FailureEntity>> clearAllBackups() async {
+    try {
+      await _fileService.deleteDirectory(
+        FileConstants.backupDirectory,
+        recursive: true,
+      );
+      return left(true);
+    } on Exception catch (e, s) {
+      Constants.logger.e("Clear backup directory failed!\n$e\n$s");
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
 }
