@@ -89,6 +89,11 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       Constants.logger
           .i("Found ${filteredRecordings.length} recording(s) to backup");
 
+      // If there's no recording to backup throw an error.
+      if (filteredRecordings.isEmpty) {
+        return right(FailureEntity(error: "No recording found to backup!"));
+      }
+
       // 3. Copy all the recordings to the temporary directory.
       await Future.wait(
           filteredRecordings.map((recording) => _fileService.copyFile(
