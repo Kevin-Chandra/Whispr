@@ -27,3 +27,19 @@ abstract class DateFormatConstants {
   static const String monthDateYearFormat = 'MMM dd, yyyy';
   static const String createdAtFormat = 'HH:mm MMM dd, yyyy';
 }
+
+abstract class FileConstants {
+  static const audioDirectoryName = 'audio_recordings';
+  static const audioFileExtension = '.m4a';
+  static const archiveFileExtension = '.zip';
+  static const archiveFileExtensionWithoutDot = 'zip';
+  static const audioFileHeaderName = 'audio_recording';
+
+  static const backupDirectory = 'backups';
+  static const backupTemporaryDirectory = 'backups/temp';
+  static const backupTemporaryRecordingsDirectory =
+      'backups/temp/$backupTemporaryRecordingsPath';
+  static const backupTemporaryRecordingsPath = 'recordings';
+  static const recordingBackupFile = 'recordings.json';
+  static const recordingTagBackupFile = 'tags.json';
+}

@@ -28,6 +28,32 @@ class AudioRecordingModel extends HiveObject {
     required this.updatedAt,
   });
 
+  AudioRecordingModel copyWith({
+    String? id,
+    String? name,
+    String? filePath,
+    bool? isFavourite,
+    Mood? mood,
+    List<RecordingTagModel>? tags,
+    List<double>? waveformData,
+    Duration? duration,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return AudioRecordingModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      filePath: filePath ?? this.filePath,
+      isFavourite: isFavourite ?? this.isFavourite,
+      mood: mood ?? this.mood,
+      tags: tags ?? List<RecordingTagModel>.from(this.tags),
+      waveformData: waveformData ?? this.waveformData,
+      duration: duration ?? this.duration,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   factory AudioRecordingModel.fromJson(Map<String, dynamic> json) =>
       AudioRecordingModel(
         id: json['id'],
@@ -42,6 +68,9 @@ class AudioRecordingModel extends HiveObject {
         waveformData: List<double>.from(json['waveformData']),
         duration: Duration(milliseconds: json['duration']),
       );
+
+  static List<AudioRecordingModel> fromJsonList(List<dynamic> jsonList) =>
+      jsonList.map((json) => AudioRecordingModel.fromJson(json)).toList();
 
   Map<String, dynamic> toJson() {
     return {

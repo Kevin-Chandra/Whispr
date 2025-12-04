@@ -7,12 +7,14 @@ class WhisprGradientScaffold extends StatelessWidget {
     this.appBar,
     this.body,
     this.bottomNavigationBar,
+    this.resizeToAvoidBottomInset = false,
   });
 
   final Gradient gradient;
   final PreferredSizeWidget? appBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
+  final bool resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class WhisprGradientScaffold extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: appBar,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         backgroundColor: Colors.transparent,
         body: body,
         bottomNavigationBar: bottomNavigationBar,

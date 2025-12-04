@@ -23,4 +23,6 @@ abstract class AudioRecordingRepository {
 
   Future<Either<AudioRecording, FailureEntity>> getAudioRecordingById(
       String id);
+
+  Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate();
 }

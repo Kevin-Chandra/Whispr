@@ -225,6 +225,78 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
       'Mark the moments that matter — tap the heart button ❤ to save them here.';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backup => 'Backup';
+
+  @override
+  String get exportData => 'Export Data';
+
+  @override
+  String get exportSubtitle =>
+      'You can export your recordings and notes anytime.';
+
+  @override
+  String get export => 'Export';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get fileName => 'File Name';
+
+  @override
+  String recordingCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Found $count recordings',
+      one: 'Found 1 recording',
+      zero: 'No recording found',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupSuccess => 'Backup Success!';
+
+  @override
+  String get backupFailed => 'Backup Failed!';
+
+  @override
+  String get restore => 'Restore';
+
+  @override
+  String get restoreFailed => 'Restore Failed!';
+
+  @override
+  String get restoreSuccess => 'Restore Success';
+
+  @override
+  String get restoreWarning =>
+      'Warning: Importing this file will remove all your current recordings and notes. Do you wish to proceed?';
+
+  @override
+  String get proceed => 'Proceed';
+
+  @override
+  String get import => 'Import';
+
+  @override
+  String get importSubtitle =>
+      'You can import your saved recordings and notes anytime. Importing will remove all your current recording.';
+
+  @override
+  String get selectAFile => 'Select a file';
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

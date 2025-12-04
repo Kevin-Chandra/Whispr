@@ -502,6 +502,126 @@ abstract class WhisprLocalizations {
   /// **'Mark the moments that matter — tap the heart button ❤ to save them here.'**
   String get noFavouritesMessage;
 
+  /// No description provided for @backupAndRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupAndRestore;
+
+  /// No description provided for @backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backup;
+
+  /// No description provided for @exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get exportData;
+
+  /// No description provided for @exportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can export your recordings and notes anytime.'**
+  String get exportSubtitle;
+
+  /// No description provided for @export.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
+
+  /// No description provided for @exporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting...'**
+  String get exporting;
+
+  /// No description provided for @from.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get from;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// No description provided for @fileName.
+  ///
+  /// In en, this message translates to:
+  /// **'File Name'**
+  String get fileName;
+
+  /// No description provided for @recordingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No recording found} =1{Found 1 recording} other{Found {count} recordings}}'**
+  String recordingCount(num count);
+
+  /// No description provided for @backupSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Success!'**
+  String get backupSuccess;
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Failed!'**
+  String get backupFailed;
+
+  /// No description provided for @restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restore;
+
+  /// No description provided for @restoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Failed!'**
+  String get restoreFailed;
+
+  /// No description provided for @restoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Success'**
+  String get restoreSuccess;
+
+  /// No description provided for @restoreWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Importing this file will remove all your current recordings and notes. Do you wish to proceed?'**
+  String get restoreWarning;
+
+  /// No description provided for @proceed.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed'**
+  String get proceed;
+
+  /// No description provided for @import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get import;
+
+  /// No description provided for @importSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can import your saved recordings and notes anytime. Importing will remove all your current recording.'**
+  String get importSubtitle;
+
+  /// No description provided for @selectAFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a file'**
+  String get selectAFile;
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:
