@@ -303,6 +303,31 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get selectAFile => 'Select a file';
 
   @override
+  String get storage => 'Storage';
+
+  @override
+  String get clearAllData => 'Clear all data';
+
+  @override
+  String get clearAllDataSuccess => 'Successfully cleared all data';
+
+  @override
+  String get clearAllDataWarning =>
+      'All your recordings and backup files will be deleted. This process is IRREVERSIBLE. Do you wish to delete?';
+
+  @override
+  String get deleteForever => 'Delete forever';
+
+  @override
+  String get clearAllDataSubtitle =>
+      'Clearing all data will remove all your current recordings and notes. This action cannot be undone.';
+
+  @override
+  String typeDeleteToConfirm(String keyword) {
+    return 'Type \"$keyword\" to confirm';
+  }
+
+  @override
   String get microphonePermissionDeniedTitle =>
       'Please allow us to record audio';
 

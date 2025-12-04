@@ -18,4 +18,6 @@ abstract class ArchiveRepository {
     required DateTime startDate,
     required DateTime endDate,
   });
+
+  Future<Either<bool, FailureEntity>> clearAllBackups();
 }

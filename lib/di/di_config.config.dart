@@ -114,6 +114,8 @@ import 'package:whispr/domain/use_case/recording_tags/get_all_recording_tags_use
     as _i166;
 import 'package:whispr/domain/use_case/recording_tags/save_recording_tag_use_case.dart'
     as _i898;
+import 'package:whispr/domain/use_case/settings/clear_all_data_use_case.dart'
+    as _i520;
 import 'package:whispr/domain/use_case/settings/complete_onboarding_use_case.dart'
     as _i823;
 import 'package:whispr/domain/use_case/settings/get_has_completed_onboarding_use_case.dart'
@@ -223,6 +225,11 @@ extension GetItInjectableX on _i174.GetIt {
               instanceName: 'RECORDING_TAG_BOX_KEY'),
           gh<_i310.AudioRecordingLocalIndexableDatabase>(),
           gh<_i13.FileService>(),
+        ));
+    gh.factory<_i520.ClearAllDataUseCase>(() => _i520.ClearAllDataUseCase(
+          gh<_i383.AudioRecordingRepository>(),
+          gh<_i878.RecordingTagRepository>(),
+          gh<_i331.ArchiveRepository>(),
         ));
     gh.factory<_i653.SendAudioPlayerCommandUseCase>(() =>
         _i653.SendAudioPlayerCommandUseCase(gh<_i480.AudioPlayerRepository>()));

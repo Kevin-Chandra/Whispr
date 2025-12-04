@@ -89,6 +89,11 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       Constants.logger
           .i("Found ${filteredRecordings.length} recording(s) to backup");
 
+      // If there's no recording to backup throw an error.
+      if (filteredRecordings.isEmpty) {
+        return right(FailureEntity(error: "No recording found to backup!"));
+      }
+
       // 3. Copy all the recordings to the temporary directory.
       await Future.wait(
           filteredRecordings.map((recording) => _fileService.copyFile(
@@ -262,5 +267,19 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       endDate: endDate,
     );
     return recordings.length;
+  }
+
+  @override
+  Future<Either<bool, FailureEntity>> clearAllBackups() async {
+    try {
+      await _fileService.deleteDirectory(
+        FileConstants.backupDirectory,
+        recursive: true,
+      );
+      return left(true);
+    } on Exception catch (e, s) {
+      Constants.logger.e("Clear backup directory failed!\n$e\n$s");
+      return right(FailureEntity(error: e.toString()));
+    }
   }
 }

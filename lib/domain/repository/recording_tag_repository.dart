@@ -14,4 +14,6 @@ abstract class RecordingTagRepository {
       {String? label});
 
   Future<Either<RecordingTag?, FailureEntity>> getTagByLabel(String label);
+
+  Future<Either<bool, FailureEntity>> clearAllTags();
 }

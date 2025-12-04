@@ -92,8 +92,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           WhisprSettingsItem(
             label: context.strings.restore,
-            onClick: () {
-              context.router.push(const RestoreRoute());
+            onClick: () async {
+              final shouldRefresh =
+                  await context.router.push(const RestoreRoute());
+              if (shouldRefresh == true) {
+                _homeCubit.refreshAudioRecordings();
+              }
+            },
+            style: WhisprSettingsItemStyle.clickable,
+          ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              context.strings.storage,
+              style: WhisprTextStyles.heading5
+                  .copyWith(color: WhisprColors.spanishViolet),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          WhisprSettingsItem(
+            label: context.strings.clearAllData,
+            onClick: () async {
+              final shouldRefresh =
+                  await context.router.push(const ClearAllDataRoute());
+              if (shouldRefresh == true) {
+                _homeCubit.refreshAudioRecordings();
+              }
             },
             style: WhisprSettingsItemStyle.clickable,
           ),

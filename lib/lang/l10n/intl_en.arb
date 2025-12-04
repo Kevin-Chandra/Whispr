@@ -107,6 +107,20 @@
   "import": "Import",
   "importSubtitle": "You can import your saved recordings and notes anytime. Importing will remove all your current recording.",
   "selectAFile": "Select a file",
+  "storage": "Storage",
+  "clearAllData": "Clear all data",
+  "clearAllDataSuccess": "Successfully cleared all data",
+  "clearAllDataWarning": "All your recordings and backup files will be deleted. This process is IRREVERSIBLE. Do you wish to delete?",
+  "deleteForever": "Delete forever",
+  "clearAllDataSubtitle": "Clearing all data will remove all your current recordings and notes. This action cannot be undone.",
+  "typeDeleteToConfirm": "Type \"{keyword}\" to confirm",
+  "@typeDeleteToConfirm": {
+    "placeholders": {
+      "keyword": {
+        "type": "String"
+      }
+    }
+  },
   "microphonePermissionDeniedTitle": "Please allow us to record audio",
   "microphonePermissionDeniedMessage": "Whispr need the microphone access to record your story.",
   "microphonePermissionDeniedForeverTitle": "Whispr require microphone access",

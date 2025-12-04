@@ -12,4 +12,5 @@ abstract class WhisprNavigationPaths {
   static const String inactivePath = '/inactive_screen';
   static const String backupPath = '/backup';
   static const String restorePath = '/restore';
+  static const String clearAllDataPath = '/clear_all_data';
 }

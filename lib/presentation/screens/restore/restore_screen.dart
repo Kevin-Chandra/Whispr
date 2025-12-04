@@ -91,7 +91,8 @@ class _RestoreScreenState extends State<RestoreScreen> {
                 );
 
                 if (context.mounted) {
-                  NavigationCoordinator.navigatorPop(context: context);
+                  NavigationCoordinator.navigatorPopWithRefreshResult(
+                      context: context);
                 }
               }
             },

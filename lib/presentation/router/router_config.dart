@@ -88,5 +88,10 @@ class WhisprRouter extends RootStackRouter {
           path: WhisprNavigationPaths.restorePath,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          page: ClearAllDataRoute.page,
+          path: WhisprNavigationPaths.clearAllDataPath,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }
