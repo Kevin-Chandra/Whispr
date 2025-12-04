@@ -634,6 +634,48 @@ abstract class WhisprLocalizations {
   /// **'Select a file'**
   String get selectAFile;
 
+  /// No description provided for @storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get storage;
+
+  /// No description provided for @clearAllData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all data'**
+  String get clearAllData;
+
+  /// No description provided for @clearAllDataSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully cleared all data'**
+  String get clearAllDataSuccess;
+
+  /// No description provided for @clearAllDataWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'All your recordings and backup files will be deleted. This process is IRREVERSIBLE. Do you wish to delete?'**
+  String get clearAllDataWarning;
+
+  /// No description provided for @deleteForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get deleteForever;
+
+  /// No description provided for @clearAllDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing all data will remove all your current recordings and notes. This action cannot be undone.'**
+  String get clearAllDataSubtitle;
+
+  /// No description provided for @typeDeleteToConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Type \"{keyword}\" to confirm'**
+  String typeDeleteToConfirm(String keyword);
+
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
   /// In en, this message translates to:
