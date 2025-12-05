@@ -145,6 +145,7 @@ class _GroupedAudioRecordingsState extends State<_GroupedAudioRecordings> {
                   expandedWidget: RecordingCardExpandedContent(
                     state: state,
                     audioRecording: currentRecording,
+                    currentDuration: _audioPlayerCubit.position,
                     onEditPressed: () {
                       widget.onEditPressed(currentRecording);
                     },

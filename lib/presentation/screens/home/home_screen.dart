@@ -63,6 +63,11 @@ class _HomeScreenState extends State<HomeScreen>
     return MultiBlocListener(
       listeners: [
         BlocListener<HomeCubit, HomeState>(listener: (ctx, state) {
+          if (state is ResetAudioPlayer) {
+            _audioPlayerCubit.stop();
+            return;
+          }
+
           if (state is RefreshAudioRecordings) {
             _journalCubit.refresh();
             _favouriteCubit.refresh();

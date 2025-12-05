@@ -56,6 +56,9 @@ class _VoiceRecordHomeScreenState extends State<VoiceRecordHomeScreen> {
             widthFactor: 0.6,
             child: WhisprRecordButton(
               onClick: () async {
+                // Stop any playing audio before recording.
+                _homeCubit.stopPlayingAudio();
+
                 final result =
                     await NavigationCoordinator.navigateToRecordAudio(
                   context: context,

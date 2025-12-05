@@ -12,3 +12,5 @@ final class IdleState extends HomeState {}
 final class AppLockConfigLoadedState extends HomeState {}
 
 final class RefreshAudioRecordings extends HomeState {}
+
+final class ResetAudioPlayer extends HomeState {}

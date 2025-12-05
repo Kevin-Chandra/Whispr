@@ -64,6 +64,8 @@ import 'package:whispr/domain/use_case/audio_player/get_audio_wave_form_use_case
     as _i667;
 import 'package:whispr/domain/use_case/audio_player/get_current_playing_file_use_case.dart'
     as _i163;
+import 'package:whispr/domain/use_case/audio_player/get_waveform_extraction_progress_use_case.dart'
+    as _i505;
 import 'package:whispr/domain/use_case/audio_player/prepare_audio_use_case.dart'
     as _i342;
 import 'package:whispr/domain/use_case/audio_player/send_audio_player_command_use_case.dart'
@@ -231,6 +233,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i878.RecordingTagRepository>(),
           gh<_i331.ArchiveRepository>(),
         ));
+    gh.factory<_i505.GetWaveformExtractionProgressUseCase>(() =>
+        _i505.GetWaveformExtractionProgressUseCase(
+            gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i653.SendAudioPlayerCommandUseCase>(() =>
         _i653.SendAudioPlayerCommandUseCase(gh<_i480.AudioPlayerRepository>()));
     gh.factory<_i120.GetAudioPlayerPositionStreamUseCase>(() =>

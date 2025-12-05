@@ -4,6 +4,7 @@ import 'package:whispr/presentation/themes/text_styles.dart';
 
 abstract class WhisprThemes {
   static final lightTheme = ThemeData(
+    brightness: Brightness.light,
     colorScheme: ColorScheme.fromSeed(seedColor: WhisprColors.spanishViolet),
     textTheme: WhisprTextStyles.whisprTextTheme,
     tabBarTheme: navigationTabTheme,

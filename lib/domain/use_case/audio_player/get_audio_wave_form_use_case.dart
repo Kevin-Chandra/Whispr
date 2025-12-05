@@ -13,7 +13,9 @@ class GetAudioWaveFormUseCase {
     String filePath, {
     int? noOfSamples,
   }) {
-    return _audioPlayerRepository.getAudioWaveform(filePath,
-        noOfSamples: noOfSamples);
+    return _audioPlayerRepository.getAudioWaveform(
+      filePath,
+      noOfSamples: noOfSamples,
+    );
   }
 }

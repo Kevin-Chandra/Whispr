@@ -12,6 +12,8 @@ import 'package:whispr/data/models/service_failure_model.dart';
 class AudioPlayerWaveformService {
   final FileService _fileService;
   StreamController<AudioPlayerState>? _audioPlayerStateStreamController;
+  StreamController<double?>? _waveformExtractionProgressStreamController;
+
   PlayerController? _player;
 
   AudioPlayerWaveformService(this._fileService);
@@ -64,14 +66,25 @@ class AudioPlayerWaveformService {
     }
 
     final player = PlayerController();
-    final waveform = await player.extractWaveformData(
+    final extractionProgressSub =
+        player.waveformExtraction.onExtractionProgress.listen((progress) {
+      _waveformExtractionProgressStreamController?.add(progress);
+    });
+    final waveform = await player.waveformExtraction.extractWaveformData(
       path: filePath,
       noOfSamples: noOfSamples ?? 100,
     );
 
+    // Reset progress.
+    _waveformExtractionProgressStreamController?.add(null);
+
     // Release all player resources.
+    extractionProgressSub.cancel();
     player.release();
     player.dispose();
+
+    _waveformExtractionProgressStreamController?.close();
+    _waveformExtractionProgressStreamController = null;
 
     return left(waveform);
   }
@@ -100,6 +113,12 @@ class AudioPlayerWaveformService {
   Stream<Duration>? getPlayerPositionStream() {
     return _player?.onCurrentDurationChanged
         .map((duration) => Duration(milliseconds: duration));
+  }
+
+  Stream<double?> getWaveformExtractionProgressStream() {
+    _waveformExtractionProgressStreamController ??=
+        StreamController<double?>(sync: true);
+    return _waveformExtractionProgressStreamController!.stream;
   }
 
   String? getCurrentPlayingFile() {
