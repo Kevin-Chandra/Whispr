@@ -10,6 +10,7 @@ import 'package:whispr/domain/entities/failure_entity.dart';
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/get_audio_wave_form_use_case.dart';
+import 'package:whispr/domain/use_case/audio_player/get_waveform_extraction_progress_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/prepare_audio_use_case.dart';
 import 'package:whispr/domain/use_case/audio_player/send_audio_player_command_use_case.dart';
 import 'package:whispr/util/extensions.dart';
@@ -28,6 +29,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
 
   Stream<Duration> get position => _audioPlayerPositionStreamController.stream;
   StreamSubscription? _audioPlayerPositionSubscription;
+
+  StreamSubscription<double?>? _waveformExtractionProgressSubscription;
 
   String? _currentPlayingFile;
 
@@ -61,9 +64,11 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
         return;
       }
 
-      final waveformResponse = await di
-          .get<GetAudioWaveFormUseCase>()
-          .call(file, noOfSamples: noOfSamples);
+      subscribeExtractionProgress();
+      final waveformResponse = await di.get<GetAudioWaveFormUseCase>().call(
+            file,
+            noOfSamples: noOfSamples,
+          );
       waveformResponse.fold((waveform) {
         safeEmit(
           AudioPlayerLoadedState(
@@ -122,11 +127,26 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
     });
   }
 
+  void subscribeExtractionProgress() {
+    _waveformExtractionProgressSubscription?.cancel();
+    _waveformExtractionProgressSubscription = di
+        .get<GetWaveformExtractionProgressUseCase>()
+        .call()
+        .listen((progress) {
+      safeEmit(AudioPlayerLoadingState(
+        state.state,
+        getCurrentPlayingFile(),
+        progress: progress,
+      ));
+    });
+  }
+
   String? getCurrentPlayingFile() => _currentPlayingFile;
 
   Future<void> _closeSubscription() async {
     await _audioPlayerPositionSubscription?.cancel();
     await _audioPlayerStateSubscription?.cancel();
+    await _waveformExtractionProgressSubscription?.cancel();
   }
 
   @override

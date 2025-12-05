@@ -4,6 +4,7 @@ import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_control.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_error.dart';
+import 'package:whispr/presentation/widgets/whispr_progress_indicator.dart';
 import 'package:whispr/util/extensions.dart';
 
 class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
@@ -32,7 +33,11 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
       AudioPlayerInitialState() => SizedBox(),
       AudioPlayerLoadingState() => Padding(
           padding: const EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
+          child: WhisprProgressIndicator(
+            value: (audioPlayerScreenState as AudioPlayerLoadingState).progress,
+            dimension: 50,
+            strokeWidth: 5,
+          ),
         ),
       AudioPlayerLoadedState() => _AudioPlayerAndWaveform(
           waveformWidth: waveformWidth,

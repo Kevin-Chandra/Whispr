@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:whispr/data/local/audio_recorder/record_audio_exception.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_cubit.dart';
 import 'package:whispr/presentation/bloc/record_audio/record_audio_state.dart';
@@ -105,6 +106,13 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                 BlocConsumer<RecordAudioCubit, RecordAudioState>(
                   listener:
                       (BuildContext context, RecordAudioState state) async {
+                    // Prevent screen from sleeping when recording.
+                    if (state is RecordAudioRecordingState) {
+                      WakelockPlus.enable();
+                    } else {
+                      WakelockPlus.disable();
+                    }
+
                     if (state is RecordAudioErrorState) {
                       // Permission exception.
                       if (state.error.exception is RecordAudioException) {

@@ -23,12 +23,23 @@ final class AudioPlayerInitialState extends AudioPlayerScreenState {
 }
 
 final class AudioPlayerLoadingState extends AudioPlayerScreenState {
-  const AudioPlayerLoadingState(super.state, super.currentPlayingFile);
+  const AudioPlayerLoadingState(
+    super.state,
+    super.currentPlayingFile, {
+    this.progress,
+  });
+
+  final double? progress;
 
   @override
   AudioPlayerScreenState copyWith(
-          AudioPlayerState state, String? currentPlayingFile) =>
-      AudioPlayerLoadingState(state, currentPlayingFile);
+    AudioPlayerState state,
+    String? currentPlayingFile,
+  ) =>
+      AudioPlayerLoadingState(state, currentPlayingFile, progress: progress);
+
+  @override
+  List<Object?> get props => [state, currentPlayingFile, progress];
 }
 
 final class AudioPlayerLoadedState extends AudioPlayerScreenState {
