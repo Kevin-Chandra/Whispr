@@ -22,6 +22,13 @@ class HomeCubit extends Cubit<HomeState> {
     safeEmit(IdleState());
   }
 
+  void stopPlayingAudio() {
+    safeEmit(ResetAudioPlayer());
+
+    // Reset the state.
+    safeEmit(IdleState());
+  }
+
   Future<void> refreshAppLockEnabled() async {
     _appLockedEnabled = await di.get<GetIsAppLockEnabledUseCase>().call();
   }

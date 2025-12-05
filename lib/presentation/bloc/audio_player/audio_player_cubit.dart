@@ -25,7 +25,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerScreenState> {
   StreamSubscription? _audioPlayerStateSubscription;
 
   // Audio player position.
-  final _audioPlayerPositionStreamController = StreamController<Duration>();
+  final _audioPlayerPositionStreamController =
+      StreamController<Duration>.broadcast();
 
   Stream<Duration> get position => _audioPlayerPositionStreamController.stream;
   StreamSubscription? _audioPlayerPositionSubscription;

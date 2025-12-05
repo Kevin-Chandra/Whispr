@@ -10,6 +10,7 @@ import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.da
 import 'package:whispr/presentation/widgets/whispr_button/whispr_gradient_button.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_icon_button.dart';
 import 'package:whispr/presentation/widgets/whispr_journal_item.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 import 'journal_item_audio_player_body.dart';
@@ -105,6 +106,7 @@ class _JournalListState extends State<_JournalList> {
                 expandedWidget: RecordingCardExpandedContent(
                   state: state,
                   audioRecording: currentAudioRecording,
+                  currentDuration: _audioPlayerCubit.position,
                   onEditPressed: () {
                     widget.onEditPressed(currentAudioRecording);
                   },
@@ -165,6 +167,7 @@ class RecordingCardExpandedContent extends StatelessWidget {
     required this.onPrepare,
     required this.onPlay,
     required this.onPause,
+    this.currentDuration,
   });
 
   final AudioPlayerScreenState state;
@@ -174,11 +177,12 @@ class RecordingCardExpandedContent extends StatelessWidget {
   final VoidCallback onPrepare;
   final VoidCallback onPlay;
   final VoidCallback onPause;
+  final Stream<Duration>? currentDuration;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 75,
       child: state.currentPlayingFile != audioRecording.filePath
           ? _RowWithEditAndDeleteButton(
               startWidget: WhisprIconButton(
@@ -218,16 +222,29 @@ class RecordingCardExpandedContent extends StatelessWidget {
                     ? JournalItemAudioPlayerBody(
                         playerControllerWidget:
                             _JournalItemAudioPlayerControlWrapper(
+                          onPrepare: onPrepare,
                           onPlayClick: onPlay,
                           onPauseClick: onPause,
                         ),
-                        waveformData: audioRecording.waveformData ?? [],
                         // TODO: Improve handling for null.
+                        waveformData: audioRecording.waveformData ?? [],
                         playerController:
                             (state as AudioPlayerLoadedState).controller,
+                        playerDurationDisplayWidget: StreamBuilder(
+                          stream: currentDuration,
+                          builder: (context, snapshot) => snapshot.data != null
+                              ? Text(
+                                  snapshot.data!.durationDisplay,
+                                  style: WhisprTextStyles.bodyS.copyWith(
+                                    color: WhisprColors.spanishViolet,
+                                  ),
+                                )
+                              : SizedBox(),
+                        ),
                       )
                     : _RowWithEditAndDeleteButton(
                         startWidget: _JournalItemAudioPlayerControlWrapper(
+                          onPrepare: onPrepare,
                           onPlayClick: onPlay,
                           onPauseClick: onPause,
                         ),
@@ -259,8 +276,10 @@ class _JournalItemAudioPlayerControlWrapper extends StatelessWidget {
   const _JournalItemAudioPlayerControlWrapper({
     required this.onPlayClick,
     required this.onPauseClick,
+    required this.onPrepare,
   });
 
+  final VoidCallback onPrepare;
   final VoidCallback onPlayClick;
   final VoidCallback onPauseClick;
 
@@ -288,7 +307,7 @@ class _JournalItemAudioPlayerControlWrapper extends StatelessWidget {
             ),
           AudioPlayerState.stopped => JournalItemAudioPlayerControl(
               isPlaying: false,
-              onPlayClick: onPlayClick,
+              onPlayClick: onPrepare,
               onPauseClick: onPauseClick,
             ),
         };
