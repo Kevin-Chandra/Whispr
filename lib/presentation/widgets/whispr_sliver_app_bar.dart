@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 
@@ -46,6 +47,9 @@ class WhisprSliverAppBar extends StatelessWidget {
       elevation: 0,
       scrolledUnderElevation: 0,
       backgroundColor: Colors.transparent,
+      systemOverlayStyle: isDarkBackground
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
     );
   }
 }
