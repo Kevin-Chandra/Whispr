@@ -1,16 +1,15 @@
-# Whispr
+# Whispr (WIP)
 
 Whispr, a voice record Flutter app.
 
-## Getting Started
+## Architecture
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Clean Architecture
+  - Presentation -> UI / State Management
+  - Domain -> Use-Case
+  - Data -> Local DB / API
+- Auto Router for Navigation
+- Dependency Injection (Get-it + Injectable)
+- Intl (l10n) for localization
+- Cubit for state management
+- Hive DB & Secure Storage (Keystore/Keychain)
