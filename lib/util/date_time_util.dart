@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:whispr/util/constants.dart';
+import 'package:whispr/util/extensions.dart';
 
 extension DateTimeUtils on DateTime {
   String get toUtcTime => toUtc().toIso8601String();
@@ -35,6 +37,21 @@ extension DateTimeUtils on DateTime {
 
   DateTime get extractDate {
     return DateTime(year, month, day);
+  }
+
+  String displayTimeAgo({required BuildContext context}) {
+    final now = DateTime.now();
+    final diff = now.difference(this);
+
+    if (diff.inSeconds < 60) {
+      return context.strings.justNow;
+    } else if (diff.inMinutes < 60) {
+      return context.strings.minutesAgo(diff.inMinutes);
+    } else if (diff.inHours < 24) {
+      return context.strings.hoursAgo(diff.inHours);
+    } else {
+      return context.strings.daysAgo(diff.inDays);
+    }
   }
 }
 

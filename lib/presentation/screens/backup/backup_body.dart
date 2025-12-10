@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as p;
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
@@ -19,7 +22,10 @@ class BackupBody extends StatelessWidget {
     required this.onStartDateChanged,
     required this.onEndDateChanged,
     required this.recordCountWidget,
+    this.onSharePressed,
+    this.onDownloadPressed,
     this.onBackupPressed,
+    this.recentBackup,
   });
 
   final Widget recordCountWidget;
@@ -30,6 +36,9 @@ class BackupBody extends StatelessWidget {
   final Function(DateTime) onStartDateChanged;
   final Function(DateTime) onEndDateChanged;
   final VoidCallback? onBackupPressed;
+  final File? recentBackup;
+  final VoidCallback? onSharePressed;
+  final VoidCallback? onDownloadPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +87,14 @@ class BackupBody extends StatelessWidget {
             gradient:
                 WhisprGradient.blueMagentaVioletInterdimensionalBlueGradient,
           ),
+          SizedBox(height: 48),
+          recentBackup != null
+              ? RecentBackupFilePreview(
+                  recentBackupFile: recentBackup!,
+                  onSharePressed: onSharePressed,
+                  onDownloadPressed: onDownloadPressed,
+                )
+              : SizedBox(),
           Spacer(
             flex: 2,
           )
@@ -281,3 +298,79 @@ class BackupRowItem extends StatelessWidget {
 }
 
 enum RowItemRoundedCorner { top, bottom, all, none }
+
+class RecentBackupFilePreview extends StatelessWidget {
+  const RecentBackupFilePreview({
+    super.key,
+    required this.recentBackupFile,
+    this.onSharePressed,
+    this.onDownloadPressed,
+  });
+
+  final File recentBackupFile;
+  final VoidCallback? onSharePressed;
+  final VoidCallback? onDownloadPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, bottom: 4),
+          child: Text(context.strings.recentBackup,
+              style: WhisprTextStyles.heading4
+                  .copyWith(color: WhisprColors.spanishViolet)),
+        ),
+        Card(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.folder_zip_rounded,
+                  color: WhisprColors.spanishViolet,
+                  size: 42,
+                ),
+                SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(p.basename(recentBackupFile.path),
+                        style: WhisprTextStyles.bodyM.copyWith(
+                            color: WhisprColors.spanishViolet,
+                            fontWeight: FontWeight.bold)),
+                    Text(recentBackupFile.statSync().size.formatBytes(),
+                        style: WhisprTextStyles.subtitle1
+                            .copyWith(color: WhisprColors.spanishViolet)),
+                    Text(
+                        context.strings.lastBackup(recentBackupFile
+                            .statSync()
+                            .modified
+                            .displayTimeAgo(context: context)),
+                        style: WhisprTextStyles.subtitle1
+                            .copyWith(color: WhisprColors.spanishViolet)),
+                  ],
+                ),
+                Spacer(),
+                IconButton(
+                  onPressed: onDownloadPressed,
+                  icon: Icon(Icons.download_rounded),
+                  color: WhisprColors.spanishViolet,
+                ),
+                IconButton(
+                  onPressed: onSharePressed,
+                  icon: Icon(Icons.share_rounded),
+                  color: WhisprColors.spanishViolet,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

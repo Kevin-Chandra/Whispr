@@ -4,7 +4,7 @@ sealed class BackupState extends Equatable {
   const BackupState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class IdleState extends BackupState {
@@ -12,23 +12,28 @@ final class IdleState extends BackupState {
     required this.recordingFirstDate,
     required this.startDate,
     required this.endDate,
+    this.recentBackup,
   });
 
   final DateTime recordingFirstDate;
   final DateTime startDate;
   final DateTime endDate;
+  final File? recentBackup;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         recordingFirstDate,
         startDate,
         endDate,
+        recentBackup,
       ];
 }
 
 final class BackupLoadingState extends BackupState {}
 
 final class InitialLoadingState extends BackupState {}
+
+final class SaveFileSuccessState extends BackupState {}
 
 final class BackupSuccessState extends BackupState {
   final File file;

@@ -61,7 +61,6 @@ class _BackupScreenState extends State<BackupScreen> {
   @override
   Widget build(BuildContext context) {
     return WhisprGradientScaffold(
-      resizeToAvoidBottomInset: true,
       gradient: WhisprGradient.whiteBlueWhiteGradient,
       appBar: WhisprAppBar(
         title: context.strings.backup,
@@ -94,6 +93,7 @@ class _BackupScreenState extends State<BackupScreen> {
               subtitle: state.error.error,
               isError: true,
             ).show(context);
+            _backupCubit.resetState();
             return;
           }
 
@@ -102,6 +102,16 @@ class _BackupScreenState extends State<BackupScreen> {
             WhisprSnackBar(title: context.strings.backupSuccess, isError: false)
                 .show(context);
             state.file.share(context: context);
+            _backupCubit.resetState();
+            return;
+          }
+
+          if (state is SaveFileSuccessState) {
+            WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+            WhisprSnackBar(
+                    title: context.strings.backupFileSaved, isError: false)
+                .show(context);
+            _backupCubit.resetState();
             return;
           }
         },
@@ -129,6 +139,17 @@ class _BackupScreenState extends State<BackupScreen> {
                           }
                         : null,
                     recordCountWidget: RecordingCountText(),
+                    recentBackup: state.recentBackup,
+                    onSharePressed: state.recentBackup != null
+                        ? () {
+                            state.recentBackup!.share(context: context);
+                          }
+                        : null,
+                    onDownloadPressed: state.recentBackup != null
+                        ? () async {
+                            _backupCubit.downloadToCustomDirectory();
+                          }
+                        : null,
                   ),
                 InitialLoadingState() => BackupSkeletonLoading(),
                 _ => SizedBox()
