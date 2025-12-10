@@ -282,4 +282,37 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
       return right(FailureEntity(error: e.toString()));
     }
   }
+
+  @override
+  Future<File?> getRecentBackup({Duration? timeoutPeriod}) async {
+    try {
+      final files = await _fileService.getFilesInAppDirectory(
+        path: FileConstants.backupDirectory,
+      );
+      if (files == null || files.isEmpty) {
+        return null;
+      }
+
+      files.sort((a, b) {
+        final aStat = a.statSync();
+        final bStat = b.statSync();
+        return bStat.modified.compareTo(aStat.modified);
+      });
+
+      final recentFile = files.first;
+
+      if (timeoutPeriod != null) {
+        final stats = recentFile.statSync();
+        final thresholdDate = DateTime.now().subtract(timeoutPeriod);
+        if (stats.modified.isBefore(thresholdDate)) {
+          return null;
+        }
+      }
+
+      return files.first;
+    } on Exception catch (e, s) {
+      Constants.logger.e("Failed to get recent backup!\n$e\n$s");
+      return null;
+    }
+  }
 }

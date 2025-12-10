@@ -125,4 +125,19 @@ class FileService {
 
     return directory;
   }
+
+  Future<List<File>?> getFilesInAppDirectory({required String path}) async {
+    final appPath = await getApplicationDocumentsDirectory();
+    final directory = Directory("${appPath.path}/$path");
+
+    if (!await directory.exists()) {
+      return null;
+    }
+
+    return await directory
+        .list(recursive: false)
+        .where((element) => element is File)
+        .map((e) => e as File)
+        .toList();
+  }
 }

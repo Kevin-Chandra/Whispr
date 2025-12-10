@@ -52,10 +52,14 @@ import 'package:whispr/domain/repository/recording_tag_repository.dart'
 import 'package:whispr/domain/repository/settings_repository.dart' as _i266;
 import 'package:whispr/domain/use_case/archive/backup_recordings_use_case.dart'
     as _i980;
+import 'package:whispr/domain/use_case/archive/get_recent_backup_use_case.dart'
+    as _i539;
 import 'package:whispr/domain/use_case/archive/get_recording_count_use_case.dart'
     as _i97;
 import 'package:whispr/domain/use_case/archive/restore_recordings_use_case.dart'
     as _i837;
+import 'package:whispr/domain/use_case/archive/save_file_to_directory_use_case.dart'
+    as _i393;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_position_stream_use_case.dart'
     as _i120;
 import 'package:whispr/domain/use_case/audio_player/get_audio_player_state_stream_use_case.dart'
@@ -153,6 +157,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i13.FileService>(() => _i13.FileService());
     gh.factory<_i900.OpenLockScreenSettingsUseCase>(
         () => _i900.OpenLockScreenSettingsUseCase());
+    gh.factory<_i393.SaveFileToDirectoryUseCase>(
+        () => const _i393.SaveFileToDirectoryUseCase());
     gh.singleton<_i864.RecordAudioService>(() => _i864.RecordAudioService());
     gh.singleton<_i241.RecordAudioRepository>(
         () => _i962.RecordAudioRepositoryImpl(
@@ -256,6 +262,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i837.RestoreRecordingsUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i97.GetRecordingCountUseCase>(
         () => _i97.GetRecordingCountUseCase(gh<_i331.ArchiveRepository>()));
+    gh.factory<_i539.GetRecentBackupUseCase>(
+        () => _i539.GetRecentBackupUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
         _i825.GetAudioRecordingByIdUseCase(
             gh<_i383.AudioRecordingRepository>()));
