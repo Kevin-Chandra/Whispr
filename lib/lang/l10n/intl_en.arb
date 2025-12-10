@@ -40,7 +40,7 @@
   "changesWillBeLost": "Changes will be lost",
   "recordingWillNotBeSaved": "Your recording will not be saved",
   "failedToSaveAudioRecording": "Failed to save audio recording!",
-  "titleEmptyErrorMessage": "Oops — don’t forget to give this a name.",
+  "titleEmptyErrorMessage": "Oops — Don’t forget to give this a name.",
   "recorderError": "Recorder error!",
   "loadingAudioPlaybackError": "Loading audio playback error!",
   "recordingSavedSuccessfully": "Recording saved successfully!",
@@ -98,6 +98,7 @@
   "fileName": "File Name",
   "recordingCount": "{count, plural, =0{No recording found} =1{Found 1 recording} other{Found {count} recordings}}",
   "backupSuccess": "Backup Success!",
+  "backupFileSaved": "Backup file successfully saved!",
   "backupFailed": "Backup Failed!",
   "restore": "Restore",
   "restoreFailed": "Restore Failed!",
@@ -117,6 +118,40 @@
   "@typeDeleteToConfirm": {
     "placeholders": {
       "keyword": {
+        "type": "String"
+      }
+    }
+  },
+  "recentBackup": "Recent backup",
+  "justNow": "just now",
+  "minutesAgo": "{minutes} minutes ago",
+  "@minutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{hours} hours ago",
+  "@hoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{days} days ago",
+  "@daysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "lastBackup": "Last backup {time}",
+  "@lastBackup": {
+    "placeholders": {
+      "time": {
         "type": "String"
       }
     }

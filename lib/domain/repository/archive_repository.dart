@@ -14,6 +14,8 @@ abstract class ArchiveRepository {
     required String filePath,
   });
 
+  Future<File?> getRecentBackup({Duration? timeoutPeriod});
+
   Future<int> getRecordCountByDateRange({
     required DateTime startDate,
     required DateTime endDate,

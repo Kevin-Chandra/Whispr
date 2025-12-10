@@ -274,6 +274,9 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   String get backupSuccess => 'Backup Success!';
 
   @override
+  String get backupFileSaved => 'Backup file successfully saved!';
+
+  @override
   String get backupFailed => 'Backup Failed!';
 
   @override
@@ -325,6 +328,32 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
   @override
   String typeDeleteToConfirm(String keyword) {
     return 'Type \"$keyword\" to confirm';
+  }
+
+  @override
+  String get recentBackup => 'Recent backup';
+
+  @override
+  String get justNow => 'just now';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes minutes ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String daysAgo(int days) {
+    return '$days days ago';
+  }
+
+  @override
+  String lastBackup(String time) {
+    return 'Last backup $time';
   }
 
   @override

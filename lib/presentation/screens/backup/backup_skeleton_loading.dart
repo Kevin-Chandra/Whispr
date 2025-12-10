@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:whispr/presentation/screens/backup/backup_body.dart';
@@ -16,6 +18,9 @@ class BackupSkeletonLoading extends StatelessWidget {
       onStartDateChanged: (_) {},
       onEndDateChanged: (_) {},
       recordCountWidget: SizedBox(height: 8),
+      onSharePressed: null,
+      onDownloadPressed: null,
+      recentBackup: File(""),
     ));
   }
 }

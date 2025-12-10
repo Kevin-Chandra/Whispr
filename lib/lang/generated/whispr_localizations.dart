@@ -580,6 +580,12 @@ abstract class WhisprLocalizations {
   /// **'Backup Success!'**
   String get backupSuccess;
 
+  /// No description provided for @backupFileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup file successfully saved!'**
+  String get backupFileSaved;
+
   /// No description provided for @backupFailed.
   ///
   /// In en, this message translates to:
@@ -675,6 +681,42 @@ abstract class WhisprLocalizations {
   /// In en, this message translates to:
   /// **'Type \"{keyword}\" to confirm'**
   String typeDeleteToConfirm(String keyword);
+
+  /// No description provided for @recentBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent backup'**
+  String get recentBackup;
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get justNow;
+
+  /// No description provided for @minutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes ago'**
+  String minutesAgo(int minutes);
+
+  /// No description provided for @hoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ago'**
+  String hoursAgo(int hours);
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String daysAgo(int days);
+
+  /// No description provided for @lastBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup {time}'**
+  String lastBackup(String time);
 
   /// No description provided for @microphonePermissionDeniedTitle.
   ///
