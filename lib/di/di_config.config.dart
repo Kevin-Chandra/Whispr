@@ -84,6 +84,8 @@ import 'package:whispr/domain/use_case/audio_recordings/get_all_audio_recordings
     as _i489;
 import 'package:whispr/domain/use_case/audio_recordings/get_audio_recording_by_id_use_case.dart'
     as _i825;
+import 'package:whispr/domain/use_case/audio_recordings/get_audio_recording_dates_use_case.dart'
+    as _i924;
 import 'package:whispr/domain/use_case/audio_recordings/get_audio_recordings_by_date_use_case.dart'
     as _i648;
 import 'package:whispr/domain/use_case/audio_recordings/get_favourite_audio_recordings_use_case.dart'
@@ -155,10 +157,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i737.LocalAuth>(() => _i737.LocalAuth());
     gh.factory<_i13.FileService>(() => _i13.FileService());
-    gh.factory<_i900.OpenLockScreenSettingsUseCase>(
-        () => _i900.OpenLockScreenSettingsUseCase());
     gh.factory<_i393.SaveFileToDirectoryUseCase>(
         () => const _i393.SaveFileToDirectoryUseCase());
+    gh.factory<_i900.OpenLockScreenSettingsUseCase>(
+        () => _i900.OpenLockScreenSettingsUseCase());
     gh.singleton<_i864.RecordAudioService>(() => _i864.RecordAudioService());
     gh.singleton<_i241.RecordAudioRepository>(
         () => _i962.RecordAudioRepositoryImpl(
@@ -260,10 +262,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i980.BackupRecordingsUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i837.RestoreRecordingsUseCase>(
         () => _i837.RestoreRecordingsUseCase(gh<_i331.ArchiveRepository>()));
-    gh.factory<_i97.GetRecordingCountUseCase>(
-        () => _i97.GetRecordingCountUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i539.GetRecentBackupUseCase>(
         () => _i539.GetRecentBackupUseCase(gh<_i331.ArchiveRepository>()));
+    gh.factory<_i97.GetRecordingCountUseCase>(
+        () => _i97.GetRecordingCountUseCase(gh<_i331.ArchiveRepository>()));
     gh.factory<_i825.GetAudioRecordingByIdUseCase>(() =>
         _i825.GetAudioRecordingByIdUseCase(
             gh<_i383.AudioRecordingRepository>()));
@@ -288,6 +290,9 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i765.GetRecordingFirstAndLastDateUseCase>(() =>
         _i765.GetRecordingFirstAndLastDateUseCase(
+            gh<_i383.AudioRecordingRepository>()));
+    gh.factory<_i924.GetAudioRecordingDatesUseCase>(() =>
+        _i924.GetAudioRecordingDatesUseCase(
             gh<_i383.AudioRecordingRepository>()));
     gh.factory<_i720.AuthenticateLocalAuthUseCase>(() =>
         _i720.AuthenticateLocalAuthUseCase(

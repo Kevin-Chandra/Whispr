@@ -26,5 +26,7 @@ abstract class AudioRecordingRepository {
 
   Future<(DateTime, DateTime)?> getRecordingFirstAndLastDate();
 
+  Future<Either<List<DateTime>, FailureEntity>> getRecordingDates();
+
   Future<Either<bool, FailureEntity>> clearAllData();
 }

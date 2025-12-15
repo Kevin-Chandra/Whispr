@@ -337,7 +337,7 @@ abstract class WhisprLocalizations {
   /// No description provided for @titleEmptyErrorMessage.
   ///
   /// In en, this message translates to:
-  /// **'Oops — don’t forget to give this a name.'**
+  /// **'Oops — Don’t forget to give this a name.'**
   String get titleEmptyErrorMessage;
 
   /// No description provided for @recorderError.
