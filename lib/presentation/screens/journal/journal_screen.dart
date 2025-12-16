@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
+import 'package:whispr/presentation/bloc/journal_header/journal_header_cubit.dart';
 import 'package:whispr/presentation/router/navigation_coordinator.dart';
 import 'package:whispr/presentation/screens/journal/journal_body.dart';
+import 'package:whispr/presentation/screens/journal/journal_header.dart';
+import 'package:whispr/presentation/screens/journal/journal_header_skeleton_loading.dart';
 import 'package:whispr/presentation/screens/journal/journal_skeleton_loading.dart';
-import 'package:whispr/presentation/widgets/whispr_date_timeline_picker.dart';
 import 'package:whispr/presentation/widgets/whispr_dialog.dart';
 import 'package:whispr/presentation/widgets/whispr_snackbar.dart';
 import 'package:whispr/util/constants.dart';
@@ -24,11 +26,13 @@ class JournalScreen extends StatefulWidget {
 
 class _JournalScreenState extends State<JournalScreen> {
   late final JournalCubit _journalCubit;
+  late final JournalHeaderCubit _journalHeaderCubit;
 
   @override
   void initState() {
     super.initState();
     _journalCubit = context.read<JournalCubit>();
+    _journalHeaderCubit = context.read<JournalHeaderCubit>();
   }
 
   @override
@@ -39,11 +43,32 @@ class _JournalScreenState extends State<JournalScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28.0),
-          child: WhisprDateTimelinePicker(
-            selectedDate: _journalCubit.selectedDate,
-            onDateChange: (date) {
-              _journalCubit.getRecordingsByDate(date);
-              setState(() {});
+          child: BlocConsumer<JournalHeaderCubit, JournalHeaderState>(
+            listener: (context, state) {
+              if (state is JournalHeaderErrorState) {
+                WhisprSnackBar(
+                  title: state.error.error,
+                  subtitle: state.error.errorDescription,
+                  isError: true,
+                ).show(context);
+                return;
+              }
+            },
+            buildWhen: (old, current) =>
+                current is JournalHeaderLoadedState ||
+                current is JournalHeaderLoadingState,
+            builder: (context, state) {
+              return switch (state) {
+                JournalHeaderLoadingState() => JournalHeaderSkeletonLoading(),
+                JournalHeaderLoadedState() => JournalHeader(
+                    minDate: state.firstAudioRecordingDate,
+                    markedDates: state.audioRecordingDates.toSet(),
+                    onDateChange: (date) {
+                      _journalCubit.getRecordingsByDate(date);
+                    },
+                  ),
+                _ => throw UnimplementedError(),
+              };
             },
           ),
         ),

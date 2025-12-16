@@ -35,8 +35,30 @@ extension DateTimeUtils on DateTime {
         year == tomorrow.year;
   }
 
+  bool isSameDate(DateTime other) {
+    return extractDate == other.extractDate;
+  }
+
+  bool isAfterDate(DateTime other) {
+    return extractDate.isAfter(other.extractDate);
+  }
+
+  bool isBeforeDate(DateTime other) {
+    return extractDate.isBefore(other.extractDate);
+  }
+
+  /// Calculate the difference of date using UTC time to
+  /// avoid timezone difference.
+  Duration differenceInDate(DateTime other) {
+    return extractDateUtc.difference(other.extractDateUtc);
+  }
+
   DateTime get extractDate {
     return DateTime(year, month, day);
+  }
+
+  DateTime get extractDateUtc {
+    return DateTime.utc(year, month, day);
   }
 
   String displayTimeAgo({required BuildContext context}) {

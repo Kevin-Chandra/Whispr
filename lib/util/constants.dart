@@ -21,7 +21,8 @@ abstract class WhisprDuration {
   static const int animatedContainerMillis = 400;
   static const int amplitudeStreamUpdateMillis = 100;
   static const int timerTickUpdateMillis = 100;
-
+  static const int timelineScrollDuration = 1000;
+  static const int throttleDuration = 250;
   static const Duration recentBackupTimeout = Duration(days: 3);
 }
 
