@@ -130,7 +130,7 @@ class WhisprLocalizationsEn extends WhisprLocalizations {
 
   @override
   String get titleEmptyErrorMessage =>
-      'Oops — don’t forget to give this a name.';
+      'Oops — Don’t forget to give this a name.';
 
   @override
   String get recorderError => 'Recorder error!';

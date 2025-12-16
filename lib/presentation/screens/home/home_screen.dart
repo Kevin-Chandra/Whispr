@@ -8,6 +8,7 @@ import 'package:whispr/presentation/bloc/audio_recordings/audio_recordings_cubit
 import 'package:whispr/presentation/bloc/favourite/favourite_cubit.dart';
 import 'package:whispr/presentation/bloc/home/home_cubit.dart';
 import 'package:whispr/presentation/bloc/journal/journal_cubit.dart';
+import 'package:whispr/presentation/bloc/journal_header/journal_header_cubit.dart';
 import 'package:whispr/presentation/router/router_config.gr.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
 import 'package:whispr/presentation/widgets/whispr_app_bar.dart';
@@ -30,6 +31,8 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
       providers: [
         BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
         BlocProvider<JournalCubit>(create: (context) => JournalCubit()),
+        BlocProvider<JournalHeaderCubit>(
+            create: (context) => JournalHeaderCubit()),
         BlocProvider<FavouriteCubit>(create: (context) => FavouriteCubit()),
         BlocProvider<AudioPlayerCubit>(create: (context) => AudioPlayerCubit()),
         BlocProvider<AudioRecordingsCubit>(
@@ -43,6 +46,7 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
 class _HomeScreenState extends State<HomeScreen>
     with LifeCycleStateAwareMixin<HomeScreen>, AppLockMixin<HomeScreen> {
   late final HomeCubit _homeCubit;
+  late final JournalHeaderCubit _journalHeaderCubit;
   late final JournalCubit _journalCubit;
   late final FavouriteCubit _favouriteCubit;
   late final AudioPlayerCubit _audioPlayerCubit;
@@ -54,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen>
     _homeCubit = context.read<HomeCubit>();
     _audioPlayerCubit = context.read<AudioPlayerCubit>();
     _journalCubit = context.read<JournalCubit>();
+    _journalHeaderCubit = context.read<JournalHeaderCubit>();
     _favouriteCubit = context.read<FavouriteCubit>();
     _appLockCubit = context.read<AppLockCubit>();
   }
@@ -70,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
 
           if (state is RefreshAudioRecordings) {
             _journalCubit.refresh();
+            _journalHeaderCubit.refresh();
             _favouriteCubit.refresh();
             return;
           }

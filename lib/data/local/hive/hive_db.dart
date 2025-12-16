@@ -45,6 +45,7 @@ class HiveLocalStorage {
       // We open the HIVE box using new encryption key.
       await _openHiveDbBox(
         base64Url.decode(
+          // TODO: Investigate null operator here.
           (await _secureStorage.read(key: WhisprHiveDbKeys.hiveBoxKey))!,
         ),
       );

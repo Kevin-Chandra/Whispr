@@ -152,4 +152,14 @@ class AudioRecordingRepositoryImpl implements AudioRecordingRepository {
       return right(FailureEntity(error: e.toString()));
     }
   }
+
+  @override
+  Future<Either<List<DateTime>, FailureEntity>> getRecordingDates() async {
+    try {
+      final list = await database.getRecordingDates();
+      return left(list);
+    } on Exception catch (e, s) {
+      return right(FailureEntity(error: e.toString()));
+    }
+  }
 }
