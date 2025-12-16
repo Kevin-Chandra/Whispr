@@ -18,12 +18,17 @@ class JournalHeaderCubit extends Cubit<JournalHeaderState> {
 
   void getRecordingDates() async {
     final response = await di.get<GetAudioRecordingDatesUseCase>().call();
-    final fallbackMinDate = DateTime.now().subtract(Duration(days: 30));
+    final emptyDuration = Duration(days: 30);
+    final fallbackMinDate = DateTime.now().subtract(emptyDuration);
 
     response.fold((dates) {
       dates.sort((a, b) => a.compareTo(b));
-      safeEmit(JournalHeaderLoadedState(
-          dates, dates.firstOrNull ?? fallbackMinDate));
+      final minDate =
+          dates.firstOrNull?.subtract(emptyDuration) ?? fallbackMinDate;
+
+      safeEmit(
+        JournalHeaderLoadedState(dates, minDate),
+      );
     }, (error) {
       safeEmit(JournalHeaderErrorState(error));
     });
