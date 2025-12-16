@@ -55,8 +55,8 @@ dependencies:
   audio_waveforms: 2.0.1
   gradient_borders: 1.0.2
   gradient_icon: 2.0.9
-  easy_date_timeline: 2.0.9
-  scrollview_observer: 1.26.2
+  #  easy_date_timeline: 2.0.9
+  #  scrollview_observer: 1.26.2
   sliver_tools: 0.2.12
   flutter_native_splash: 2.4.7
   local_auth: 3.0.0
@@ -68,6 +68,7 @@ dependencies:
   share_plus: 12.0.1
   file_picker: 10.3.7
   wakelock_plus: 1.4.0
+  syncfusion_flutter_datepicker: 31.2.18
 
 dev_dependencies:
   flutter_test:
