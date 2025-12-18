@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:injectable/injectable.dart';
+import 'package:path/path.dart' as p;
 import 'package:whispr/data/local/database/audio_recording_local_indexable_database.dart';
 import 'package:whispr/data/local/file_service.dart';
 import 'package:whispr/data/local/hive/whispr_hive_db_keys.dart';
@@ -286,9 +287,15 @@ class ArchiveRepositoryImpl implements ArchiveRepository {
   @override
   Future<File?> getRecentBackup({Duration? timeoutPeriod}) async {
     try {
-      final files = await _fileService.getFilesInAppDirectory(
+      final filesRaw = await _fileService.getFilesInAppDirectory(
         path: FileConstants.backupDirectory,
       );
+
+      final files = filesRaw
+          ?.where((file) =>
+              p.extension(file.path) == FileConstants.archiveFileExtension)
+          .toList();
+
       if (files == null || files.isEmpty) {
         return null;
       }
