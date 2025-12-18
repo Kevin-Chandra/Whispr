@@ -38,7 +38,7 @@ android {
             }
         }
         release {
-            storeFile file(System.getenv("HOME") + "/keystores/atlas-android.jks")
+            storeFile file(System.getenv("HOME") + "/keystores/whispr_keystore.jks")
             keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
             storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
             keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
