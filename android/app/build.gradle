@@ -30,11 +30,43 @@ android {
         versionName = flutter.versionName
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            //  For debug builds on bitrise, it will use bitrise's file for signing.
+            if (file(System.getenv("HOME") + "/keystores/debug.keystore").exists()) {
+                storeFile file(System.getenv("HOME") + "/keystores/debug.keystore")
+            }
+        }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            storeFile file(System.getenv("HOME") + "/keystores/whispr_keystore.jks")
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+            v1SigningEnabled false
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        debug {
             signingConfig = signingConfigs.debug
+        }
+        release {
+            signingConfig = signingConfigs.release
+        }
+    }
+
+    flavorDimensions "whispr"
+    productFlavors {
+        staging {
+            flavorDimensions "whispr"
+            applicationIdSuffix ".staging"
+            versionNameSuffix " (staging)"
+            resValue "string", "app_name", "Whispr Staging"
+        }
+        production {
+            flavorDimensions "atlas"
+            resValue "string", "app_name", "Whispr"
         }
     }
 }
