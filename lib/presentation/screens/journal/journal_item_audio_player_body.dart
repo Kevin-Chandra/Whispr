@@ -72,6 +72,9 @@ class JournalItemAudioPlayerBody extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              width: 16,
+            )
           ],
         ),
       ],
