@@ -122,7 +122,6 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
       child: WhisprGradientScaffold(
         gradient: WhisprGradient.whiteBlueWhiteGradient,
         body: NestedScrollView(
-          physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               WhisprSliverAppBar(

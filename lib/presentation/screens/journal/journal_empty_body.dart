@@ -16,31 +16,38 @@ class JournalEmptyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(ImageConstants.emptyJournalImage, height: 125),
-          const SizedBox(height: 32),
-          Text(
-            context.strings.journalEmptyPlaceholder,
-            style: WhisprTextStyles.heading5
-                .copyWith(color: WhisprColors.spanishViolet),
-            textAlign: TextAlign.center,
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(32.0),
+          sliver: SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(ImageConstants.emptyJournalImage, height: 125),
+                const SizedBox(height: 32),
+                Text(
+                  context.strings.journalEmptyPlaceholder,
+                  style: WhisprTextStyles.heading5
+                      .copyWith(color: WhisprColors.spanishViolet),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                WhisprButton(
+                  text: context.strings.addNewRecording,
+                  buttonStyle: WhisprButtonStyle.filled,
+                  buttonSize: WhisprButtonSizes.small,
+                  icon: Icons.add_rounded,
+                  onPressed: onAddNewRecording,
+                )
+              ],
+            ),
           ),
-          const SizedBox(height: 16),
-          WhisprButton(
-            text: context.strings.addNewRecording,
-            buttonStyle: WhisprButtonStyle.filled,
-            buttonSize: WhisprButtonSizes.small,
-            icon: Icons.add_rounded,
-            onPressed: onAddNewRecording,
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
