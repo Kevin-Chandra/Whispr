@@ -337,7 +337,7 @@ class _RowWithEditAndDeleteButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         startWidget,
-        middleWidget ?? SizedBox(),
+        Expanded(child: middleWidget ?? SizedBox()),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
