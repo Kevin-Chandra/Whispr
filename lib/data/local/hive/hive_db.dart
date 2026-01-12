@@ -34,18 +34,17 @@ class HiveLocalStorage {
       // If we do not find any encryption key, we generate a new key.
       final newKey = Hive.generateSecureKey();
       // We nuke any existing app data from the secure storage [keychain/Keystore].
-      _secureStorage.deleteAll();
+      await _secureStorage.deleteAll();
       // We nuke all data from the database.
       await _nukeDatabase();
       // We store the new encryption key into the secure storage [keychain/Keystore].
-      _secureStorage.write(
+      await _secureStorage.write(
         key: WhisprHiveDbKeys.hiveBoxKey,
         value: base64UrlEncode(newKey),
       );
       // We open the HIVE box using new encryption key.
       await _openHiveDbBox(
         base64Url.decode(
-          // TODO: Investigate null operator here.
           (await _secureStorage.read(key: WhisprHiveDbKeys.hiveBoxKey))!,
         ),
       );
