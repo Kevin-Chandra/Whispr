@@ -117,17 +117,21 @@ class FilePreview extends StatelessWidget {
                           color: WhisprColors.spanishViolet,
                           fontWeight: FontWeight.bold),
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(p.basename(file!.path),
-                            style: WhisprTextStyles.bodyM.copyWith(
-                                color: WhisprColors.spanishViolet,
-                                fontWeight: FontWeight.bold)),
-                        Text(file!.statSync().size.formatBytes(),
-                            style: WhisprTextStyles.subtitle1
-                                .copyWith(color: WhisprColors.spanishViolet))
-                      ],
+                  : Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(p.basename(file!.path),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: WhisprTextStyles.bodyM.copyWith(
+                                  color: WhisprColors.spanishViolet,
+                                  fontWeight: FontWeight.bold)),
+                          Text(file!.statSync().size.formatBytes(),
+                              style: WhisprTextStyles.subtitle1
+                                  .copyWith(color: WhisprColors.spanishViolet))
+                        ],
+                      ),
                     ),
               Spacer(),
               file != null

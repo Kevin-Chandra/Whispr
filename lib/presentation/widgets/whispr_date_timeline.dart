@@ -134,48 +134,53 @@ class _WhisprDateTimelineState extends State<WhisprDateTimeline> {
                     final isMarked =
                         widget.markedDates?.contains(date.extractDate) == true;
 
-                    return InkWell(
-                      customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      onTap: isDisabled || isSelected
-                          ? null
-                          : () {
-                              widget.onDateChange(date);
-                            },
-                      child: Container(
-                        width: 48,
-                        height: 72,
-                        padding: EdgeInsets.only(top: 10),
-                        decoration: _resolveDecoration(isSelected, isToday),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              DateTimeHelper.formatDateTime(date, 'EEE'),
-                              style: WhisprTextStyles.heading5.copyWith(
-                                color:
-                                    _resolveTextColor(isSelected, isDisabled),
+                    return Flexible(
+                      child: InkWell(
+                        customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        onTap: isDisabled || isSelected
+                            ? null
+                            : () {
+                                widget.onDateChange(date);
+                              },
+                        child: Container(
+                          width: 48,
+                          height: 72,
+                          padding: EdgeInsets.only(top: 10),
+                          decoration: _resolveDecoration(isSelected, isToday),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  DateTimeHelper.formatDateTime(date, 'EEE'),
+                                  style: WhisprTextStyles.heading5.copyWith(
+                                    color: _resolveTextColor(
+                                        isSelected, isDisabled),
+                                  ),
+                                ),
                               ),
-                            ),
-                            Text(
-                              DateTimeHelper.formatDateTime(date, 'd'),
-                              style: WhisprTextStyles.heading5.copyWith(
-                                color:
-                                    _resolveTextColor(isSelected, isDisabled),
+                              Text(
+                                DateTimeHelper.formatDateTime(date, 'd'),
+                                style: WhisprTextStyles.heading5.copyWith(
+                                  color:
+                                      _resolveTextColor(isSelected, isDisabled),
+                                ),
                               ),
-                            ),
-                            isMarked
-                                ? Container(
-                                    width: 2,
-                                    height: 2,
-                                    decoration: WhisprDotIndicator(
-                                      color: WhisprColors.vistaBlue,
-                                      yOffset: -4,
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ],
+                              isMarked
+                                  ? Container(
+                                      width: 2,
+                                      height: 2,
+                                      decoration: WhisprDotIndicator(
+                                        color: WhisprColors.vistaBlue,
+                                        yOffset: -4,
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            ],
+                          ),
                         ),
                       ),
                     );

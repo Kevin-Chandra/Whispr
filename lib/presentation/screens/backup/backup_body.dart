@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/themes/whispr_gradient.dart';
+import 'package:whispr/presentation/widgets/center_fill_or_scroll_layout.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_gradient_button.dart';
 import 'package:whispr/presentation/widgets/whispr_text_field.dart';
@@ -42,64 +43,61 @@ class BackupBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return CenterFillOrScrollLayout(
       padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Spacer(
-            flex: 1,
-          ),
-          Icon(
-            Icons.archive_rounded,
-            size: 56,
-            color: WhisprColors.lavenderBlue,
-          ),
-          SizedBox(height: 16),
-          Text(
-            context.strings.export,
-            style: WhisprTextStyles.heading4
-                .copyWith(color: WhisprColors.spanishViolet),
-          ),
-          SizedBox(height: 8),
-          Text(
-            context.strings.exportSubtitle,
-            style:
-                WhisprTextStyles.bodyS.copyWith(color: WhisprColors.vistaBlue),
-          ),
-          SizedBox(height: 24),
-          BackupInputBody(
-            fileNameController: fileNameController,
-            firstDate: firstDate,
-            startDateValue: startDateValue,
-            endDateValue: endDateValue,
-            onStartDateChanged: onStartDateChanged,
-            onEndDateChanged: onEndDateChanged,
-          ),
-          recordCountWidget,
-          SizedBox(height: 24),
-          WhisprGradientButton(
-            text: context.strings.export,
-            buttonSize: WhisprButtonSizes.medium,
-            onPressed: onBackupPressed,
-            buttonStyle: WhisprGradientButtonStyle.filled,
-            gradient:
-                WhisprGradient.blueMagentaVioletInterdimensionalBlueGradient,
-          ),
-          SizedBox(height: 48),
-          recentBackup != null
-              ? RecentBackupFilePreview(
-                  recentBackupFile: recentBackup!,
-                  onSharePressed: onSharePressed,
-                  onDownloadPressed: onDownloadPressed,
-                )
-              : SizedBox(),
-          Spacer(
-            flex: 2,
-          )
-        ],
-      ),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      layoutPlacement: LayoutPlacement.center,
+      children: [
+        Spacer(
+          flex: 1,
+        ),
+        Icon(
+          Icons.archive_rounded,
+          size: 56,
+          color: WhisprColors.lavenderBlue,
+        ),
+        SizedBox(height: 16),
+        Text(
+          context.strings.export,
+          style: WhisprTextStyles.heading4
+              .copyWith(color: WhisprColors.spanishViolet),
+        ),
+        SizedBox(height: 8),
+        Text(
+          context.strings.exportSubtitle,
+          style: WhisprTextStyles.bodyS.copyWith(color: WhisprColors.vistaBlue),
+        ),
+        SizedBox(height: 24),
+        BackupInputBody(
+          fileNameController: fileNameController,
+          firstDate: firstDate,
+          startDateValue: startDateValue,
+          endDateValue: endDateValue,
+          onStartDateChanged: onStartDateChanged,
+          onEndDateChanged: onEndDateChanged,
+        ),
+        recordCountWidget,
+        SizedBox(height: 24),
+        WhisprGradientButton(
+          text: context.strings.export,
+          buttonSize: WhisprButtonSizes.medium,
+          onPressed: onBackupPressed,
+          buttonStyle: WhisprGradientButtonStyle.filled,
+          gradient:
+              WhisprGradient.blueMagentaVioletInterdimensionalBlueGradient,
+        ),
+        SizedBox(height: 48),
+        recentBackup != null
+            ? RecentBackupFilePreview(
+                recentBackupFile: recentBackup!,
+                onSharePressed: onSharePressed,
+                onDownloadPressed: onDownloadPressed,
+              )
+            : SizedBox(),
+        Spacer(
+          flex: 2,
+        )
+      ],
     );
   }
 }
@@ -327,35 +325,40 @@ class RecentBackupFilePreview extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.folder_zip_rounded,
                   color: WhisprColors.spanishViolet,
-                  size: 42,
+                  size: 36,
                 ),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(p.basename(recentBackupFile.path),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        p.basename(recentBackupFile.path),
                         style: WhisprTextStyles.bodyM.copyWith(
                             color: WhisprColors.spanishViolet,
-                            fontWeight: FontWeight.bold)),
-                    Text(recentBackupFile.statSync().size.formatBytes(),
-                        style: WhisprTextStyles.subtitle1
-                            .copyWith(color: WhisprColors.spanishViolet)),
-                    Text(
-                        context.strings.lastBackup(recentBackupFile
-                            .statSync()
-                            .modified
-                            .displayTimeAgo(context: context)),
-                        style: WhisprTextStyles.subtitle1
-                            .copyWith(color: WhisprColors.spanishViolet)),
-                  ],
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      Text(recentBackupFile.statSync().size.formatBytes(),
+                          style: WhisprTextStyles.subtitle1
+                              .copyWith(color: WhisprColors.spanishViolet)),
+                      Text(
+                          context.strings.lastBackup(recentBackupFile
+                              .statSync()
+                              .modified
+                              .displayTimeAgo(context: context)),
+                          style: WhisprTextStyles.subtitle1
+                              .copyWith(color: WhisprColors.spanishViolet)),
+                    ],
+                  ),
                 ),
-                Spacer(),
                 IconButton(
                   onPressed: onDownloadPressed,
                   icon: Icon(Icons.download_rounded),
