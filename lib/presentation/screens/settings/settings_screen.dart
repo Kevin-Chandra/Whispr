@@ -46,94 +46,96 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    const itemGap = 8.0;
+    return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 8,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              context.strings.privacyAndSecurity,
-              style: WhisprTextStyles.heading5
-                  .copyWith(color: WhisprColors.spanishViolet),
-              textAlign: TextAlign.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            context.strings.privacyAndSecurity,
+            style: WhisprTextStyles.heading5
+                .copyWith(color: WhisprColors.spanishViolet),
+            textAlign: TextAlign.start,
+          ),
+        ),
+        SizedBox(height: itemGap),
+        StreamBuilder(
+          stream: _settingsCubit.appLockStream,
+          builder: (context, snapshot) {
+            return WhisprSettingsItem(
+              label: context.strings.appLock,
+              onClick: null,
+              style: WhisprSettingsItemStyle.toggleable,
+              value: snapshot.data,
+              onToggle: _settingsCubit.setAppLock,
+            );
+          },
+        ),
+        SizedBox(height: itemGap + 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            context.strings.backupAndRestore,
+            style: WhisprTextStyles.heading5
+                .copyWith(color: WhisprColors.spanishViolet),
+            textAlign: TextAlign.start,
+          ),
+        ),
+        SizedBox(height: itemGap),
+        WhisprSettingsItem(
+          label: context.strings.backup,
+          onClick: () {
+            context.router.push(const BackupRoute());
+          },
+          style: WhisprSettingsItemStyle.clickable,
+        ),
+        SizedBox(height: itemGap),
+        WhisprSettingsItem(
+          label: context.strings.restore,
+          onClick: () async {
+            final shouldRefresh =
+                await context.router.push(const RestoreRoute());
+            if (shouldRefresh == true) {
+              _homeCubit.refreshAudioRecordings();
+            }
+          },
+          style: WhisprSettingsItemStyle.clickable,
+        ),
+        SizedBox(height: itemGap),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            context.strings.storage,
+            style: WhisprTextStyles.heading5
+                .copyWith(color: WhisprColors.spanishViolet),
+            textAlign: TextAlign.start,
+          ),
+        ),
+        SizedBox(height: itemGap),
+        WhisprSettingsItem(
+          label: context.strings.clearAllData,
+          onClick: () async {
+            final shouldRefresh =
+                await context.router.push(const ClearAllDataRoute());
+            if (shouldRefresh == true) {
+              _homeCubit.refreshAudioRecordings();
+            }
+          },
+          style: WhisprSettingsItemStyle.clickable,
+        ),
+        SizedBox(height: itemGap),
+        Center(
+          child: Text(
+            context.strings.appVersion(
+              di.get<PackageInfo>().version,
+              di.get<PackageInfo>().buildNumber,
             ),
+            style: WhisprTextStyles.subtitle1
+                .copyWith(fontWeight: FontWeight.normal),
           ),
-          StreamBuilder(
-            stream: _settingsCubit.appLockStream,
-            builder: (context, snapshot) {
-              return WhisprSettingsItem(
-                label: context.strings.appLock,
-                onClick: null,
-                style: WhisprSettingsItemStyle.toggleable,
-                value: snapshot.data,
-                onToggle: _settingsCubit.setAppLock,
-              );
-            },
-          ),
-          SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              context.strings.backupAndRestore,
-              style: WhisprTextStyles.heading5
-                  .copyWith(color: WhisprColors.spanishViolet),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          WhisprSettingsItem(
-            label: context.strings.backup,
-            onClick: () {
-              context.router.push(const BackupRoute());
-            },
-            style: WhisprSettingsItemStyle.clickable,
-          ),
-          WhisprSettingsItem(
-            label: context.strings.restore,
-            onClick: () async {
-              final shouldRefresh =
-                  await context.router.push(const RestoreRoute());
-              if (shouldRefresh == true) {
-                _homeCubit.refreshAudioRecordings();
-              }
-            },
-            style: WhisprSettingsItemStyle.clickable,
-          ),
-          SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              context.strings.storage,
-              style: WhisprTextStyles.heading5
-                  .copyWith(color: WhisprColors.spanishViolet),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          WhisprSettingsItem(
-            label: context.strings.clearAllData,
-            onClick: () async {
-              final shouldRefresh =
-                  await context.router.push(const ClearAllDataRoute());
-              if (shouldRefresh == true) {
-                _homeCubit.refreshAudioRecordings();
-              }
-            },
-            style: WhisprSettingsItemStyle.clickable,
-          ),
-          Center(
-            child: Text(
-              context.strings.appVersion(
-                di.get<PackageInfo>().version,
-                di.get<PackageInfo>().buildNumber,
-              ),
-              style: WhisprTextStyles.subtitle1
-                  .copyWith(fontWeight: FontWeight.normal),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
