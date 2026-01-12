@@ -155,19 +155,15 @@ class _JournalItemCardContent extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox(),
-                        SizedBox(
-                          height: 32,
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              audioRecording.name,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              textAlign: TextAlign.start,
-                              style: WhisprTextStyles.heading5.copyWith(
-                                color: WhisprColors.spanishViolet,
-                                fontSize: 18,
-                              ),
+                        Expanded(
+                          child: Text(
+                            audioRecording.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.start,
+                            style: WhisprTextStyles.heading5.copyWith(
+                              color: WhisprColors.spanishViolet,
+                              fontSize: 18,
                             ),
                           ),
                         ),
