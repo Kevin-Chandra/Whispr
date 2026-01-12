@@ -40,14 +40,17 @@ class WhisprDatePicker extends StatefulWidget {
               Radius.circular(20.0)), // Set your desired radius here
         ),
         child: LayoutBuilder(
-          builder: (context, constraints) => SizedBox(
-            width: constraints.maxWidth * 0.85,
-            height: constraints.maxHeight * 0.55,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: this,
-            ),
-          ),
+          builder: (context, constraints) {
+            final isSmallPhone = constraints.maxHeight < 550;
+            return SizedBox(
+              width: constraints.maxWidth * 0.85,
+              height: constraints.maxHeight * (isSmallPhone ? 0.75 : 0.55),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: this,
+              ),
+            );
+          },
         ),
       ),
     );
@@ -83,6 +86,8 @@ class _WhisprDatePickerState extends State<WhisprDatePicker> {
       monthViewSettings:
           DateRangePickerMonthViewSettings(specialDates: widget.markedDate),
       monthCellStyle: DateRangePickerMonthCellStyle(
+        textStyle: WhisprTextStyles.subtitle2
+            .copyWith(color: WhisprColors.spanishViolet),
         specialDatesDecoration: WhisprDotIndicator(
             color: WhisprColors.vistaBlue, radius: 3, yOffset: 6),
       ),
