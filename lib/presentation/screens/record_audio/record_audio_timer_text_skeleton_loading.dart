@@ -9,7 +9,7 @@ class RecordAudioTimerTextSkeletonLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       child: RecordAudioTimerText(
-        duration: Duration.zero,
+        duration: Stream.value(Duration.zero),
       ),
     );
   }

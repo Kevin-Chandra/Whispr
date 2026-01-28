@@ -63,6 +63,7 @@ class _EditRecordingBodyWrapperState extends State<EditRecordingBodyWrapper> {
                   playImmediately: true,
                 );
               },
+              playerDuration: _audioPlayerCubit.position,
             ),
             titleController: _titleController,
             titleFormKey: _formKey,
@@ -93,5 +94,11 @@ class _EditRecordingBodyWrapperState extends State<EditRecordingBodyWrapper> {
       playImmediately: false,
     );
     _titleController.text = widget.audioRecording.name;
+  }
+
+  @override
+  void dispose() {
+    _audioPlayerCubit.close();
+    super.dispose();
   }
 }

@@ -33,9 +33,11 @@ class RecordAudioCubit extends Cubit<RecordAudioState> {
   StreamSubscription<double>? _recordingAmplitudeSubscription;
 
   final StreamController<Duration> _recordingTimerController =
-      StreamController<Duration>();
+      StreamController<Duration>.broadcast();
 
-  Stream<Duration> get recordingTimer => _recordingTimerController.stream;
+  Stream<Duration> get recordingTimer => _recordingTimerController.stream
+      .map((d) => Duration(seconds: d.inSeconds))
+      .distinct();
   StreamSubscription<Duration>? _recordingTimerSubscription;
 
   Future<void> recordAudio() async {

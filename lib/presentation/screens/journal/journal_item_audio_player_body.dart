@@ -2,6 +2,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:whispr/presentation/themes/colors.dart';
 import 'package:whispr/presentation/themes/text_styles.dart';
+import 'package:whispr/presentation/widgets/whispr_player_duration_widget.dart';
 import 'package:whispr/util/date_time_util.dart';
 
 class JournalItemAudioPlayerBody extends StatelessWidget {
@@ -10,11 +11,11 @@ class JournalItemAudioPlayerBody extends StatelessWidget {
     required this.playerControllerWidget,
     required this.waveformData,
     required this.playerController,
-    required this.playerDurationDisplayWidget,
+    required this.playerDuration,
   });
 
   final Widget playerControllerWidget;
-  final Widget playerDurationDisplayWidget;
+  final Stream<Duration> playerDuration;
   final List<double> waveformData;
   final PlayerController playerController;
 
@@ -59,7 +60,9 @@ class JournalItemAudioPlayerBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      playerDurationDisplayWidget,
+                      WhisprPlayerDurationWidget(
+                        currentDuration: playerDuration,
+                      ),
                       Text(
                         Duration(milliseconds: playerController.maxDuration)
                             .durationDisplay,

@@ -4,9 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class WhisprRadialVisualizer extends StatefulWidget {
-  /// Normalized level in [0..1]. Pass `null` to decay to zero.
-  final double? level;
+class WhisprRadialVisualizer extends StatelessWidget {
+  /// Stream of normalized levels in [0..1]. Pass `null` values to decay to zero.
+  final Stream<double?>? levelStream;
 
   final int barCount;
   final Color barColor;
@@ -18,7 +18,7 @@ class WhisprRadialVisualizer extends StatefulWidget {
 
   const WhisprRadialVisualizer({
     super.key,
-    required this.level,
+    required this.levelStream,
     this.center,
     this.barCount = 150,
     this.barColor = Colors.white,
@@ -29,14 +29,71 @@ class WhisprRadialVisualizer extends StatefulWidget {
   }) : assert(barCount > 0);
 
   @override
-  State<WhisprRadialVisualizer> createState() => _WhisprRadialVisualizerState();
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final minSide = min(constraints.maxWidth, constraints.maxHeight);
+
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            levelStream == null
+                ? SizedBox()
+                : RepaintBoundary(
+                    child: _AnimatedRadialVisualizer(
+                      levelStream: levelStream!,
+                      barCount: barCount,
+                      barColor: barColor,
+                      smoothingFactor: smoothingFactor,
+                      ema: ema,
+                      amplificationFactor: amplificationFactor,
+                      curve: curve,
+                      size: Size.square(minSide),
+                    ),
+                  ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: center,
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
-class _WhisprRadialVisualizerState extends State<WhisprRadialVisualizer>
+class _AnimatedRadialVisualizer extends StatefulWidget {
+  final Stream<double?> levelStream;
+  final int barCount;
+  final Color barColor;
+  final double smoothingFactor;
+  final double ema;
+  final double amplificationFactor;
+  final Curve curve;
+  final Size size;
+
+  const _AnimatedRadialVisualizer({
+    required this.levelStream,
+    required this.barCount,
+    required this.barColor,
+    required this.smoothingFactor,
+    required this.ema,
+    required this.amplificationFactor,
+    required this.curve,
+    required this.size,
+  });
+
+  @override
+  State<_AnimatedRadialVisualizer> createState() =>
+      _AnimatedRadialVisualizerState();
+}
+
+class _AnimatedRadialVisualizerState extends State<_AnimatedRadialVisualizer>
     with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
   late List<double> _targets;
   late List<double> _display;
+  final _animationNotifier = _AnimationNotifier();
 
   @override
   void initState() {
@@ -55,20 +112,10 @@ class _WhisprRadialVisualizerState extends State<WhisprRadialVisualizer>
         }
       }
       if (changed && mounted) {
-        setState(() {});
+        _animationNotifier.notify();
       }
     })
       ..start();
-
-    _ingestLevel(widget.level);
-  }
-
-  @override
-  void didUpdateWidget(covariant WhisprRadialVisualizer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.level != widget.level) {
-      _ingestLevel(widget.level);
-    }
   }
 
   void _ingestLevel(double? level) {
@@ -103,34 +150,41 @@ class _WhisprRadialVisualizerState extends State<WhisprRadialVisualizer>
   void dispose() {
     _ticker.stop();
     _ticker.dispose();
+    _animationNotifier.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final minSide = min(constraints.maxWidth, constraints.maxHeight);
+    return StreamBuilder<double?>(
+      stream: widget.levelStream,
+      builder: (context, snapshot) {
+        // Update internal state when new data arrives
+        if (snapshot.hasData || snapshot.data == null) {
+          _ingestLevel(snapshot.data);
+        }
 
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            CustomPaint(
-              size: Size.square(minSide), // Follows parent constraints
+        return AnimatedBuilder(
+          animation: _animationNotifier,
+          builder: (context, child) {
+            return CustomPaint(
+              size: widget.size,
               painter: _RadialBarsPainter(
                 levels: _display,
                 barColor: widget.barColor,
                 curve: widget.curve,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: widget.center,
-            ),
-          ],
+            );
+          },
         );
       },
     );
+  }
+}
+
+class _AnimationNotifier extends ChangeNotifier {
+  void notify() {
+    notifyListeners();
   }
 }
 

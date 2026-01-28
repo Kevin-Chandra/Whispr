@@ -10,66 +10,75 @@ class WhisprRecordButton extends StatelessWidget {
   });
 
   final VoidCallback onClick;
-  final double? amplitudeLevel;
+  final Stream<double?>? amplitudeLevel;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: WhisprGradient.purpleShadeGradient,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 36,
-                offset: const Offset(5, 5),
-              ),
-            ],
-          ),
-        ),
-        WhisprRadialVisualizer(
-          level: amplitudeLevel,
-          center: Container(
+        // Isolate the background gradient container
+        RepaintBoundary(
+          child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
+              gradient: WhisprGradient.purpleShadeGradient,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white,
+                  color: Colors.black26,
                   blurRadius: 36,
-                  offset: const Offset(0, 0),
+                  offset: const Offset(5, 5),
                 ),
               ],
             ),
-            child: Material(
-              color: Colors.transparent,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.antiAlias,
-              child: Ink(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: WhisprGradient.purplePinkGradient,
-                ),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  // match splash shape
-                  splashColor: Colors.white.withValues(alpha: 0.2),
-                  highlightColor: Colors.white.withValues(alpha: 0.08),
-                  onTap: onClick,
-                  child: FractionallySizedBox(
-                    widthFactor: 0.65,
-                    heightFactor: 0.65,
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      return Center(
-                        child: Icon(
+          ),
+        ),
+        // Isolate the visualizer
+        RepaintBoundary(
+          child: WhisprRadialVisualizer(
+            levelStream: amplitudeLevel ?? Stream.value(null),
+            center: null, // Move center outside
+          ),
+        ),
+        // Isolate the button
+        RepaintBoundary(
+          child: FractionallySizedBox(
+            widthFactor: 0.65,
+            heightFactor: 0.65,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white,
+                    blurRadius: 36,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: WhisprGradient.purplePinkGradient,
+                  ),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    splashColor: Colors.white.withValues(alpha: 0.2),
+                    highlightColor: Colors.white.withValues(alpha: 0.08),
+                    onTap: onClick,
+                    child: Center(
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        return Icon(
                           Icons.mic_rounded,
                           color: Colors.white,
                           size: constraints.maxWidth * 0.4,
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),

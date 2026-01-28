@@ -2,9 +2,12 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:whispr/presentation/bloc/audio_player/audio_player_cubit.dart';
 import 'package:whispr/presentation/themes/colors.dart';
+import 'package:whispr/presentation/themes/text_styles.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_control.dart';
 import 'package:whispr/presentation/widgets/whispr_basic_audio_player_error.dart';
+import 'package:whispr/presentation/widgets/whispr_player_duration_widget.dart';
 import 'package:whispr/presentation/widgets/whispr_progress_indicator.dart';
+import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
@@ -15,6 +18,7 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
     required this.onPauseClick,
     required this.onErrorRetryClick,
     required this.waveformWidth,
+    required this.playerDuration,
     this.playerWaveStyle,
     this.waveformData,
   });
@@ -24,6 +28,7 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
   final VoidCallback onPlayClick;
   final VoidCallback onPauseClick;
   final VoidCallback onErrorRetryClick;
+  final Stream<Duration> playerDuration;
   final PlayerWaveStyle? playerWaveStyle;
   final List<double>? waveformData;
 
@@ -51,6 +56,7 @@ class WhisprBasicAudioPlayerWithWaveform extends StatelessWidget {
           playerController:
               (audioPlayerScreenState as AudioPlayerLoadedState).controller,
           playerWaveStyle: playerWaveStyle,
+          playerDuration: playerDuration,
         ),
       AudioPlayerScreenError() => WhisprBasicAudioPlayerError(
           icon: Icons.warning_amber_rounded,
@@ -67,6 +73,7 @@ class _AudioPlayerAndWaveform extends StatelessWidget {
   const _AudioPlayerAndWaveform({
     super.key,
     required this.waveformWidth,
+    required this.playerDuration,
     required this.playerControllerWidget,
     required this.waveformData,
     required this.playerController,
@@ -74,6 +81,7 @@ class _AudioPlayerAndWaveform extends StatelessWidget {
   });
 
   final double waveformWidth;
+  final Stream<Duration> playerDuration;
   final Widget playerControllerWidget;
   final List<double> waveformData;
   final PlayerController playerController;
@@ -104,6 +112,22 @@ class _AudioPlayerAndWaveform extends StatelessWidget {
                 scaleFactor: 200,
                 waveThickness: 2,
               ),
+        ),
+        SizedBox(
+          width: waveformWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              WhisprPlayerDurationWidget(currentDuration: playerDuration),
+              Text(
+                Duration(milliseconds: playerController.maxDuration)
+                    .durationDisplay,
+                style: WhisprTextStyles.bodyS.copyWith(
+                  color: WhisprColors.spanishViolet,
+                ),
+              ),
+            ],
+          ),
         )
       ],
     );

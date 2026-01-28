@@ -218,6 +218,7 @@ class _SaveAudioRecordingScreenState extends State<SaveAudioRecordingScreen> {
               );
             },
             playerWaveStyle: _playerWaveStyle,
+            playerDuration: _audioPlayerCubit.position,
           ),
           titleController: _titleController,
           titleFormKey: _formKey,

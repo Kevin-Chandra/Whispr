@@ -5,15 +5,18 @@ import 'package:whispr/util/date_time_util.dart';
 class RecordAudioTimerText extends StatelessWidget {
   const RecordAudioTimerText({super.key, required this.duration});
 
-  final Duration? duration;
+  final Stream<Duration>? duration;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      duration != null ? duration!.durationDisplay : "",
-      style: WhisprTextStyles.heading1.copyWith(
-        color: Colors.white,
-        fontSize: 48,
+    return StreamBuilder(
+      stream: duration,
+      builder: (ctx, snapshot) => Text(
+        snapshot.data != null ? snapshot.data!.durationDisplay : "",
+        style: WhisprTextStyles.heading1.copyWith(
+          color: Colors.white,
+          fontSize: 48,
+        ),
       ),
     );
   }
