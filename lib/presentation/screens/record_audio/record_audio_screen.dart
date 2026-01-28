@@ -100,9 +100,11 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(),
-                _resolveStateText(),
-                _resolveRecordButton(),
-                _resolveRecordingTimer(),
+                _RecordAudioText(),
+                RepaintBoundary(
+                  child: _RecordingButton(),
+                ),
+                _RecordingTimer(),
                 BlocConsumer<RecordAudioCubit, RecordAudioState>(
                   listener:
                       (BuildContext context, RecordAudioState state) async {
@@ -232,8 +234,18 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       ),
     );
   }
+}
 
-  Widget _resolveStateText() {
+class _RecordAudioText extends StatefulWidget {
+  const _RecordAudioText({super.key});
+
+  @override
+  State<_RecordAudioText> createState() => _RecordAudioTextState();
+}
+
+class _RecordAudioTextState extends State<_RecordAudioText> {
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<RecordAudioCubit, RecordAudioState>(
       buildWhen: (previousState, state) {
         return (state is! RecordAudioErrorState &&
@@ -254,30 +266,64 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
         };
       },
     );
+    ;
+  }
+}
+
+class _RecordingButton extends StatefulWidget {
+  const _RecordingButton({super.key});
+
+  @override
+  State<_RecordingButton> createState() => _RecordingButtonState();
+}
+
+class _RecordingButtonState extends State<_RecordingButton> {
+  late RecordAudioCubit _recordAudioCubit;
+  late Stream<double?> _amplitudeStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _recordAudioCubit = context.read<RecordAudioCubit>();
+    _amplitudeStream = _recordAudioCubit.levels;
   }
 
-  Widget _resolveRecordButton() {
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return SizedBox.square(
           dimension: constraints.maxWidth * 0.6,
-          child: StreamBuilder(
-            stream: _recordAudioCubit.levels,
-            builder: (context, snapshot) {
-              return WhisprRecordButton(
-                amplitudeLevel: snapshot.data,
-                onClick: () {
-                  _recordAudioCubit.pauseResumeRecording();
-                },
-              );
+          child: WhisprRecordButton(
+            amplitudeLevel: _amplitudeStream,
+            onClick: () {
+              _recordAudioCubit.pauseResumeRecording();
             },
           ),
         );
       },
     );
   }
+}
 
-  Widget _resolveRecordingTimer() {
+class _RecordingTimer extends StatefulWidget {
+  const _RecordingTimer({super.key});
+
+  @override
+  State<_RecordingTimer> createState() => _RecordingTimerState();
+}
+
+class _RecordingTimerState extends State<_RecordingTimer> {
+  late RecordAudioCubit _recordAudioCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _recordAudioCubit = context.read<RecordAudioCubit>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<RecordAudioCubit, RecordAudioState>(
       buildWhen: (previousState, state) {
         return (state is! RecordAudioErrorState &&
@@ -288,11 +334,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
         return switch (state) {
           RecordAudioInitialState() => RecordAudioTimerTextSkeletonLoading(),
           RecordAudioLoadingState() => RecordAudioTimerTextSkeletonLoading(),
-          _ => StreamBuilder(
-              stream: _recordAudioCubit.recordingTimer,
-              builder: (ctx, snapshot) =>
-                  RecordAudioTimerText(duration: snapshot.data),
-            )
+          _ => RecordAudioTimerText(duration: _recordAudioCubit.recordingTimer),
         };
       },
     );

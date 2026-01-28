@@ -10,7 +10,6 @@ import 'package:whispr/presentation/widgets/whispr_button/whispr_button_sizes.da
 import 'package:whispr/presentation/widgets/whispr_button/whispr_gradient_button.dart';
 import 'package:whispr/presentation/widgets/whispr_button/whispr_icon_button.dart';
 import 'package:whispr/presentation/widgets/whispr_journal_item.dart';
-import 'package:whispr/util/date_time_util.dart';
 import 'package:whispr/util/extensions.dart';
 
 import 'journal_item_audio_player_body.dart';
@@ -106,7 +105,6 @@ class _JournalListState extends State<_JournalList> {
                 expandedWidget: RecordingCardExpandedContent(
                   state: state,
                   audioRecording: currentAudioRecording,
-                  currentDuration: _audioPlayerCubit.position,
                   onEditPressed: () {
                     widget.onEditPressed(currentAudioRecording);
                   },
@@ -121,6 +119,7 @@ class _JournalListState extends State<_JournalList> {
                   },
                   onPlay: _audioPlayerCubit.play,
                   onPause: _audioPlayerCubit.pause,
+                  playerDuration: _audioPlayerCubit.position,
                 ),
                 onPressed: () {
                   setState(() {
@@ -167,7 +166,7 @@ class RecordingCardExpandedContent extends StatelessWidget {
     required this.onPrepare,
     required this.onPlay,
     required this.onPause,
-    this.currentDuration,
+    required this.playerDuration,
   });
 
   final AudioPlayerScreenState state;
@@ -177,7 +176,7 @@ class RecordingCardExpandedContent extends StatelessWidget {
   final VoidCallback onPrepare;
   final VoidCallback onPlay;
   final VoidCallback onPause;
-  final Stream<Duration>? currentDuration;
+  final Stream<Duration> playerDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -230,17 +229,7 @@ class RecordingCardExpandedContent extends StatelessWidget {
                         waveformData: audioRecording.waveformData ?? [],
                         playerController:
                             (state as AudioPlayerLoadedState).controller,
-                        playerDurationDisplayWidget: StreamBuilder(
-                          stream: currentDuration,
-                          builder: (context, snapshot) => snapshot.data != null
-                              ? Text(
-                                  snapshot.data!.durationDisplay,
-                                  style: WhisprTextStyles.bodyS.copyWith(
-                                    color: WhisprColors.spanishViolet,
-                                  ),
-                                )
-                              : SizedBox(),
-                        ),
+                        playerDuration: playerDuration,
                       )
                     : _RowWithEditAndDeleteButton(
                         startWidget: _JournalItemAudioPlayerControlWrapper(
